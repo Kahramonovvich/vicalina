@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+@layer components {
+  .sectionTop {
+    @apply font-semibold text-4xl leading-none;
+  }
+}
+
+.partners-carousel .swiper-wrapper {
+  transition-timing-function: linear !important;
+  align-items: end;
+}
