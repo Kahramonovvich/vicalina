@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
         <Header />
         {children}
         <Footer />
+        <SpeedInsights />
       </body>
     </html>
   );
