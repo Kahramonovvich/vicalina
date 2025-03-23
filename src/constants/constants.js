@@ -75,3 +75,33 @@ export const carousel = [
         slug: '/catalog/qozonlar'
     },
 ];
+
+export const products = [
+    {
+        id: 1,
+        img: '',
+        name: '',
+        price: 0,
+        newPrice: 0,
+        discount: false,
+        category: '',
+        rating: {
+            rate: 0,
+            count: 0
+        },
+        shortDesc: '',
+        fullDesc: '',
+        weight: '',
+        color: '',
+        type: '',
+        qty: 100,
+        tages: '',
+        brandImg: '',
+        comments: [
+            {
+                clientName: '',
+                clientComment: ''
+            }
+        ],
+    },
+];

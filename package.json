@@ -6,7 +6,8 @@
     "dev": "rm -rf .next && next dev",
     "build": "rm -rf .next && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "node deploy.js"
   },
   "dependencies": {
     "@svgr/webpack": "^8.1.0",
