@@ -1,81 +1,3 @@
-export const navMenu = [
-    {
-        id: 1,
-        name: 'QOZONLAR',
-        img: '/images/6a751b6c-5fdf-49ff-a579-569f09927146_removalai_preview 1.png'
-    },
-    {
-        id: 2,
-        name: 'SKAVAROTKALAR',
-        img: '/images/image.png'
-    },
-    {
-        id: 3,
-        name: 'PICHOQLAR',
-        img: '/images/0b1d2b30-53ce-427e-8ba8-f8aa0c07d604_removalai_preview.png'
-    },
-    {
-        id: 4,
-        name: 'OSHXONA NABORLAR',
-        img: '/images/bf28ba1f-8a63-40a4-b13e-a8a7043563a6_removalai_preview.png'
-    },
-    {
-        id: 5,
-        name: 'QOSHIQLAR',
-        img: '/images/Removal-173.png'
-    },
-    {
-        id: 6,
-        name: 'QOZON NABORLAR',
-        img: '/images/3e7bd21f-49f7-4a75-8991-52fbce1c82d8_removalai_preview.png'
-    },
-    {
-        id: 7,
-        name: 'KASTRULKALAR',
-        img: '/images/77f0b30b-c80c-47d8-85af-5cad6c6fb1ce_removalai_preview.png'
-    },
-    {
-        id: 8,
-        name: 'KASTRULKA NABORLAR',
-        img: '/images/d0e72209-a575-4e6b-b491-205c49bbad48_removalai_preview.png'
-    },
-    {
-        id: 9,
-        name: 'KICHIK TURDAGI MAISHIY TEXNIKALAR',
-        img: '/images/b4d960c6-7a30-4f52-867a-e05c9af37129_removalai_preview.png'
-    },
-    {
-        id: 10,
-        name: 'MANTIQASQONLAR',
-        img: '/images/cb6c3fc9-7b39-4253-8580-4af06b3f6b50_removalai_preview.png'
-    },
-    {
-        id: 11,
-        name: 'BLINITSALAR',
-        img: '/images/dfe31243-dc52-43c7-b65c-68f51569c285_removalai_preview.png'
-    },
-].map(item => ({
-    ...item,
-    slug: `/catalog/${item.name.toLowerCase().replace(/\s+/g, '-')}`
-}));
-
-export const carousel = [
-    {
-        id: 1,
-        title: 'Siz izlagan oshxona jihozlari shu yerda!',
-        subTitle: 'Bizning yuqori sifatli oshxona anjomlari bilan pishirish yanada oson va qulay bo‘ladi.',
-        img: '/images/header-1.png',
-        slug: '/catalog/qozonlar'
-    },
-    {
-        id: 2,
-        title: 'Siz izlagan oshxona jihozlari shu yerda!',
-        subTitle: 'Bizning yuqori sifatli oshxona anjomlari bilan pishirish yanada oson va qulay bo‘ladi.',
-        img: '/images/header-2.png',
-        slug: '/catalog/qozonlar'
-    },
-];
-
 export const products = [
     // QOZONLAR (5 товаров)
     {
@@ -91,10 +13,7 @@ export const products = [
         newPrice: 299000,
         discount: true,
         category: 'QOZONLAR',
-        rating: {
-            rate: 4.5, count: 120,
-        },
-        createdAt: '2023-07-31T01:06:43',
+        rating: { rate: 4.5, count: 120 },
         shortDesc: 'Sifatli alyuminiy qozon, katta oilalar uchun.',
         fullDesc: '10 litrli qozon tez qiziydi, issiqlikni yaxshi saqlaydi va chidamli.',
         weight: '3kg',
@@ -121,10 +40,7 @@ export const products = [
         newPrice: 280000,
         discount: false,
         category: 'QOZONLAR',
-        rating: {
-            rate: 4.2, count: 85,
-        },
-        createdAt: '2024-08-19T15:02:15',
+        rating: { rate: 4.2, count: 85 },
         shortDesc: 'O‘rta oila uchun ideal qozon.',
         fullDesc: '7 litrli qozon, energiya tejash xususiyati bilan.',
         weight: '2.5kg',
@@ -151,10 +67,7 @@ export const products = [
         newPrice: 200000,
         discount: true,
         category: 'QOZONLAR',
-        rating: {
-            rate: 4.0, count: 60,
-        },
-        createdAt: '2024-03-13T01:52:12',
+        rating: { rate: 4.0, count: 60 },
         shortDesc: 'Yakkaxon oshxonalar uchun mos.',
         fullDesc: '5 litrli qozon kichik oilalar va yakka shaxslar uchun ideal.',
         weight: '2kg',
@@ -181,10 +94,7 @@ export const products = [
         newPrice: 450000,
         discount: true,
         category: 'QOZONLAR',
-        rating: {
-            rate: 4.8, count: 150,
-        },
-        createdAt: '2023-01-20T06:46:31',
+        rating: { rate: 4.8, count: 150 },
         shortDesc: 'Yuqori sifatli, premium toifadagi qozon.',
         fullDesc: '12 litrli premium qozon, yuqori issiqlik tarqatuvchi texnologiya bilan.',
         weight: '4kg',
@@ -211,10 +121,7 @@ export const products = [
         newPrice: 260000,
         discount: false,
         category: 'QOZONLAR',
-        rating: {
-            rate: 3.8, count: 40,
-        },
-        createdAt: '2024-02-17T01:16:04',
+        rating: { rate: 3.8, count: 40 },
         shortDesc: 'Arzon va ishonchli variant.',
         fullDesc: '8 litrli ekonom variant, kundalik pishirish uchun etarli.',
         weight: '2.8kg',
@@ -242,10 +149,7 @@ export const products = [
         newPrice: 190000,
         discount: true,
         category: 'SKAVAROTKALAR',
-        rating: {
-            rate: 4.1, count: 76,
-        },
-        createdAt: '2023-03-07T08:26:50',
+        rating: { rate: 4.1, count: 76 },
         shortDesc: 'Yopishmaydigan, nonushta uchun ideal skavarka.',
         fullDesc: 'Teflon qoplama, ergonomik dizayn, gaz va elektr plitalarga mos.',
         weight: '1.5kg',
@@ -272,10 +176,7 @@ export const products = [
         newPrice: 230000,
         discount: false,
         category: 'SKAVAROTKALAR',
-        rating: {
-            rate: 4.3, count: 90,
-        },
-        createdAt: '2023-01-07T18:26:13',
+        rating: { rate: 4.3, count: 90 },
         shortDesc: 'Silliq va bardoshli skavarka.',
         fullDesc: 'Yuqori sifatli qoplama bilan qozon bo‘ylab teng taqsimlanadi, pishirish oson.',
         weight: '1.7kg',
@@ -302,10 +203,7 @@ export const products = [
         newPrice: 225000,
         discount: true,
         category: 'SKAVAROTKALAR',
-        rating: {
-            rate: 4.6, count: 110,
-        },
-        createdAt: '2024-07-19T08:54:05',
+        rating: { rate: 4.6, count: 110 },
         shortDesc: 'Professional darajadagi skavarka.',
         fullDesc: 'Tez isinish, yuqori pishirish samaradorligi va ergonomik dizayn.',
         weight: '1.6kg',
@@ -332,10 +230,7 @@ export const products = [
         newPrice: 180000,
         discount: false,
         category: 'SKAVAROTKALAR',
-        rating: {
-            rate: 3.9, count: 55,
-        },
-        createdAt: '2023-02-24T14:28:08',
+        rating: { rate: 3.9, count: 55 },
         shortDesc: 'Kichik oshxonalar uchun.',
         fullDesc: 'Kompakt dizayn, oson saqlash va qulay foydalanish uchun yaratilgan.',
         weight: '1.2kg',
@@ -362,10 +257,7 @@ export const products = [
         newPrice: 240000,
         discount: false,
         category: 'SKAVAROTKALAR',
-        rating: {
-            rate: 4.0, count: 65,
-        },
-        createdAt: '2023-09-10T17:44:45',
+        rating: { rate: 4.0, count: 65 },
         shortDesc: 'Yuqori texnologiyali skavarka.',
         fullDesc: 'Innovatsion dizayn va mustahkam qoplama bilan ta’minlangan.',
         weight: '1.8kg',
@@ -393,10 +285,7 @@ export const products = [
         newPrice: 120000,
         discount: false,
         category: 'PICHOQLAR',
-        rating: {
-            rate: 4.8, count: 230,
-        },
-        createdAt: '2024-11-04T23:07:44',
+        rating: { rate: 4.8, count: 230 },
         shortDesc: 'Zanglamaydigan po‘lat pichoq to‘plami.',
         fullDesc: 'To‘plamga turli o‘lchamdagi, keskin pichoq va qulay tutqichli asboblar kiradi.',
         weight: '1kg',
@@ -423,10 +312,7 @@ export const products = [
         newPrice: 80000,
         discount: true,
         category: 'PICHOQLAR',
-        rating: {
-            rate: 4.3, count: 150,
-        },
-        createdAt: '2023-10-10T13:26:47',
+        rating: { rate: 4.3, count: 150 },
         shortDesc: 'Yagona professional pichoq.',
         fullDesc: 'Yuqori sifatli po‘lat, oshxonada aniqlik va samaradorlikni ta’minlaydi.',
         weight: '0.3kg',
@@ -453,10 +339,7 @@ export const products = [
         newPrice: 150000,
         discount: false,
         category: 'PICHOQLAR',
-        rating: {
-            rate: 4.7, count: 180,
-        },
-        createdAt: '2023-04-11T23:24:24',
+        rating: { rate: 4.7, count: 180 },
         shortDesc: 'Setda turli o‘lchamdagi pichoqlar.',
         fullDesc: 'Har bir oshpaz uchun zarur bo‘lgan, turli vazifalar uchun mos pichoq seti.',
         weight: '1.2kg',
@@ -483,10 +366,7 @@ export const products = [
         newPrice: 70000,
         discount: false,
         category: 'PICHOQLAR',
-        rating: {
-            rate: 4.0, count: 95,
-        },
-        createdAt: '2024-05-25T20:45:08',
+        rating: { rate: 4.0, count: 95 },
         shortDesc: 'Yengil va oson ushlanadigan pichoq.',
         fullDesc: 'Oson boshqariladigan va keskin pichoq, kundalik ishlarda ideal variant.',
         weight: '0.25kg',
@@ -513,10 +393,7 @@ export const products = [
         newPrice: 180000,
         discount: true,
         category: 'PICHOQLAR',
-        rating: {
-            rate: 4.9, count: 210,
-        },
-        createdAt: '2023-12-16T20:25:39',
+        rating: { rate: 4.9, count: 210 },
         shortDesc: 'Elite pichoq to‘plami yuqori darajadagi sifat bilan.',
         fullDesc: 'Zanglamaydigan, ergonomik tutqichli va uzoq muddat xizmat qiladigan mahsulot.',
         weight: '1.3kg',
@@ -544,10 +421,7 @@ export const products = [
         newPrice: 270000,
         discount: true,
         category: 'OSHXONA NABORLAR',
-        rating: {
-            rate: 4.4, count: 130,
-        },
-        createdAt: '2023-01-17T10:52:07',
+        rating: { rate: 4.4, count: 130 },
         shortDesc: 'To‘liq oshxona nabori, barcha kerakli asboblar bilan.',
         fullDesc: 'Naborga qozon, skavarka, pichoq va boshqa oshxona anjomlari kiradi.',
         weight: '5kg',
@@ -574,10 +448,7 @@ export const products = [
         newPrice: 320000,
         discount: false,
         category: 'OSHXONA NABORLAR',
-        rating: {
-            rate: 4.1, count: 110,
-        },
-        createdAt: '2023-04-06T02:53:14',
+        rating: { rate: 4.1, count: 110 },
         shortDesc: 'Praktik va bardoshli oshxona nabori.',
         fullDesc: 'Barcha asosiy oshxona anjomlari bitta to‘plamda.',
         weight: '5.5kg',
@@ -604,10 +475,7 @@ export const products = [
         newPrice: 400000,
         discount: true,
         category: 'OSHXONA NABORLAR',
-        rating: {
-            rate: 4.7, count: 90,
-        },
-        createdAt: '2024-05-27T10:25:26',
+        rating: { rate: 4.7, count: 90 },
         shortDesc: 'Deluxe toifadagi oshxona nabori.',
         fullDesc: 'Yuqori sifatli materiallardan tayyorlangan va zamonaviy dizaynga ega.',
         weight: '6kg',
@@ -634,10 +502,7 @@ export const products = [
         newPrice: 250000,
         discount: false,
         category: 'OSHXONA NABORLAR',
-        rating: {
-            rate: 3.9, count: 70,
-        },
-        createdAt: '2024-05-13T20:42:55',
+        rating: { rate: 3.9, count: 70 },
         shortDesc: 'Asosiy oshxona anjomlari to‘plami.',
         fullDesc: 'Sodda, lekin kerakli barcha asboblarni o‘z ichiga oladi.',
         weight: '4.8kg',
@@ -664,10 +529,7 @@ export const products = [
         newPrice: 460000,
         discount: true,
         category: 'OSHXONA NABORLAR',
-        rating: {
-            rate: 4.5, count: 95,
-        },
-        createdAt: '2024-02-26T09:46:07',
+        rating: { rate: 4.5, count: 95 },
         shortDesc: 'Premium tanlov uchun oshxona nabori.',
         fullDesc: 'Zamonaviy dizayn va yuqori texnologiyali materiallardan ishlab chiqarilgan.',
         weight: '5.2kg',
@@ -695,10 +557,7 @@ export const products = [
         newPrice: 80000,
         discount: false,
         category: 'QOSHIQLAR',
-        rating: {
-            rate: 4.0, count: 55,
-        },
-        createdAt: '2023-01-26T11:19:02',
+        rating: { rate: 4.0, count: 55 },
         shortDesc: 'Kichik qoshiq to‘plami.',
         fullDesc: '3 dona qoshiq: choy, kofe va desert qoshiq.',
         weight: '0.5kg',
@@ -725,10 +584,7 @@ export const products = [
         newPrice: 45000,
         discount: true,
         category: 'QOSHIQLAR',
-        rating: {
-            rate: 3.8, count: 40,
-        },
-        createdAt: '2023-05-11T04:15:47',
+        rating: { rate: 3.8, count: 40 },
         shortDesc: 'Yagona metall qoshiq.',
         fullDesc: 'Sodda dizayn, bardoshli va uzoq umrli.',
         weight: '0.3kg',
@@ -755,10 +611,7 @@ export const products = [
         newPrice: 110000,
         discount: true,
         category: 'QOSHIQLAR',
-        rating: {
-            rate: 4.4, count: 60,
-        },
-        createdAt: '2023-08-01T04:23:55',
+        rating: { rate: 4.4, count: 60 },
         shortDesc: 'Deluxe toifadagi qoshiq to‘plami.',
         fullDesc: 'Zamonaviy dizayn va yuqori sifatli materiallardan tayyorlangan.',
         weight: '0.7kg',
@@ -785,10 +638,7 @@ export const products = [
         newPrice: 60000,
         discount: false,
         category: 'QOSHIQLAR',
-        rating: {
-            rate: 4.1, count: 50,
-        },
-        createdAt: '2023-03-20T23:12:33',
+        rating: { rate: 4.1, count: 50 },
         shortDesc: 'Ergonomik dizaynga ega qoshiq.',
         fullDesc: 'Qo‘lga qulay tushadigan va zamonaviy uslubdagi qoshiq.',
         weight: '0.4kg',
@@ -815,10 +665,7 @@ export const products = [
         newPrice: 90000,
         discount: false,
         category: 'QOSHIQLAR',
-        rating: {
-            rate: 3.9, count: 45,
-        },
-        createdAt: '2023-11-27T23:05:00',
+        rating: { rate: 3.9, count: 45 },
         shortDesc: 'Standart qoshiq to‘plami.',
         fullDesc: 'Kundalik foydalanish uchun yetarli, hamyonbop variant.',
         weight: '0.6kg',
@@ -846,10 +693,7 @@ export const products = [
         newPrice: 380000,
         discount: true,
         category: 'QOZON NABORLAR',
-        rating: {
-            rate: 4.3, count: 80,
-        },
-        createdAt: '2024-10-19T05:58:01',
+        rating: { rate: 4.3, count: 80 },
         shortDesc: 'Qozon va qo‘shimcha asboblar nabori.',
         fullDesc: 'Naborga katta va kichik qozonlar, qopqoqlar ham kiritilgan.',
         weight: '6kg',
@@ -876,10 +720,7 @@ export const products = [
         newPrice: 420000,
         discount: false,
         category: 'QOZON NABORLAR',
-        rating: {
-            rate: 4.0, count: 70,
-        },
-        createdAt: '2023-02-03T05:14:09',
+        rating: { rate: 4.0, count: 70 },
         shortDesc: 'Standart qozon nabori.',
         fullDesc: 'Asosiy oshxona asboblari to‘plami, kundalik foydalanish uchun.',
         weight: '5.8kg',
@@ -906,10 +747,7 @@ export const products = [
         newPrice: 460000,
         discount: true,
         category: 'QOZON NABORLAR',
-        rating: {
-            rate: 4.6, count: 95,
-        },
-        createdAt: '2024-07-15T04:47:19',
+        rating: { rate: 4.6, count: 95 },
         shortDesc: 'Deluxe qozon nabori yuqori sifat bilan.',
         fullDesc: 'Yuqori sifatli materiallardan tayyorlangan va innovatsion dizaynga ega.',
         weight: '6.5kg',
@@ -936,10 +774,7 @@ export const products = [
         newPrice: 380000,
         discount: false,
         category: 'QOZON NABORLAR',
-        rating: {
-            rate: 3.8, count: 60,
-        },
-        createdAt: '2023-01-13T08:44:04',
+        rating: { rate: 3.8, count: 60 },
         shortDesc: 'Asosiy qozon nabori.',
         fullDesc: 'Kundalik foydalanish uchun yetarli bo‘lgan qozon va aksessuarlar.',
         weight: '5.5kg',
@@ -966,10 +801,7 @@ export const products = [
         newPrice: 540000,
         discount: false,
         category: 'QOZON NABORLAR',
-        rating: {
-            rate: 4.2, count: 75,
-        },
-        createdAt: '2023-08-02T01:00:48',
+        rating: { rate: 4.2, count: 75 },
         shortDesc: 'Professional qozon nabori.',
         fullDesc: 'Kuchli va bardoshli, professional oshpazlar uchun mo‘ljallangan.',
         weight: '6kg',
@@ -997,10 +829,7 @@ export const products = [
         newPrice: 135000,
         discount: true,
         category: 'KASTRULKALAR',
-        rating: {
-            rate: 4.2, count: 65,
-        },
-        createdAt: '2023-01-01T22:46:08',
+        rating: { rate: 4.2, count: 65 },
         shortDesc: 'Kichik kastrulka kundalik pishirish uchun.',
         fullDesc: '16 sm diametrli, tez isiydi va energiya tejaydi.',
         weight: '0.8kg',
@@ -1027,10 +856,7 @@ export const products = [
         newPrice: 190000,
         discount: false,
         category: 'KASTRULKALAR',
-        rating: {
-            rate: 4.4, count: 80,
-        },
-        createdAt: '2023-01-29T09:25:36',
+        rating: { rate: 4.4, count: 80 },
         shortDesc: 'O‘rta oila uchun kastrulka.',
         fullDesc: '20 sm diametrli, keng yuzali va chidamli.',
         weight: '1kg',
@@ -1057,10 +883,7 @@ export const products = [
         newPrice: 225000,
         discount: true,
         category: 'KASTRULKALAR',
-        rating: {
-            rate: 4.7, count: 90,
-        },
-        createdAt: '2023-06-05T22:54:13',
+        rating: { rate: 4.7, count: 90 },
         shortDesc: 'Premium kastrulka yuqori sifat bilan.',
         fullDesc: 'Zamonaviy texnologiya va yuqori sifatli materiallardan tayyorlangan.',
         weight: '1.2kg',
@@ -1087,10 +910,7 @@ export const products = [
         newPrice: 140000,
         discount: false,
         category: 'KASTRULKALAR',
-        rating: {
-            rate: 3.9, count: 55,
-        },
-        createdAt: '2023-03-24T02:32:44',
+        rating: { rate: 3.9, count: 55 },
         shortDesc: 'Buxgalteriya uchun arzon variant.',
         fullDesc: 'Sodda dizayn, kundalik pishirish uchun yetarli.',
         weight: '0.9kg',
@@ -1117,10 +937,7 @@ export const products = [
         newPrice: 300000,
         discount: false,
         category: 'KASTRULKALAR',
-        rating: {
-            rate: 4.5, count: 75,
-        },
-        createdAt: '2024-01-23T08:10:02',
+        rating: { rate: 4.5, count: 75 },
         shortDesc: 'To‘plamda kichik va o‘rta kastrulkalar.',
         fullDesc: 'Turli o‘lchamlardagi kastrulkalar seti, oshxonani to‘liq ta’minlaydi.',
         weight: '2kg',
@@ -1148,10 +965,7 @@ export const products = [
         newPrice: 300000,
         discount: true,
         category: 'KASTRULKA NABORLAR',
-        rating: {
-            rate: 4.3, count: 68,
-        },
-        createdAt: '2023-09-06T14:28:59',
+        rating: { rate: 4.3, count: 68 },
         shortDesc: 'Kastrulka va qo‘shimcha aksessuarlar nabori.',
         fullDesc: 'Bitta naborda turli o‘lchamdagi kastrulkalar va qo‘shimcha asboblar.',
         weight: '2.2kg',
@@ -1178,10 +992,7 @@ export const products = [
         newPrice: 340000,
         discount: false,
         category: 'KASTRULKA NABORLAR',
-        rating: {
-            rate: 4.0, count: 60,
-        },
-        createdAt: '2024-10-15T08:29:21',
+        rating: { rate: 4.0, count: 60 },
         shortDesc: 'Standart nabor kastrulkalar.',
         fullDesc: 'Sodda va qulay, kundalik pishirish uchun ideal variant.',
         weight: '2.0kg',
@@ -1208,10 +1019,7 @@ export const products = [
         newPrice: 350000,
         discount: true,
         category: 'KASTRULKA NABORLAR',
-        rating: {
-            rate: 4.6, count: 80,
-        },
-        createdAt: '2024-11-07T06:01:58',
+        rating: { rate: 4.6, count: 80 },
         shortDesc: 'Deluxe nabor, yuqori sifat kafolati.',
         fullDesc: 'Yuqori darajadagi materiallar va innovatsion dizayn.',
         weight: '2.5kg',
@@ -1238,10 +1046,7 @@ export const products = [
         newPrice: 300000,
         discount: false,
         category: 'KASTRULKA NABORLAR',
-        rating: {
-            rate: 3.9, count: 55,
-        },
-        createdAt: '2024-09-27T22:57:34',
+        rating: { rate: 3.9, count: 55 },
         shortDesc: 'Asosiy nabor, kundalik pishirish uchun.',
         fullDesc: 'Oddiy dizayn, lekin hamma kerakli aksessuarlarni o‘z ichiga oladi.',
         weight: '2.1kg',
@@ -1268,10 +1073,7 @@ export const products = [
         newPrice: 400000,
         discount: false,
         category: 'KASTRULKA NABORLAR',
-        rating: {
-            rate: 4.2, count: 62,
-        },
-        createdAt: '2023-07-04T14:41:44',
+        rating: { rate: 4.2, count: 62 },
         shortDesc: 'Professional nabor, oshpazlar uchun mo‘ljallangan.',
         fullDesc: 'Kuchli va bardoshli nabor, yuqori texnologiya bilan ta’minlangan.',
         weight: '2.3kg',
@@ -1299,10 +1101,7 @@ export const products = [
         newPrice: 90000,
         discount: true,
         category: 'KICHIK TURDAGI MAISHIY TEXNIKALAR',
-        rating: {
-            rate: 4.1, count: 70,
-        },
-        createdAt: '2023-02-23T22:39:12',
+        rating: { rate: 4.1, count: 70 },
         shortDesc: 'Kichik o‘lchamli, lekin kuchli blender.',
         fullDesc: 'Kichik va kompakt dizayn, idishlarni aralashtirish uchun yetarli kuchga ega.',
         weight: '1kg',
@@ -1329,10 +1128,7 @@ export const products = [
         newPrice: 85000,
         discount: false,
         category: 'KICHIK TURDAGI MAISHIY TEXNIKALAR',
-        rating: {
-            rate: 3.9, count: 50,
-        },
-        createdAt: '2024-11-10T19:52:45',
+        rating: { rate: 3.9, count: 50 },
         shortDesc: 'Kichik hajmli, lekin samarali mikser.',
         fullDesc: 'Arzon va ishonchli, kundalik foydalanish uchun mos.',
         weight: '0.9kg',
@@ -1359,10 +1155,7 @@ export const products = [
         newPrice: 75000,
         discount: false,
         category: 'KICHIK TURDAGI MAISHIY TEXNIKALAR',
-        rating: {
-            rate: 4.0, count: 55,
-        },
-        createdAt: '2024-07-13T20:09:53',
+        rating: { rate: 4.0, count: 55 },
         shortDesc: 'Kichik va tejamkor toaster.',
         fullDesc: 'Nonni qizdirishda samarali va kompakt dizayn.',
         weight: '0.8kg',
@@ -1389,10 +1182,7 @@ export const products = [
         newPrice: 200000,
         discount: false,
         category: 'KICHIK TURDAGI MAISHIY TEXNIKALAR',
-        rating: {
-            rate: 4.2, count: 65,
-        },
-        createdAt: '2024-06-20T00:37:57',
+        rating: { rate: 4.2, count: 65 },
         shortDesc: 'Kichik, lekin kuchli mikrotolqinli pech.',
         fullDesc: 'Tez qiziydigan va energiyani tejovchi texnologiya bilan.',
         weight: '12kg',
@@ -1419,10 +1209,7 @@ export const products = [
         newPrice: 280000,
         discount: true,
         category: 'KICHIK TURDAGI MAISHIY TEXNIKALAR',
-        rating: {
-            rate: 4.3, count: 70,
-        },
-        createdAt: '2023-01-12T14:20:54',
+        rating: { rate: 4.3, count: 70 },
         shortDesc: 'Kichik, lekin samarali qahva mashinasi.',
         fullDesc: 'Tez tayyorlanadigan va kompakt dizaynga ega, ofis va uy uchun mos.',
         weight: '2kg',
@@ -1450,10 +1237,7 @@ export const products = [
         newPrice: 160000,
         discount: true,
         category: 'MANTIQASQONLAR',
-        rating: {
-            rate: 4.0, count: 50,
-        },
-        createdAt: '2023-04-09T07:01:17',
+        rating: { rate: 4.0, count: 50 },
         shortDesc: 'Oddiy mantiqasqon to‘plami.',
         fullDesc: 'Kundalik foydalanish uchun yetarli, oddiy dizayn.',
         weight: '0.6kg',
@@ -1480,10 +1264,7 @@ export const products = [
         newPrice: 200000,
         discount: false,
         category: 'MANTIQASQONLAR',
-        rating: {
-            rate: 4.2, count: 60,
-        },
-        createdAt: '2024-09-26T17:01:23',
+        rating: { rate: 4.2, count: 60 },
         shortDesc: 'Standart mantiqasqon to‘plami.',
         fullDesc: 'Kundalik foydalanish uchun mo‘ljallangan, qulay dizaynli.',
         weight: '0.7kg',
@@ -1510,10 +1291,7 @@ export const products = [
         newPrice: 230000,
         discount: true,
         category: 'MANTIQASQONLAR',
-        rating: {
-            rate: 4.5, count: 70,
-        },
-        createdAt: '2023-01-15T08:07:08',
+        rating: { rate: 4.5, count: 70 },
         shortDesc: 'Deluxe mantiqasqon to‘plami.',
         fullDesc: 'Yuqori sifatli materiallar bilan tayyorlangan, nafis dizaynga ega.',
         weight: '0.8kg',
@@ -1540,10 +1318,7 @@ export const products = [
         newPrice: 170000,
         discount: false,
         category: 'MANTIQASQONLAR',
-        rating: {
-            rate: 3.9, count: 45,
-        },
-        createdAt: '2024-12-16T18:19:05',
+        rating: { rate: 3.9, count: 45 },
         shortDesc: 'Arzon va oddiy mantiqasqon seti.',
         fullDesc: 'Kundalik foydalanish uchun oddiy dizaynga ega, narxi ma’qul.',
         weight: '0.6kg',
@@ -1570,10 +1345,7 @@ export const products = [
         newPrice: 280000,
         discount: false,
         category: 'MANTIQASQONLAR',
-        rating: {
-            rate: 4.3, count: 55,
-        },
-        createdAt: '2025-01-21T06:04:50',
+        rating: { rate: 4.3, count: 55 },
         shortDesc: 'Pro mantiqasqon to‘plami, mustahkam va chidamli.',
         fullDesc: 'Zamonaviy dizayn va yuqori texnologiyali ishlab chiqarish.',
         weight: '0.9kg',
@@ -1601,10 +1373,7 @@ export const products = [
         newPrice: 110000,
         discount: false,
         category: 'BLINITSALAR',
-        rating: {
-            rate: 4.2, count: 80,
-        },
-        createdAt: '2024-04-13T00:55:12',
+        rating: { rate: 4.2, count: 80 },
         shortDesc: 'Klassik blinitsa retsepti bo‘yicha.',
         fullDesc: 'Oddiy, lekin mazali blinitsa uchun eng zo‘r tanlov.',
         weight: '0.5kg',
@@ -1631,10 +1400,7 @@ export const products = [
         newPrice: 135000,
         discount: true,
         category: 'BLINITSALAR',
-        rating: {
-            rate: 4.5, count: 90,
-        },
-        createdAt: '2024-06-01T12:23:47',
+        rating: { rate: 4.5, count: 90 },
         shortDesc: 'Deluxe blinitsa, nozik va yumshoq.',
         fullDesc: 'Yuqori sifatli ingredientlar bilan tayyorlangan, blinitsa san’ati.',
         weight: '0.6kg',
@@ -1661,10 +1427,7 @@ export const products = [
         newPrice: 90000,
         discount: false,
         category: 'BLINITSALAR',
-        rating: {
-            rate: 3.8, count: 50,
-        },
-        createdAt: '2023-03-10T20:10:06',
+        rating: { rate: 3.8, count: 50 },
         shortDesc: 'Tez tayyorlanadigan blinitsa.',
         fullDesc: 'Qisqa vaqt ichida pishiriladigan va mazali natija beradi.',
         weight: '0.5kg',
@@ -1691,10 +1454,7 @@ export const products = [
         newPrice: 130000,
         discount: false,
         category: 'BLINITSALAR',
-        rating: {
-            rate: 4.0, count: 65,
-        },
-        createdAt: '2023-04-25T23:50:23',
+        rating: { rate: 4.0, count: 65 },
         shortDesc: 'To‘plamda turli xil blinitsalar.',
         fullDesc: 'Oila uchun bir nechta variantda blinitsalar, har birining o‘ziga xos ta’mi bor.',
         weight: '1kg',
@@ -1721,10 +1481,7 @@ export const products = [
         newPrice: 125000,
         discount: true,
         category: 'BLINITSALAR',
-        rating: {
-            rate: 4.3, count: 70,
-        },
-        createdAt: '2023-07-23T00:28:18',
+        rating: { rate: 4.3, count: 70 },
         shortDesc: 'Klassik blinitsa to‘plami.',
         fullDesc: 'Klassik retsept asosida tayyorlangan, har doim mazali natija beradi.',
         weight: '0.7kg',
@@ -1738,44 +1495,4 @@ export const products = [
         ],
         sku: 'BLN-005',
     },
-];
-
-export const comments = [
-    {
-        id: 1,
-        userName: 'Laylo A.',
-        comment: '"VICALINA mahsulotlaridan juda mamnunman! Oshxonam uchun sotib olgan idish-tovoqlar sifati yuqori va juda qulay. Taom pishirish ancha osonlashdi!"',
-        img: '/images/us1.png',
-    },
-    {
-        id: 2,
-        userName: 'Olimjon R.',
-        comment: '"Chindan ham ishonchli brend! Skovorodkalari mustahkam va uzoq vaqt xizmat qiladi. Pishirish jarayonida hech qanday muammo yo‘q, tavsiya qilaman!"',
-        img: '/images/us2.png',
-    },
-    {
-        id: 3,
-        userName: 'Madina S.',
-        comment: '"VICALINA mahsulotlarini ishlatib, oshxonada professional oshpazdek his qilyapman. Dizayni zamonaviy, sifati esa juda zo‘r! Albatta yana xarid qilaman."',
-        img: '/images/us3.png',
-    },
-    {
-        id: 4,
-        userName: 'Javohir T.',
-        comment: '"Men VICALINA’dan bir nechta pichoq to‘plamini oldim — juda o‘tkir va qulay. Har kuni ishlataman, sifati haqiqatan ham a’lo!"',
-        img: '/images/us4.png',
-    },
-    {
-        id: 5,
-        userName: 'Dilnoza K.',
-        comment: '"Qozonlarini sotib oldim, og‘ir, lekin shu tufayli issiqlikni zo‘r ushlab turadi. Taomlar mazali chiqadi, oilam ham mamnun!"',
-        img: '/images/us5.png',
-    },
-    {
-        id: 6,
-        userName: 'Rustam B.',
-        comment: '"Avval boshqa brendlar bilan ko‘p qiynalganman, lekin VICALINA bilan oshxonadagi ishlar zavqqa aylangan. Juda minnatdorman!"',
-        img: '/images/us6.png',
-    },
-
 ];

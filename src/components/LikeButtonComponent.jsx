@@ -1,37 +1,16 @@
 'use client'
-import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
+import { useLikedProduct } from '@/hooks/useLikedProducts';
 
 export default function LikeButtonComponent({ id, params }) {
 
-    const [isLiked, setIsLiked] = useState(false);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const liked = JSON.parse(localStorage.getItem('likedProducts') || '[]');
-            setIsLiked(liked.includes(id));
-        }
-    }, [id]);
-
-    const toggleLikedProducts = () => {
-        const liked = JSON.parse(localStorage.getItem('likedProducts') || '[]');
-        let updated;
-
-        if (liked.includes(id)) {
-            updated = liked.filter(item => item !== id);
-        } else {
-            updated = [...liked, id];
-        }
-
-        localStorage.setItem('likedProducts', JSON.stringify(updated));
-        setIsLiked(updated.includes(id));
-    };
+    const { isLiked, toggleLiked } = useLikedProduct(id);
 
     return (
         <motion.button
             whileTap={{ scale: 1.3 }}
             transition={{ type: 'spring', stiffness: 300 }}
-            onClick={toggleLikedProducts}
+            onClick={toggleLiked}
         >
             <motion.svg
                 key={isLiked ? 'filled' : 'outline'}

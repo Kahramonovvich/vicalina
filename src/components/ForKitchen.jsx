@@ -3,41 +3,46 @@ import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatCurrency } from '@/utils/utils';
 import Link from 'next/link';
 import LikeButtonComponent from './LikeButtonComponent';
 import RatingIcon from './RatingIcon';
 
-function getNewestProducts(products, count = 4) {
-    return [...products].slice(-count).reverse();
-};
+export default function ForKitchen({ products }) {
 
-export default function NewProducts({ products }) {
+    const [forKitchen, setForKitchen] = useState([]);
 
-    const newestProducts = getNewestProducts(products);
+    useEffect(() => {
+        const filtered = products
+            .filter(product => product.category.toLocaleLowerCase() === 'oshxona naborlar')
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 4);
+
+        setForKitchen(filtered);
+    }, [products]);
 
     return (
-        <div className="newProducts mt-[45px]">
+        <div className="forKitchen mt-[45px]">
             <div className="container">
                 <div className="box mb-[45px] flex items-center justify-between">
                     <h3 className="sectionTop">
-                        Eng yangilar
+                        Oshxona uchun
                     </h3>
                     <Link
-                        href={'/catalog/barcha-mahsulotlar?filter=newest'}
+                        href={'/catalog/oshxona-naborlar'}
                         className='font-semibold text-xl leading-none underline text-[#484848]'>
                         Ko’proq ko’rish
                     </Link>
                 </div>
                 <div className="grid grid-cols-4 gap-x-14">
-                    {newestProducts?.map((product) => (
+                    {forKitchen?.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}
                 </div>
             </div>
         </div>
-    )
+    );
 };
 
 function ProductCard({ product }) {
@@ -59,7 +64,7 @@ function ProductCard({ product }) {
         <div className="box flex flex-col rounded-xl overflow-hidden hover:shadow-md transition-all duration-200 ease-in-out">
             <div className="top bg-[#F0F1F2]">
                 <div className="flex items-center justify-between p-3.5">
-                    <div className="py-2 px-2.5 opacity-0 cursor-default bg-orange rounded-md text-white font-semibold text-xs leading-none">
+                    <div className="py-2 px-2.5 opacity-0 bg-orange rounded-md text-white font-semibold text-xs leading-none">
                         Mashxur
                     </div>
                     <LikeButtonComponent id={product.id} />

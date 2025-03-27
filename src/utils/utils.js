@@ -6,7 +6,7 @@ export const formatCurrency = (value) => {
 };
 
 export const productsSlug = (product) => {
-    const productsSlug = product.map(item => ({
+    const productsSlug = product?.map(item => ({
         ...item,
         slug: `/catalog/${item.category.toLowerCase().replace(/\s+/g, '-')}/${item.name.toLowerCase().replace(/\s+/g, '-')}-id=${item.id}`
     }));

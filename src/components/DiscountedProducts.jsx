@@ -4,10 +4,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import { useState } from 'react';
-import { Rating } from '@mui/material';
 import { formatCurrency } from '@/utils/utils';
 import Link from 'next/link';
 import LikeButtonComponent from './LikeButtonComponent';
+import RatingIcon from './RatingIcon';
 
 const getDiscountedProducts = (products) => {
     return [...products]
@@ -140,20 +140,9 @@ function ProductCard({ product, top, image, title, priceText, info, stars, like,
                         <p className={`text-[#484848] ${title}`}>
                             {product.rating.rate}
                         </p>
-                        <Rating
-                            name="half-rating-read"
-                            defaultValue={product.rating.rate}
-                            precision={0.5}
-                            readOnly
+                        <RatingIcon
+                            value={product.rating.rate}
                             className={`!text-orange ${stars}`}
-                            sx={{
-                                '& .MuiRating-iconEmpty': {
-                                    color: '#f15e22',
-                                },
-                                '& .MuiRating-iconFilled': {
-                                    color: '#f15e22',
-                                },
-                            }}
                         />
                     </div>
                     <div className="priceBox flex justify-between">
