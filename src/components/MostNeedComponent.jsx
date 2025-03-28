@@ -29,7 +29,7 @@ export default function MostNeedComponent({ products }) {
                         Eng kerakli
                     </h3>
                     <Link
-                        href={'/catalog/all'}
+                        href={'/catalog/barcha-mahsulotlar'}
                         className='font-semibold text-xl leading-none underline text-[#484848]'>
                         Ko’proq ko’rish
                     </Link>

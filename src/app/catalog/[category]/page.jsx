@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import HomeIcon from '@/icons/home.svg'
 import TopArrowICon from '@/icons/topArrow.svg'
-import FilterComponents, { FilterButton, FilterDropdown } from '@/components/FilterComponents';
+import FilterComponents, { FilterButton, FilterDropdown, RatingChange } from '@/components/FilterComponents';
 import { cookies } from 'next/headers';
 import { getAllProducts, getProductsByCategory } from '/lib/api';
 import { formatCurrency, productsSlug } from '@/utils/utils';
@@ -13,6 +13,7 @@ import Bag from '@/icons/bag.svg'
 export default async function Products({ params, searchParams }) {
 
     const category = await params?.category?.replace(/-/gi, ' ');
+
     const allProducts = await getAllProducts();
     const categoryProducts = await getProductsByCategory(category);
     const productsWithSlug = productsSlug(allProducts);
@@ -22,12 +23,12 @@ export default async function Products({ params, searchParams }) {
     const price = await searchParams?.price;
     const rating = await searchParams?.rating;
     const tag = await searchParams?.tag;
-    let priceFrom = 0;
-    let priceTo = Infinity;
+    let priceFrom = null;
+    let priceTo = null;
     if (price) {
         const [from, to] = price?.split('-').map(Number);
-        priceFrom = from || 0;
-        priceTo = to || Infinity;
+        priceFrom = from;
+        priceTo = to;
     };
     const cookieStore = await cookies();
     const isVisible = cookieStore?.get('isVisible')?.value === 'true';
@@ -38,12 +39,18 @@ export default async function Products({ params, searchParams }) {
             return productsWithSlugAndCategory;
         };
     };
+
     const activeProducts = await products();
 
+    let filteredProducts = activeProducts;
+
     // Фильтруем по цене
-    let filteredProducts = activeProducts.filter((product) => {
-        return product.price >= priceFrom && product.price <= priceTo;
-    });
+    if (price) {
+        filteredProducts = activeProducts.filter((product) => {
+            const currentPrice = product.discount && product.newPrice ? product.newPrice : product.price;
+            return currentPrice >= priceFrom && currentPrice <= priceTo;
+        });
+    };
 
     // Фильтруем по рейтингу
     if (rating) {
@@ -55,7 +62,7 @@ export default async function Products({ params, searchParams }) {
     // Фильтруем по тегу
     if (tag) {
         filteredProducts = filteredProducts.filter((product) => {
-            return product.tags?.toLowerCase().includes(tag.toLowerCase());
+            return product.tages?.toLowerCase().includes(tag.toLowerCase());
         });
     };
 
@@ -100,17 +107,44 @@ export default async function Products({ params, searchParams }) {
                         <FilterButton />
                     </div>
                     <div className="box flex items-center justify-between col-span-3">
-                        <FilterDropdown filter={filter} category={category} />
+                        <FilterDropdown
+                            category={category}
+                            filter={filter}
+                            price={price}
+                            rating={rating}
+                            tag={tag}
+                        />
                         <div className="resultBox">
                             <p className='text-[#808080] leading-normal'>
-                                <span className='font-semibold text-[#1A1A1A] leading-tight'>{filteredProducts?.length}</span> Natijalar topildi
+                                <span className='font-semibold text-[#1A1A1A] leading-tight'>
+                                    {filteredProducts?.length}
+                                </span> Natijalar topildi
                             </p>
                         </div>
                     </div>
                 </div>
                 <div className="filterBottomBox grid grid-cols-4 gap-x-6 ">
                     {isVisible && (
-                        <FilterComponents category={category} products={productsWithSlug} />
+                        <div>
+                            <FilterComponents
+                                category={category}
+                                products={productsWithSlug}
+                                filteredProducts={filteredProducts}
+                                priceFrom={priceFrom}
+                                priceTo={priceTo}
+                                filter={filter}
+                                rating={rating}
+                                price={price}
+                                tag={tag}
+                            />
+                            <RatingChange
+                                filter={filter}
+                                rating={rating}
+                                price={price}
+                                tag={tag}
+                                category={category}
+                            />
+                        </div>
                     )}
                     <div
                         className={`filteredProducts grid gap-x-10 gap-y-6 ${isVisible ? 'col-span-3 grid-cols-3' : 'col-span-4 grid-cols-4'}`}
@@ -121,15 +155,24 @@ export default async function Products({ params, searchParams }) {
                                 className="productBox flex flex-col overflow-hidden rounded-[14px] group hover:shadow-md
                                     transition-all duration-300 ease-in-out"
                             >
-                                <div
-                                    className="top bg-[#F0F1F2] p-5 pb-[34px] rounded-b-[14px] group-hover:rounded-none
+                                <div className="top bg-[#F0F1F2] p-5 pb-[34px] rounded-b-[14px] group-hover:rounded-none
                                         transition-all duration-300 ease-in-out"
                                 >
-                                    <div
-                                        className="w-10 h-10 bg-white rounded-full flex items-center justify-center opacity-0
-                                            group-hover:opacity-100 transition-all duration-300 ease-in-out ml-auto"
-                                    >
-                                        <LikeButtonComponent id={product.id} />
+                                    <div className="flex items-center justify-between">
+                                        <div className="discountBox">
+                                            {product.discount && (
+                                                <div className="py-2 px-3 bg-orange rounded-md text-white font-semibold text-xs leading-none
+                                                        opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out"
+                                                >
+                                                    {`-${(((product.price - product.newPrice) / product.price) * 100).toFixed()}%`}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center opacity-0
+                                            group-hover:opacity-100 transition-all duration-300 ease-in-out"
+                                        >
+                                            <LikeButtonComponent id={product.id} />
+                                        </div>
                                     </div>
                                     <div className="imgBox relative w-[210px] h-[210px] mx-auto">
                                         <Image
