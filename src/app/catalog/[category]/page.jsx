@@ -9,6 +9,7 @@ import LikeButtonComponent from '@/components/LikeButtonComponent';
 import Image from 'next/image';
 import RatingIcon from '@/components/RatingIcon';
 import Bag from '@/icons/bag.svg'
+import ThemeRegistry from '@/app/providers/ThemeRegistry';
 
 export default async function Products({ params, searchParams }) {
 
@@ -126,17 +127,19 @@ export default async function Products({ params, searchParams }) {
                 <div className="filterBottomBox grid grid-cols-4 gap-x-6 ">
                     {isVisible && (
                         <div>
-                            <FilterComponents
-                                category={category}
-                                products={productsWithSlug}
-                                filteredProducts={filteredProducts}
-                                priceFrom={priceFrom}
-                                priceTo={priceTo}
-                                filter={filter}
-                                rating={rating}
-                                price={price}
-                                tag={tag}
-                            />
+                            <ThemeRegistry>
+                                <FilterComponents
+                                    category={category}
+                                    products={productsWithSlug}
+                                    filteredProducts={filteredProducts}
+                                    priceFrom={priceFrom}
+                                    priceTo={priceTo}
+                                    filter={filter}
+                                    rating={rating}
+                                    price={price}
+                                    tag={tag}
+                                />
+                            </ThemeRegistry>
                             <RatingChange
                                 filter={filter}
                                 rating={rating}
