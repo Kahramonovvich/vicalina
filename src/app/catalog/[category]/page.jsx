@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import HomeIcon from '@/icons/home.svg'
 import TopArrowICon from '@/icons/topArrow.svg'
-import FilterComponents, { FilterButton, FilterDropdown, RatingChange } from '@/components/FilterComponents';
+import FilterComponents, { FilterButton, FilterDropdown, RatingChange, TagesSelect } from '@/components/FilterComponents';
 import { cookies } from 'next/headers';
 import { getAllProducts, getProductsByCategory } from '/lib/api';
 import { formatCurrency, productsSlug } from '@/utils/utils';
@@ -143,6 +143,14 @@ export default async function Products({ params, searchParams }) {
                                 price={price}
                                 tag={tag}
                                 category={category}
+                            />
+                            <TagesSelect
+                                filter={filter}
+                                rating={rating}
+                                price={price}
+                                tag={tag}
+                                category={category}
+                                products={productsWithSlug}
                             />
                         </div>
                     )}

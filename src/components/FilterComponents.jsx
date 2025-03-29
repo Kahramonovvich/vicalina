@@ -69,7 +69,7 @@ export default function FilterComponents({ category, products, filteredProducts,
 
     const allCategories = navMenu.map((item) => item.name);
     const result = countProductsByCategory(products, allCategories);
-    const { min, max } = getMinMaxPrices(filteredProducts);
+    const { min, max } = getMinMaxPrices(products);
     const router = useRouter();
 
     const [isOpen, setIsOpen] = useState([false, false]);
@@ -79,8 +79,8 @@ export default function FilterComponents({ category, products, filteredProducts,
         const params = new URLSearchParams();
 
         if (filter) params.set('filter', filter);
-        if (rating) params.set('rating', rating);
         if (strPrice) params.set('price', strPrice);
+        if (rating) params.set('rating', rating);
         if (tag) params.set('tag', tag);
 
         router?.push(`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
@@ -127,7 +127,7 @@ export default function FilterComponents({ category, products, filteredProducts,
                             className="overflow-hidden"
                         >
                             {result?.map((cat) => (
-                                <div className="box py-2.5 last-of-type:pb-[34px]" key={cat.category}>
+                                <div className="box py-2.5 last-of-type:pb-6" key={cat.category}>
                                     <Link
                                         href={`/catalog/${cat.category.toLowerCase().replace(/\s+/g, '-')}`}
                                         className="box flex items-center gap-x-2"
@@ -176,7 +176,7 @@ export default function FilterComponents({ category, products, filteredProducts,
                                     max={max}
                                     step={5000}
                                     valueLabelDisplay="auto"
-                                    className='!p-0'
+                                    sx={{ p: 0 }}
                                 />
                             </div>
                             <p className='text-[#1A1A1A] text-sm leading-normal font-black pb-6'>
@@ -201,8 +201,8 @@ export function RatingChange({ filter, rating, tag, price, category }) {
         const params = new URLSearchParams();
 
         if (filter) params.set('filter', filter);
-        if (Number(value) !== Number(rating)) params.set('rating', value);
         if (price) params.set('price', price);
+        if (Number(value) !== Number(rating)) params.set('rating', value);
         if (tag) params.set('tag', tag);
 
         router?.push(`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
@@ -224,7 +224,7 @@ export function RatingChange({ filter, rating, tag, price, category }) {
     }, [rating]);
 
     return (
-        <div className="ratingChange border-b">
+        <div className="ratingChange border-b mb-5">
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
@@ -273,6 +273,106 @@ export function RatingChange({ filter, rating, tag, price, category }) {
                                 </label>
                             </div>
                         ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+};
+
+export function TagesSelect({ filter, rating, tag, price, category, products }) {
+    const router = useRouter();
+    const tagCount = {};
+
+    for (const product of products) {
+        if (typeof product.tages === 'string') {
+            const tags = product.tages.split(',').map(tag => tag.trim());
+            for (const tag of tags) {
+                tagCount[tag] = (tagCount[tag] || 0) + 1;
+            }
+        }
+    }
+
+    const top10Tags = Object.entries(tagCount)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([tag]) => tag);
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedTags, setSelectedTags] = useState([]);
+
+    const applyFilters = (newTags) => {
+        const params = new URLSearchParams();
+
+        if (filter) params.set("filter", filter);
+        if (price) params.set("price", price);
+        if (rating) params.set("rating", rating);
+        if (newTags.length > 0) params.set("tag", newTags.join('-'));
+
+        router?.push(`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}` + '?' + params.toString().toLowerCase());
+    };
+
+    const toggleTag = (value) => () => {
+        let newTags = [];
+
+        if (selectedTags.includes(value)) {
+            newTags = selectedTags.filter(tag => tag !== value);
+        } else {
+            newTags = [...selectedTags, value];
+        }
+
+        setSelectedTags(newTags);
+        applyFilters(newTags);
+    };
+
+    useEffect(() => {
+        if (tag) {
+            const tagsArray = tag
+                .replace(/-/g, ',')
+                .split(',')
+                .map(t => t.trim())
+                .filter(Boolean);
+
+            setSelectedTags(tagsArray);
+        } else {
+            setSelectedTags([]);
+        }
+    }, [tag]);
+
+    console.log(selectedTags);
+
+    return (
+        <div className="tagesSelect">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
+            >
+                Mashxur tag
+                <MorphArrow isOpen={isOpen} />
+            </button>
+            <AnimatePresence initial={false}>
+                {isOpen && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                    >
+                        <div className="tagsBox flex flex-wrap items-center gap-y-2.5 gap-x-4">
+                            {top10Tags.map((tag) => (
+                                <button
+                                    key={tag}
+                                    className={`tagBox py-1.5 px-4 rounded-full 
+                                        ${selectedTags.includes(tag) ? 'bg-primary text-white' : 'bg-[#F2F2F2]'}`}
+                                    onClick={toggleTag(tag)}
+                                >
+                                    <p className='text-sm leading-normal capitalize'>
+                                        {tag}
+                                    </p>
+                                </button>
+                            ))}
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

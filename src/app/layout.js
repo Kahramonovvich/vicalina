@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { DM_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
+import ThemeRegistry from "./providers/ThemeRegistry";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -58,7 +59,9 @@ export default function RootLayout({ children }) {
     <html lang="uz">
       <body className={dmSans.className}>
         <Header />
-        {children}
+        <ThemeRegistry>
+          {children}
+        </ThemeRegistry>
         <Footer />
         <SpeedInsights />
         <Analytics />
