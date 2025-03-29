@@ -8,8 +8,8 @@ import { formatCurrency, productsSlug } from '@/utils/utils';
 import LikeButtonComponent from '@/components/LikeButtonComponent';
 import Image from 'next/image';
 import RatingIcon from '@/components/RatingIcon';
-import Bag from '@/icons/bag.svg'
 import ThemeRegistry from '@/app/providers/ThemeRegistry';
+import AddToBasketButton from '@/components/AddToBasketButton';
 
 export default async function Products({ params, searchParams }) {
 
@@ -215,9 +215,9 @@ export default async function Products({ params, searchParams }) {
                                             <p className='font-bold text-lg leading-[23px]'>
                                                 {formatCurrency(product.discount ? product.newPrice : product.price)}
                                             </p>
-                                            <button className='bg-primary w-10 h-10 rounded-full flex items-center justify-center'>
-                                                <Bag />
-                                            </button>
+                                            <AddToBasketButton
+                                                id={product.id}
+                                            />
                                         </div>
                                     </div>
                                 </div>
