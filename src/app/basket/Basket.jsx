@@ -8,13 +8,17 @@ import { formatCurrency } from "@/utils/utils"
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import CloseIcon from '@/icons/Close.svg'
+import { useBasket } from "@/context/basket-context"
 
 export default function BasketClient({ products }) {
+
+    const { setBasket } = useBasket();
+
     const [items, setItems] = useState([])
 
     useEffect(() => {
-        loadBasket()
-    }, [products])
+        loadBasket();
+    }, [products]);
 
     const loadBasket = () => {
         const basket = JSON.parse(localStorage.getItem('productsToBasket') || '[]')
@@ -31,23 +35,25 @@ export default function BasketClient({ products }) {
             return null
         }).filter(Boolean)
 
-        setItems(result)
+        setItems(result);
+        setBasket(result);
     }
 
     const updateQty = (productId, delta) => {
-        let basket = JSON.parse(localStorage.getItem('productsToBasket') || '[]')
-        const index = basket.findIndex(item => item.id === productId)
+        let basket = JSON.parse(localStorage.getItem('productsToBasket') || '[]');
+        const index = basket.findIndex(item => item.id === productId);
         if (index !== -1) {
-            basket[index].qty += delta
-            if (basket[index].qty <= 0) basket.splice(index, 1)
-            localStorage.setItem('productsToBasket', JSON.stringify(basket))
-            loadBasket()
+            basket[index].qty += delta;
+            if (basket[index].qty <= 0) basket.splice(index, 1);
+            localStorage.setItem('productsToBasket', JSON.stringify(basket));
+            loadBasket();
         }
     }
 
     const clearBasket = () => {
-        localStorage.removeItem('productsToBasket')
-        setItems([])
+        localStorage.removeItem('productsToBasket');
+        setItems([]);
+        setBasket([]);
     };
 
     const totalPrice = items.reduce((sum, item) => sum + item.total, 0);
@@ -57,7 +63,7 @@ export default function BasketClient({ products }) {
     return (
         <div className="basket">
             <div className="container">
-                <div className="top my-12 flex items-center gap-x-3">
+                <div className="top md:my-12 my-5 flex items-center gap-x-3">
                     <Link href={'/'}>
                         <HomeIcon />
                     </Link>
@@ -71,9 +77,9 @@ export default function BasketClient({ products }) {
                     Savatchangiz
                 </h2>
 
-                <div className="box grid grid-cols-3 gap-x-6">
+                <div className="box md:grid grid-cols-3 gap-x-6 flex flex-col gap-y-5">
                     <div className="left col-span-2 border rounded-lg py-4">
-                        <div className="top grid grid-cols-12 border-b px-5 pb-4 uppercase font-medium text-sm text-[#808080]">
+                        <div className="top hidden md:grid grid-cols-12 border-b px-5 pb-4 uppercase font-medium text-sm text-[#808080]">
                             <div className="col-span-5">Maxsulot</div>
                             <div className="col-span-7 grid grid-cols-3 gap-x-3">
                                 <p>Narx</p>
@@ -85,7 +91,7 @@ export default function BasketClient({ products }) {
                         {items.map(item => (
                             <div
                                 key={item.id}
-                                className="center px-5 py-3 grid grid-cols-12 items-center border-b"
+                                className="center md:px-5 px-3 py-3 md:grid grid-cols-12 items-center border-b"
                             >
                                 <div className="imgBox col-span-5 flex gap-4 items-center">
                                     <div className="img relative w-28 h-20">
@@ -98,8 +104,8 @@ export default function BasketClient({ products }) {
                                     </div>
                                     <p className="font-medium">{item.name}</p>
                                 </div>
-                                <div className="col-span-7 grid grid-cols-3 items-center gap-x-3 text-sm text-[#333] font-medium">
-                                    <p>{formatCurrency(item.discount ? item.newPrice : item.price)}</p>
+                                <div className="col-span-7 mt-5 grid md:grid-cols-3 grid-cols-2 items-center gap-x-3 text-sm text-[#333] font-medium">
+                                    <p className="hidden md:block">{formatCurrency(item.discount ? item.newPrice : item.price)}</p>
                                     <div className="box p-2 border rounded-full flex items-center gap-x-3 w-max">
                                         <button
                                             onClick={() => updateQty(item.id, -1)}
@@ -125,16 +131,16 @@ export default function BasketClient({ products }) {
                             </div>
                         ))}
 
-                        <div className="bottom flex items-center justify-between px-5 pt-4 border-t">
+                        <div className="bottom flex items-center justify-between gap-x-2 md:px-5 px-3 pt-4 border-t">
                             <Link
                                 href={`/catalog/barcha-mahsulotlar`}
-                                className="py-3.5 px-8 font-semibold text-sm leading-tight text-[#4D4D4D] bg-[#F2F2F2] rounded"
+                                className="py-3.5 md:px-8 px-4 font-semibold text-sm leading-tight text-[#4D4D4D] bg-[#F2F2F2] rounded"
                             >
                                 Xaridlarga qaytish
                             </Link>
                             <button
                                 onClick={clearBasket}
-                                className="py-3.5 px-8 font-semibold text-sm leading-tight text-[#4D4D4D] bg-[#F2F2F2] rounded"
+                                className="py-3.5 md:px-8 px-4 font-semibold text-sm leading-tight text-[#4D4D4D] bg-[#F2F2F2] rounded"
                             >
                                 Yangilash
                             </button>

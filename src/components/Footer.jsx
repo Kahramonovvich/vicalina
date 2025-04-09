@@ -1,9 +1,6 @@
 'use client'
 import { useState } from "react";
-import { FaTiktok } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
-import { FaTelegramPlane } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
+import { FaTiktok, FaYoutube, FaTelegramPlane, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -52,7 +49,6 @@ const footerMenu = [
 ];
 
 export default function Footer() {
-
     const [phoneNumber, setPhoneNumber] = useState('');
 
     const handleSubmit = (e) => {
@@ -60,23 +56,24 @@ export default function Footer() {
     };
 
     return (
-        <footer className="mt-[45px]">
+        <footer className="md:mt-[45px] mt-8">
             <div className="top bg-[#F7F7F7] py-10">
                 <div className="container">
-                    <div className="flex items-center justify-between gap-x-[58px]">
-                        <div className="text w-[455p">
+                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-y-6 md:gap-y-0 gap-x-[58px]">
+                        <div className="text">
                             <p className="font-semibold text-2xl leading-normal">
                                 Ijtimoiy tarmoqlarimizga obuna bo’ling!
                             </p>
                             <p className="text-sm leading-normal text-[#999999]">
                                 Bizdagi yangiliklarni ijtioiy tarmoqlarda bilib oling va eng
-                                <br />
+                                <br className="hidden md:block" />
                                 birinchilardan bo’ling!
                             </p>
                         </div>
+
                         <form
                             onSubmit={handleSubmit}
-                            className="flex-1 relative"
+                            className="w-full md:flex-1 relative"
                         >
                             <input
                                 type="text"
@@ -93,7 +90,8 @@ export default function Footer() {
                                 Bog’lanish
                             </button>
                         </form>
-                        <div className="socialBox flex items-center gap-x-2">
+
+                        <div className="socialBox flex items-center gap-2 md:gap-x-2 mt-4 md:mt-0">
                             {socialMedia.map((icon) => (
                                 <a
                                     key={icon.name}
@@ -109,14 +107,13 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
+
             <div className="bottom bg-primary py-[60px]">
                 <div className="container">
-                    <div className="flex items-center justify-between">
-                        <div className="left w-[340px] flex flex-col gap-y-4">
+                    <div className="flex flex-col md:items-center md:flex-row justify-between gap-y-10">
+                        <div className="left w-full md:w-[340px] flex flex-col gap-y-4">
                             <div className="logo">
-                                <Link
-                                    href={'/'}
-                                >
+                                <Link href={'/'}>
                                     <Image
                                         src={'/images/footerLogo.png'}
                                         width={182}
@@ -125,10 +122,10 @@ export default function Footer() {
                                     />
                                 </Link>
                             </div>
-                            <p className="leading-normal text-[#808080]">
+                            <p className="leading-normal text-[#808080] text-sm md:text-base">
                                 Bizning maqsadimiz – har bir uy bekasiga va oshpazga pishirish jarayonini yanada qulay va yoqimli qilish.
                             </p>
-                            <div className="text-white flex items-center gap-x-4">
+                            <div className="text-white flex flex-wrap items-center gap-x-4 gap-y-2">
                                 <a
                                     href="tel:+998990300000"
                                     className="py-1.5 border-b-2 text-sm leading-normal font-medium"
@@ -144,20 +141,18 @@ export default function Footer() {
                                 </a>
                             </div>
                         </div>
-                        <div className="right flex gap-x-[102px]">
+
+                        <div className="right flex flex-col md:flex-row gap-y-6 md:gap-y-0 md:gap-x-[102px]">
                             {footerMenu.map((menu) => (
                                 <ul key={menu.id}>
-                                    <p
-                                        className="font-medium leading-normal text-white mb-5"
-                                    >
+                                    <p className="font-medium leading-normal text-white mb-5">
                                         {menu.top}
                                     </p>
                                     {menu.items.map(el => (
-                                        <li
-                                            key={el.item}
-                                            className="mb-3 last-of-type:mb-0"
-                                        >
-                                            <p className="text-sm leading-normal text-[#999999] hover:text-white cursor-pointer">{el.item}</p>
+                                        <li key={el.item} className="mb-3 last-of-type:mb-0">
+                                            <p className="text-sm leading-normal text-[#999999] hover:text-white cursor-pointer">
+                                                {el.item}
+                                            </p>
                                         </li>
                                     ))}
                                 </ul>
@@ -168,4 +163,4 @@ export default function Footer() {
             </div>
         </footer>
     );
-};
+}

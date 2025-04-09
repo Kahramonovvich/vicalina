@@ -85,9 +85,9 @@ export const products = [
             '/images/prodImg.png',
             '/images/prodImg.png',
             '/images/prodImg.png',
-        ],
-        name: 'Katta Qozon 10L',
-        price: 350000,
+        ],//
+        name: 'Katta Qozon 10L',//
+        price: 350000,//
         newPrice: 299000,
         discount: true,
         category: 'QOZONLAR',
@@ -95,14 +95,14 @@ export const products = [
             rate: 4.5, count: 120,
         },
         createdAt: '2023-07-31T01:06:43',
-        shortDesc: 'Sifatli alyuminiy qozon, katta oilalar uchun.',
-        fullDesc: '10 litrli qozon tez qiziydi, issiqlikni yaxshi saqlaydi va chidamli.',
-        weight: '3kg',
-        color: 'kumush',
+        shortDesc: 'Sifatli alyuminiy qozon, katta oilalar uchun.', //
+        fullDesc: '10 litrli qozon tez qiziydi, issiqlikni yaxshi saqlaydi va chidamli.', //
+        weight: '3kg',//
+        color: 'kumush',//
         type: 'alyuminiy',
         qty: 50,
-        tages: 'qozon, oshxona, katta',
-        brandImg: '/images/brands/brand1.png',
+        tages: 'qozon, oshxona, katta',//
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Ali', clientComment: 'Zo‘r qozon, palov ajoyib chiqdi!', clientRate: 5 },
         ],
@@ -132,7 +132,7 @@ export const products = [
         type: 'po‘lat',
         qty: 70,
         tages: 'qozon, o‘rta, oshxona',
-        brandImg: '/images/brands/brand1.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Qozon yaxshi, lekin biroz og‘ir.', clientRate: 4 },
         ],
@@ -162,7 +162,7 @@ export const products = [
         type: 'temir',
         qty: 40,
         tages: 'qozon, kichik, tejamkor',
-        brandImg: '/images/brands/brand1.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Kichik lekin sifatli, tavsiya etaman.', clientRate: 4 },
         ],
@@ -192,7 +192,7 @@ export const products = [
         type: 'keramika qoplamali',
         qty: 30,
         tages: 'qozon, premium, oshxona',
-        brandImg: '/images/brands/brand1.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Jasur', clientComment: 'Haqiqatan ham ajoyib, har qanday taomga mos.', clientRate: 5 },
         ],
@@ -222,7 +222,7 @@ export const products = [
         type: 'po‘lat',
         qty: 60,
         tages: 'qozon, econom, oshxona',
-        brandImg: '/images/brands/brand1.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Dilshod', clientComment: 'Bajaradi, lekin yuqori darajada emas.', clientRate: 3 },
         ],
@@ -253,7 +253,7 @@ export const products = [
         type: 'teflon',
         qty: 30,
         tages: 'skavarka, oshxona, teflon',
-        brandImg: '/images/brands/brand2.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Tuxum yopishmaydi, juda yoqdi!', clientRate: 4 },
         ],
@@ -283,7 +283,7 @@ export const products = [
         type: 'non-stick',
         qty: 25,
         tages: 'skavarka, oshxona, anti-stick',
-        brandImg: '/images/brands/brand2.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Pishirish paytida qo‘l keladi.', clientRate: 4 },
         ],
@@ -313,7 +313,7 @@ export const products = [
         type: 'pro qoplama',
         qty: 20,
         tages: 'skavarka, pro, oshxona',
-        brandImg: '/images/brands/brand2.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Jasur', clientComment: 'Haqiqiy pro mahsulot, tavsiya qilaman.', clientRate: 5 },
         ],
@@ -343,7 +343,7 @@ export const products = [
         type: 'kompakt',
         qty: 35,
         tages: 'skavarka, kichik, oshxona',
-        brandImg: '/images/brands/brand2.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Dilshod', clientComment: 'Oddiy, lekin ishonchli.', clientRate: 4 },
         ],
@@ -373,7 +373,7 @@ export const products = [
         type: 'plus qoplama',
         qty: 28,
         tages: 'skavarka, plus, oshxona',
-        brandImg: '/images/brands/brand2.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Ali', clientComment: 'Samarali ishlaydi, ozgina qimmat.', clientRate: 4 },
         ],
@@ -404,7 +404,7 @@ export const products = [
         type: 'po‘lat',
         qty: 100,
         tages: 'pichoq, oshxona, to‘plam',
-        brandImg: '/images/brands/brand3.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Sifatli, sabzavotlarni osongina kesadi.', clientRate: 5 },
         ],
@@ -434,7 +434,7 @@ export const products = [
         type: 'professional',
         qty: 80,
         tages: 'pichoq, professional, oshxona',
-        brandImg: '/images/brands/brand3.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Kichik, lekin juda keskin.', clientRate: 4 },
         ],
@@ -464,7 +464,7 @@ export const products = [
         type: 'multi-set',
         qty: 90,
         tages: 'pichoq, set, oshxona',
-        brandImg: '/images/brands/brand3.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Jasur', clientComment: 'Ajoyib set, har bir taom uchun yetarli.', clientRate: 5 },
         ],
@@ -494,7 +494,7 @@ export const products = [
         type: 'yengil',
         qty: 120,
         tages: 'pichoq, yengil, oshxona',
-        brandImg: '/images/brands/brand3.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Ali', clientComment: 'Kichkina lekin ishni yaxshi bajaradi.', clientRate: 4 },
         ],
@@ -524,7 +524,7 @@ export const products = [
         type: 'elite',
         qty: 70,
         tages: 'pichoq, elite, oshxona',
-        brandImg: '/images/brands/brand3.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Haqiqiy elite sifat, tavsiya etaman!', clientRate: 5 },
         ],
@@ -555,7 +555,7 @@ export const products = [
         type: 'komplekt',
         qty: 40,
         tages: 'nabor, oshxona, komplekt',
-        brandImg: '/images/brands/brand4.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Barcha kerakli narsalar bor, juda ma’qul.', clientRate: 5 },
         ],
@@ -585,7 +585,7 @@ export const products = [
         type: 'standart',
         qty: 35,
         tages: 'nabor, oshxona, standart',
-        brandImg: '/images/brands/brand4.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Ishlatish oson, lekin tanasi biroz og‘ir.', clientRate: 4 },
         ],
@@ -615,7 +615,7 @@ export const products = [
         type: 'deluxe',
         qty: 25,
         tages: 'nabor, deluxe, oshxona',
-        brandImg: '/images/brands/brand4.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Jasur', clientComment: 'Haqiqatan ham ajoyib, premium his-tuyg‘u beradi.', clientRate: 5 },
         ],
@@ -645,7 +645,7 @@ export const products = [
         type: 'basic',
         qty: 45,
         tages: 'nabor, basic, oshxona',
-        brandImg: '/images/brands/brand4.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Ali', clientComment: 'Bajaradi, lekin ko‘p funksiyali emas.', clientRate: 3 },
         ],
@@ -675,7 +675,7 @@ export const products = [
         type: 'premium',
         qty: 38,
         tages: 'nabor, premium, oshxona',
-        brandImg: '/images/brands/brand4.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Dilshod', clientComment: 'Narxi yuqori, lekin sifatini his etasiz.', clientRate: 4 },
         ],
@@ -706,7 +706,7 @@ export const products = [
         type: 'plastik',
         qty: 100,
         tages: 'qoshiq, to‘plam, oshxona',
-        brandImg: '/images/brands/brand5.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Kichik va qulay, kundalik foydalanish uchun.', clientRate: 4 },
         ],
@@ -736,7 +736,7 @@ export const products = [
         type: 'metal',
         qty: 120,
         tages: 'qoshiq, metal, oshxona',
-        brandImg: '/images/brands/brand5.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Kichik lekin sifatli.', clientRate: 4 },
         ],
@@ -766,7 +766,7 @@ export const products = [
         type: 'deluxe',
         qty: 80,
         tages: 'qoshiq, deluxe, oshxona',
-        brandImg: '/images/brands/brand5.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Jasur', clientComment: 'Zamonaviy ko‘rinish, tavsiya qilaman.', clientRate: 5 },
         ],
@@ -796,7 +796,7 @@ export const products = [
         type: 'ergonomic',
         qty: 95,
         tages: 'qoshiq, ergonomic, oshxona',
-        brandImg: '/images/brands/brand5.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Oddiy lekin yaxshi ishlaydi.', clientRate: 4 },
         ],
@@ -826,7 +826,7 @@ export const products = [
         type: 'standard',
         qty: 110,
         tages: 'qoshiq, standard, oshxona',
-        brandImg: '/images/brands/brand5.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Dilshod', clientComment: 'Narxi yaxshi, ishlashida farq yo‘q.', clientRate: 4 },
         ],
@@ -857,7 +857,7 @@ export const products = [
         type: 'komplekt',
         qty: 35,
         tages: 'qozon nabor, oshxona',
-        brandImg: '/images/brands/brand6.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Ali', clientComment: 'Barcha kerakli narsalar bor, buni sotib oling.', clientRate: 5 },
         ],
@@ -887,7 +887,7 @@ export const products = [
         type: 'standart',
         qty: 40,
         tages: 'qozon nabor, standart, oshxona',
-        brandImg: '/images/brands/brand6.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Ishlatishda hech qanday muammo yo‘q.', clientRate: 4 },
         ],
@@ -917,7 +917,7 @@ export const products = [
         type: 'deluxe',
         qty: 30,
         tages: 'qozon nabor, deluxe, oshxona',
-        brandImg: '/images/brands/brand6.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Narxi yuqori, lekin sifati o‘ziga xos.', clientRate: 5 },
         ],
@@ -947,7 +947,7 @@ export const products = [
         type: 'basic',
         qty: 45,
         tages: 'qozon nabor, basic, oshxona',
-        brandImg: '/images/brands/brand6.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Jasur', clientComment: 'Oddiy, lekin buni sinab ko‘ring.', clientRate: 4 },
         ],
@@ -977,7 +977,7 @@ export const products = [
         type: 'pro',
         qty: 33,
         tages: 'qozon nabor, pro, oshxona',
-        brandImg: '/images/brands/brand6.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Samarali, uzoq muddat xizmat qiladi.', clientRate: 4 },
         ],
@@ -1008,7 +1008,7 @@ export const products = [
         type: 'po‘lat',
         qty: 80,
         tages: 'kastrulka, oshxona, kichik',
-        brandImg: '/images/brands/brand7.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Ali', clientComment: 'Kichkina lekin samarali.', clientRate: 4 },
         ],
@@ -1038,7 +1038,7 @@ export const products = [
         type: 'temir',
         qty: 70,
         tages: 'kastrulka, oshxona, o‘rta',
-        brandImg: '/images/brands/brand7.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Pishirishda ishonchli yordamchi.', clientRate: 5 },
         ],
@@ -1068,7 +1068,7 @@ export const products = [
         type: 'keramika qoplamali',
         qty: 50,
         tages: 'kastrulka, premium, oshxona',
-        brandImg: '/images/brands/brand7.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Jasur', clientComment: 'Ajoyib kastrulka, tez qiziydi.', clientRate: 5 },
         ],
@@ -1098,7 +1098,7 @@ export const products = [
         type: 'econom',
         qty: 85,
         tages: 'kastrulka, econom, oshxona',
-        brandImg: '/images/brands/brand7.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Narxi arzon, lekin sifat oddiy.', clientRate: 3 },
         ],
@@ -1128,7 +1128,7 @@ export const products = [
         type: 'set',
         qty: 60,
         tages: 'kastrulka, set, oshxona',
-        brandImg: '/images/brands/brand7.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'To‘liq to‘plam, har xil ehtiyojlarga mos.', clientRate: 5 },
         ],
@@ -1159,7 +1159,7 @@ export const products = [
         type: 'komplekt',
         qty: 55,
         tages: 'kastrulka nabor, oshxona, komplekt',
-        brandImg: '/images/brands/brand8.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Ali', clientComment: 'Yaxshi nabor, hamma kerakli narsalar bor.', clientRate: 5 },
         ],
@@ -1189,7 +1189,7 @@ export const products = [
         type: 'standart',
         qty: 60,
         tages: 'kastrulka nabor, standart, oshxona',
-        brandImg: '/images/brands/brand8.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Oddiy, lekin ishlaydi.', clientRate: 4 },
         ],
@@ -1219,7 +1219,7 @@ export const products = [
         type: 'deluxe',
         qty: 45,
         tages: 'kastrulka nabor, deluxe, oshxona',
-        brandImg: '/images/brands/brand8.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Kuchli nabor, tavsiya qilaman!', clientRate: 5 },
         ],
@@ -1249,7 +1249,7 @@ export const products = [
         type: 'basic',
         qty: 65,
         tages: 'kastrulka nabor, basic, oshxona',
-        brandImg: '/images/brands/brand8.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Jasur', clientComment: 'Narxi arzon, foydali.', clientRate: 4 },
         ],
@@ -1279,7 +1279,7 @@ export const products = [
         type: 'pro',
         qty: 50,
         tages: 'kastrulka nabor, pro, oshxona',
-        brandImg: '/images/brands/brand8.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Hamma narsa bir joyda, juda qulay.', clientRate: 5 },
         ],
@@ -1310,7 +1310,7 @@ export const products = [
         type: 'elektron',
         qty: 80,
         tages: 'blender, kichik, oshxona',
-        brandImg: '/images/brands/brand9.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Ali', clientComment: 'Sodda va ishni yaxshi bajaradi.', clientRate: 4 },
         ],
@@ -1340,7 +1340,7 @@ export const products = [
         type: 'elektron',
         qty: 90,
         tages: 'mikser, kichik, oshxona',
-        brandImg: '/images/brands/brand9.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Oddiy mikser, lekin ishonchli.', clientRate: 4 },
         ],
@@ -1370,7 +1370,7 @@ export const products = [
         type: 'elektron',
         qty: 100,
         tages: 'toaster, kichik, oshxona',
-        brandImg: '/images/brands/brand9.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Oddiy, lekin samarali ishlaydi.', clientRate: 4 },
         ],
@@ -1400,7 +1400,7 @@ export const products = [
         type: 'elektron',
         qty: 30,
         tages: 'mikrotolqin, kichik, oshxona',
-        brandImg: '/images/brands/brand9.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Jasur', clientComment: 'Kichik joylarda ajoyib yechim.', clientRate: 5 },
         ],
@@ -1430,7 +1430,7 @@ export const products = [
         type: 'elektron',
         qty: 40,
         tages: 'qahva, kichik, oshxona',
-        brandImg: '/images/brands/brand9.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Ali', clientComment: 'Sifatli, lekin biroz shovqinli.', clientRate: 4 },
         ],
@@ -1461,7 +1461,7 @@ export const products = [
         type: 'plastik',
         qty: 90,
         tages: 'mantiqasqon, oshxona, set',
-        brandImg: '/images/brands/brand10.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Oddiy, lekin yaxshi ishlaydi.', clientRate: 4 },
         ],
@@ -1491,7 +1491,7 @@ export const products = [
         type: 'standart',
         qty: 85,
         tages: 'mantiqasqon, standart, oshxona',
-        brandImg: '/images/brands/brand10.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Oddiy va qulay, tavsiya etaman.', clientRate: 4 },
         ],
@@ -1521,7 +1521,7 @@ export const products = [
         type: 'deluxe',
         qty: 75,
         tages: 'mantiqasqon, deluxe, oshxona',
-        brandImg: '/images/brands/brand10.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Jasur', clientComment: 'Haqiqiy deluxe, tavsiya etaman!', clientRate: 5 },
         ],
@@ -1551,7 +1551,7 @@ export const products = [
         type: 'basic',
         qty: 95,
         tages: 'mantiqasqon, basic, oshxona',
-        brandImg: '/images/brands/brand10.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Ali', clientComment: 'Oddiy va ishonchli.', clientRate: 4 },
         ],
@@ -1581,7 +1581,7 @@ export const products = [
         type: 'pro',
         qty: 60,
         tages: 'mantiqasqon, pro, oshxona',
-        brandImg: '/images/brands/brand10.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Ajoyib mahsulot, tavsiya qilaman.', clientRate: 5 },
         ],
@@ -1612,7 +1612,7 @@ export const products = [
         type: 'klassik',
         qty: 120,
         tages: 'blinitsa, klassik, oshxona',
-        brandImg: '/images/brands/brand11.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Sodda va mazali, retseptga mos.', clientRate: 4 },
         ],
@@ -1642,7 +1642,7 @@ export const products = [
         type: 'deluxe',
         qty: 100,
         tages: 'blinitsa, deluxe, oshxona',
-        brandImg: '/images/brands/brand11.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Noyob ta’m, haqiqiy delux hissi beradi.', clientRate: 5 },
         ],
@@ -1672,7 +1672,7 @@ export const products = [
         type: 'express',
         qty: 130,
         tages: 'blinitsa, express, oshxona',
-        brandImg: '/images/brands/brand11.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Jasur', clientComment: 'Oddiy, lekin tez tayyorlanadi.', clientRate: 4 },
         ],
@@ -1702,7 +1702,7 @@ export const products = [
         type: 'set',
         qty: 110,
         tages: 'blinitsa, set, oshxona',
-        brandImg: '/images/brands/brand11.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Olim', clientComment: 'Ajoyib to‘plam, oilaviy uchrashuv uchun ideal.', clientRate: 5 },
         ],
@@ -1732,7 +1732,7 @@ export const products = [
         type: 'classic',
         qty: 105,
         tages: 'blinitsa, classic, oshxona',
-        brandImg: '/images/brands/brand11.png',
+        brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Madina', clientComment: 'Haqiqiy klassika, har doim yoqadi.', clientRate: 5 },
         ],

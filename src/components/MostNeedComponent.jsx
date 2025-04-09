@@ -22,19 +22,19 @@ export default function MostNeedComponent({ products }) {
     }, [products]);
 
     return (
-        <div className='mostNeedComponent mt-[45px]'>
+        <div className='mostNeedComponent md:mt-[45px] mt-8'>
             <div className="container">
-                <div className="box mb-[45px] flex items-center justify-between">
+                <div className="box md:mb-[45px] mb-8 flex items-center justify-between">
                     <h3 className="sectionTop">
                         Eng kerakli
                     </h3>
                     <Link
                         href={'/catalog/barcha-mahsulotlar'}
-                        className='font-semibold text-xl leading-none underline text-[#484848]'>
+                        className='font-semibold md:text-xl leading-none underline text-[#484848]'>
                         Ko’proq ko’rish
                     </Link>
                 </div>
-                <div className="grid grid-cols-4 gap-x-14">
+                <div className="grid md:grid-cols-4 gap-y-5 gap-x-14">
                     {mostNeed?.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}
@@ -60,7 +60,7 @@ function ProductCard({ product }) {
     };
 
     return (
-        <div className="box flex flex-col rounded-xl overflow-hidden hover:shadow-md transition-all duration-200 ease-in-out">
+        <div className="box flex flex-col rounded-xl overflow-hidden shadow-md transition-all duration-200 ease-in-out">
             <div className="top bg-[#F0F1F2]">
                 <div className="flex items-center justify-between p-3.5">
                     <div className="py-2 px-2.5 opacity-0 bg-orange rounded-md text-white font-semibold text-xs leading-none">

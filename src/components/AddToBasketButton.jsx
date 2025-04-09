@@ -5,10 +5,14 @@ import { motion, AnimatePresence } from 'framer-motion'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import Bag from '@/icons/bag.svg'
+import { useBasket } from '@/context/basket-context'
 
-export default function AddToBasketButton({ id, qty = 1 }) {
-    const [count, setCount] = useState(0)
-    const [showControls, setShowControls] = useState(false)
+export default function AddToBasketButton({ id, qty = 1, products }) {
+
+    const { setBasket } = useBasket();
+
+    const [count, setCount] = useState(0);
+    const [showControls, setShowControls] = useState(false);
 
     useEffect(() => {
         const stored = localStorage.getItem('productsToBasket')
@@ -34,7 +38,21 @@ export default function AddToBasketButton({ id, qty = 1 }) {
             }
         }
 
-        localStorage.setItem('productsToBasket', JSON.stringify(basket))
+        const result = basket.map(basketItem => {
+            const product = products.find(p => p.id === basketItem.id)
+            const productPrice = product?.discount ? product.newPrice : product.price
+            if (product) {
+                return {
+                    ...product,
+                    qty: basketItem.qty,
+                    total: productPrice * basketItem.qty
+                }
+            }
+            return null
+        }).filter(Boolean)
+
+        localStorage.setItem('productsToBasket', JSON.stringify(result));
+        setBasket(result);
     }
 
     const handleAdd = () => {

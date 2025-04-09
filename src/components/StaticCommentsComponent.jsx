@@ -9,7 +9,7 @@ import RatingIcon from './RatingIcon';
 
 export default function StaticCommentsComponent() {
     return (
-        <div className="staticCommentsComponent mt-[45px] p-[60px] bg-[#F2F2F2]">
+        <div className="staticCommentsComponent md:mt-[45px] mt-8 md:p-[60px] py-5 bg-[#F2F2F2]">
             <div className="container">
                 <div className="box flex items-center justify-between mb-8">
                     <h3 className="sectionTop">
@@ -30,7 +30,7 @@ export default function StaticCommentsComponent() {
                         </button>
                     </div>
                 </div>
-                <div className="comments h-56">
+                <div className="comments md:h-56">
                     <Swiper
                         navigation={{
                             prevEl: '.swiper-button-prev-custom',
@@ -42,6 +42,16 @@ export default function StaticCommentsComponent() {
                         loop={true}
                         slidesPerGroup={3}
                         loopAddBlankSlides={false}
+                        breakpoints={{
+                            0: {
+                                slidesPerView: 1,
+                                slidesPerGroup: 1
+                            },
+                            1280: {
+                                slidesPerView: 3,
+                                slidesPerGroup: 3
+                            },
+                        }}
                         className='h-full'
                         modules={[Navigation]}
                     >

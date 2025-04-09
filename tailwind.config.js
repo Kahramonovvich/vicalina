@@ -11,8 +11,9 @@ module.exports = {
       },
       container: {
         center: true,
+        padding: '1rem',
         screens: {
-          DEFAULT: '1342px',
+          DEFAULT: '1374px',
         },
       },
       borderRadius: {

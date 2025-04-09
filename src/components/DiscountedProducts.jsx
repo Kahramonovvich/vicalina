@@ -26,8 +26,8 @@ export default function DiscountedProducts({ products }) {
     const discountedProducts = getDiscountedProducts(products);
 
     return (
-        <div className="discountedProducts bg-orange px-5 py-11 mt-[45px]">
-            <div className="grid grid-cols-3 gap-x-5">
+        <div className="discountedProducts bg-orange px-5 md:py-11 py-5 mt-8 md:mt-[45px]">
+            <div className="grid grid-cols-1 md:grid-cols-3 md:gap-x-5 gap-y-5 md:gap-y-0">
                 <div className="grid grid-rows-2 gap-y-5">
                     {discountedProducts?.slice(0, 2).map((product) => (
                         <ProductCard
@@ -47,7 +47,7 @@ export default function DiscountedProducts({ products }) {
                         />
                     ))}
                 </div>
-                <div className="col-span-2 grid grid-cols-3 gap-x-5">
+                <div className="md:col-span-2 grid md:grid-cols-3 md:gap-y-0 gap-y-5 md:gap-x-5">
                     {discountedProducts?.slice(2, 5).map((product) => (
                         <ProductCard
                             key={product.id}

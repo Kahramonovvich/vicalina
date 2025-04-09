@@ -1,5 +1,4 @@
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
-import StarHalfRoundedIcon from '@mui/icons-material/StarHalfRounded';
 import StarBorderRoundedIcon from '@mui/icons-material/StarBorderRounded';
 import { Rating } from '@mui/material';
 

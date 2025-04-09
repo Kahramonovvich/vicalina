@@ -54,17 +54,6 @@ const ratingBox = [
     { value: 1 },
 ];
 
-// const applyFilters = () => {
-//     const params = new URLSearchParams();
-
-//     if (filter) params.set('filter', filter);
-//     if (rating) params.set('rating', rating);
-//     if (price) params.set('price', price);
-//     if (tag) params.set('tag', tag);
-
-//     router?.push(`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
-// };
-
 export default function FilterComponents({ category, products, filteredProducts, priceFrom, priceTo, filter, rating, tag }) {
 
     const allCategories = navMenu.map((item) => item.name);
@@ -339,8 +328,6 @@ export function TagesSelect({ filter, rating, tag, price, category, products }) 
         }
     }, [tag]);
 
-    console.log(selectedTags);
-
     return (
         <div className="tagesSelect">
             <button
@@ -359,7 +346,7 @@ export function TagesSelect({ filter, rating, tag, price, category, products }) 
                         transition={{ duration: 0.3, ease: "easeInOut" }}
                         className="overflow-hidden"
                     >
-                        <div className="tagsBox flex flex-wrap items-center gap-y-2.5 gap-x-4">
+                        <div className="tagsBox flex flex-wrap items-center gap-y-2.5 gap-x-4 pb-6">
                             {top10Tags.map((tag) => (
                                 <button
                                     key={tag}
@@ -424,8 +411,8 @@ export function FilterDropdown({ filter, category, rating, price, tag }) {
 
     return (
         <div className="flex items-center">
-            <label className="text-sm text-[#808080] leading-normal mr-2">Saralash:</label>
-            <div className="relative" ref={dropdownRef}>
+            <label className="text-sm text-[#808080] leading-normal mr-2 hidden md:block">Saralash:</label>
+            <div className="relative flex-1" ref={dropdownRef}>
                 <div
                     onClick={() => setOpen(prev => !prev)}
                     className="border border-[#E6E6E6] px-4 py-2.5 rounded cursor-pointer flex items-center justify-between min-w-[200px]"
@@ -489,10 +476,10 @@ export function FilterButton() {
 
     return (
         <button
-            className='flex items-center gap-x-3 py-3.5 px-8 bg-primary text-white rounded-full font-semibold text-sm leading-tight'
+            className='flex items-center gap-x-3 py-3.5 md:px-8 px-5 bg-primary text-white rounded-full font-semibold text-sm leading-tight'
             onClick={toggleFilterButton}
         >
-            Filter
+            <span className='hidden md:block'>Filter</span>
             <FilterIcon />
         </button>
     );

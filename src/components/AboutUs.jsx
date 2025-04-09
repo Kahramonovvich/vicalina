@@ -45,29 +45,24 @@ const adBox = [
 
 export default function AboutUs() {
     return (
-        <div className="aboutUs mt-[45px]">
+        <div className="aboutUs md:mt-[45px] mt-8">
             <div className="container">
                 <h3 className="font-semibold text-[40px] leading-tight">
                     Biz haqimizda
                 </h3>
             </div>
-            <div className="box bg-[#F0F1F2] mt-[45px] py-9">
+            <div className="box bg-[#F0F1F2] md:mt-[45px] mt-8 py-9">
                 <div className="container">
-                    <div className="flex gap-x-[45px]">
-                        <div className="text w-[500px] flex flex-col gap-y-[26px]">
+                    <div className="flex flex-col md:flex-row gap-x-[45px] gap-y-5">
+                        <div className="text md:w-[500px] flex flex-col gap-y-[26px]">
                             <h4 className="font-semibold text-xl leading-tight text-[#484848]">
-                                VICALINA – 2019 yildan beri oshxona jihozlari
-                                <br />
-                                ishlab chiqaruvchi ishonchli brend!
+                                VICALINA – 2002 yildan beri oshxona jihozlari ishlab chiqaruvchi ishonchli brend!
                             </h4>
                             <p className="leading-normal text-[#808080]">
-                                Bizning maqsadimiz – har bir uy bekasiga va oshpazga pishirish jarayonini yanada qulay va yoqimli qilish.
-                                VICALINA mahsulotlari zamonaviy texnologiyalar asosida ishlab chiqarilib, mustahkamlik
+                                Vicalina brendiga 2002- yilda Xitoy Xalq Respublikasida asos solingan. Vicalinaning bosh ofislari Xitoyning Guanjou va Yiwu shaharlarida joylashgan. Vicalina brendi o‘zining Germaniya standartlariga mos yuqori sifati bilan ajralib turadi. Vicalina asosan zanglamaydigan po'lat va granit qoplamali idishlar ishlab chiqarish bilan shug‘ullanadi, bu esa uzoq muddatli foydalanish va qulaylikni kafolatlaydi. Ushbu brendning nafis va funksional dizayndagi mahsulotlari har qanday oshxonani bezatadi, taom tayyorlash jarayonini yoqimli va oson qiladi. Vicalina – har bir taom tayyorlashni haqiqiy san’atga aylantiradigan brend! Yuqori sifatli qozonlar, pichoqlar, tovalar qulaylik, uslub va funksionallikni qadrlaydiganlar uchun yaratilgan. Vicalinaning mahsulot assortimentiga pichoqlar, qozonlar, tovalar va kiradi. Vicalina sizning kulinariya tajribangizdan zavqlanishingiz uchun barcha narsalarni taqdim etadi. Minglab mamnun mijozlar allaqachon Vicalina mahsulotlarining sifatini va qulayligini yuqori baholamoqda. Har bir ishlab chiqarish jarayoni inson omili va ilg‘or texnologiyalar ishtirokida amalga oshiriladi. Bu esa har bir mahsulotning mukammal va kamchiliklarsiz bo‘lishini ta’minlaydi.
                                 <br />
-                                va uzoq xizmat qilish kafolatlanadi.
                                 <br />
-                                Mahsulotlarimiz orasida quyma alyuminiy idishlar, mustahkam qoplamali skovorodkalar, pichoqlar hamda boshqa oshxona anjomlari mavjud.
-                                Sifat va innovatsiyalarni birlashtirib, mijozlarimizga eng yaxshi tajribani taqdim etamiz.
+                                Vicalina – siz va oilangiz uchun!
                             </p>
                             <div className="checkBox flex flex-col gap-y-[18px]">
                                 {checkInfo.map((item) => (
@@ -83,31 +78,20 @@ export default function AboutUs() {
                                 ))}
                             </div>
                         </div>
-                        <div className="imgBox flex-1 grid grid-cols-2 gap-x-14 h-[470px]">
-                            <div className="img relative">
-                                <Image
-                                    src={'/images/company-1.png'}
-                                    fill
-                                    style={{ objectFit: 'fill' }}
-                                    alt='image'
-                                    className='rounded-[15px] overflow-hidden'
-                                />
-                            </div>
-                            <div className="img relative">
-                                <Image
-                                    src={'/images/company-2.png'}
-                                    fill
-                                    style={{ objectFit: 'fill' }}
-                                    alt='image'
-                                    className='rounded-[15px] overflow-hidden'
-                                />
-                            </div>
+                        <div className="imgBox md:flex-1 md:h-auto h-96 relative flex justify-end">
+                            <Image
+                                src={'/images/company.png'}
+                                fill
+                                style={{ objectFit: 'contain' }}
+                                alt='image'
+                                className='rounded-[15px] overflow-hidden md:object-right object-bottom'
+                            />
                         </div>
                     </div>
                 </div>
             </div>
             <div className="container">
-                <div className="adBox p-10 grid grid-cols-4 gap-x-3 border rounded-[20px] mt-[45px]">
+                <div className="adBox md:p-10 p-5 grid md:grid-cols-4 gap-3 border rounded-[20px] md:mt-[45px] mt-8">
                     {adBox.map((item) => (
                         <div
                             key={item.title}

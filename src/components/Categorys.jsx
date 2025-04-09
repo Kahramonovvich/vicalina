@@ -9,9 +9,9 @@ import { Navigation } from "swiper/modules";
 
 export default function Categorys() {
     return (
-        <div className="mt-[45px]">
+        <div className="category md:mt-[45px] mt-8">
             <div className="container">
-                <h3 className="sectionTop mb-[45px]">
+                <h3 className="sectionTop md:mb-[45px] mb-8">
                     Ommabop toifalar
                 </h3>
                 <div className="catBox relative bg-[#F0F1F2] rounded-[15px]">
@@ -38,6 +38,16 @@ export default function Categorys() {
                         loop={true}
                         slidesPerGroup={5}
                         loopAddBlankSlides={false}
+                        breakpoints={{
+                            0: {
+                                slidesPerView: 1,
+                                slidesPerGroup: 1,
+                            },
+                            1280: {
+                                slidesPerView: 5,
+                                slidesPerGroup: 5,
+                            },
+                        }}
                         modules={[Navigation]}
                     >
                         {navMenu.map((menu) => (

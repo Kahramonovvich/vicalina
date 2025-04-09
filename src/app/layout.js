@@ -4,6 +4,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { DM_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
+import { getAllProducts } from "/lib/api";
+import { BasketProvider } from "@/context/basket-context";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -53,12 +55,17 @@ export const metadata = {
   viewport: "width=device-width, initial-scale=1",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+
+  const products = await getAllProducts();
+
   return (
     <html lang="uz">
       <body className={dmSans.className}>
-        <Header />
-        {children}
+        <BasketProvider>
+          <Header products={products} />
+          {children}
+        </BasketProvider>
         <Footer />
         <SpeedInsights />
         <Analytics />

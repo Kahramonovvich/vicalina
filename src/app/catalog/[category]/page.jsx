@@ -87,7 +87,7 @@ export default async function Products({ params, searchParams }) {
     return (
         <div className="products">
             <div className="container">
-                <div className="top my-12 flex items-center gap-x-3">
+                <div className="top md:my-12 my-8 flex items-center gap-x-3">
                     <Link href={'/'}>
                         <HomeIcon />
                     </Link>
@@ -103,11 +103,11 @@ export default async function Products({ params, searchParams }) {
                         {category.charAt(0).toLocaleUpperCase() + category.slice(1)}
                     </p>
                 </div>
-                <div className="filterTopBox mb-6 grid grid-cols-4 gap-x-6 items-center">
+                <div className="filterTopBox mb-6 grid grid-cols-4 md:gap-x-6 gap-x-3 items-center">
                     <div className="box">
                         <FilterButton />
                     </div>
-                    <div className="box flex items-center justify-between col-span-3">
+                    <div className="box md:flex items-center justify-between col-span-3">
                         <FilterDropdown
                             category={category}
                             filter={filter}
@@ -115,7 +115,7 @@ export default async function Products({ params, searchParams }) {
                             rating={rating}
                             tag={tag}
                         />
-                        <div className="resultBox">
+                        <div className="resultBox hidden md:block">
                             <p className='text-[#808080] leading-normal'>
                                 <span className='font-semibold text-[#1A1A1A] leading-tight'>
                                     {filteredProducts?.length}
@@ -125,40 +125,38 @@ export default async function Products({ params, searchParams }) {
                     </div>
                 </div>
                 <div className="filterBottomBox grid grid-cols-4 gap-x-6 ">
-                    {isVisible && (
-                        <div>
-                            <ThemeRegistry>
-                                <FilterComponents
-                                    category={category}
-                                    products={productsWithSlug}
-                                    filteredProducts={filteredProducts}
-                                    priceFrom={priceFrom}
-                                    priceTo={priceTo}
-                                    filter={filter}
-                                    rating={rating}
-                                    price={price}
-                                    tag={tag}
-                                />
-                            </ThemeRegistry>
-                            <RatingChange
-                                filter={filter}
-                                rating={rating}
-                                price={price}
-                                tag={tag}
-                                category={category}
-                            />
-                            <TagesSelect
-                                filter={filter}
-                                rating={rating}
-                                price={price}
-                                tag={tag}
+                    <div className='col-span-4 md:col-span-1'>
+                        <ThemeRegistry>
+                            <FilterComponents
                                 category={category}
                                 products={productsWithSlug}
+                                filteredProducts={filteredProducts}
+                                priceFrom={priceFrom}
+                                priceTo={priceTo}
+                                filter={filter}
+                                rating={rating}
+                                price={price}
+                                tag={tag}
                             />
-                        </div>
-                    )}
+                        </ThemeRegistry>
+                        <RatingChange
+                            filter={filter}
+                            rating={rating}
+                            price={price}
+                            tag={tag}
+                            category={category}
+                        />
+                        <TagesSelect
+                            filter={filter}
+                            rating={rating}
+                            price={price}
+                            tag={tag}
+                            category={category}
+                            products={productsWithSlug}
+                        />
+                    </div>
                     <div
-                        className={`filteredProducts grid gap-x-10 gap-y-6 ${isVisible ? 'col-span-3 grid-cols-3' : 'col-span-4 grid-cols-4'}`}
+                        className={`filteredProducts grid gap-x-10 md:gap-y-6 gap-y-4 md:grid-cols-3 md:col-span-3 col-span-4`}
                     >
                         {filteredProducts.map((product) => (
                             <div
@@ -217,6 +215,7 @@ export default async function Products({ params, searchParams }) {
                                             </p>
                                             <AddToBasketButton
                                                 id={product.id}
+                                                products={allProducts}
                                             />
                                         </div>
                                     </div>

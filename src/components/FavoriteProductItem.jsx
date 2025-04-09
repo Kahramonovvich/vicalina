@@ -14,9 +14,9 @@ export default function FavoriteProductItem({ product, onRemove }) {
     };
 
     return (
-        <div className="box grid grid-cols-12 items-center mx-6 py-5 border-t">
-            <div className="product col-span-5 flex items-center gap-x-5">
-                <div className="imgBox relative w-28 h-20">
+        <div className="box grid grid-cols-12 gap-x-1 items-center mx-6 py-5 border-t">
+            <div className="product col-span-5 flex flex-col overflow-hidden md:flex-row items-center gap-x-5">
+                <div className="imgBox relative md:w-28 w-24 md:h-20 h-14">
                     <Image
                         fill
                         src={product.images[0]}
@@ -24,7 +24,7 @@ export default function FavoriteProductItem({ product, onRemove }) {
                         style={{ objectFit: 'contain' }}
                     />
                 </div>
-                <p className='leading-normal'>
+                <p className='leading-normal truncate w-full'>
                     {product.name}
                 </p>
             </div>
@@ -37,7 +37,7 @@ export default function FavoriteProductItem({ product, onRemove }) {
                     {product.qty > 0 ? 'Mavjud' : 'Tez orada'}
                 </div>
                 <div className="toBasket flex items-center gap-x-6">
-                    <button className='bg-primary px-8 py-3.5 rounded text-white'>
+                    <button className='bg-primary px-8 py-3.5 rounded text-white hidden md:block'>
                         Savatga qo’shish
                     </button>
                     <button onClick={handleClick}>
@@ -45,6 +45,9 @@ export default function FavoriteProductItem({ product, onRemove }) {
                     </button>
                 </div>
             </div>
+            <button className='bg-primary px-8 py-2 rounded text-white col-span-12 mt-2 md:hidden'>
+                Savatga qo’shish
+            </button>
         </div>
     )
 }

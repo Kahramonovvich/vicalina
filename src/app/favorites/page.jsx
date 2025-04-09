@@ -28,7 +28,7 @@ export default function Favorites() {
     return (
         <div className="favorites">
             <div className="container">
-                <div className="top my-12 flex items-center gap-x-3">
+                <div className="top md:my-12 my-5 flex items-center gap-x-3">
                     <Link href={'/'}>
                         <HomeIcon />
                     </Link>

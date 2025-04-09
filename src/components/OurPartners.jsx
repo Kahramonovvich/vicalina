@@ -18,9 +18,9 @@ const partners = [
 
 export default function OurPartners() {
     return (
-        <div className="ourPartners mt-[45px]">
+        <div className="ourPartners md:mt-[45px] mt-8">
             <div className="container">
-                <h3 className="sectionTop mb-[45px]">
+                <h3 className="sectionTop md:mb-[45px] mb-8">
                     Bizning hamkorlarimiz
                 </h3>
                 <div
@@ -37,6 +37,15 @@ export default function OurPartners() {
                             disableOnInteraction: false
                         }}
                         allowTouchMove={false}
+                        breakpoints={{
+                            0: {
+                                slidesPerView: 2,
+                                spaceBetween: 50,
+                            },
+                            1280: {
+                                slidesPerView: 5,
+                            },
+                        }}
                         className="partners-carousel"
                     >
                         {partners.concat(partners).map((logo, index) => (
