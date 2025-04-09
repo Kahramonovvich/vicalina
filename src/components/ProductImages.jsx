@@ -7,16 +7,16 @@ export default function ProductImages({ product }) {
     const [activeIndex, setActiveIndex] = useState(0);
 
     return (
-        <div className="imgBox col-span-5 py-20 flex items-center justify-between">
-            <div className="left flex flex-col gap-y-3">
+        <div className="imgBox col-span-5 md:py-20 flex md:flex-row flex-col-reverse items-center justify-between mb-5 md:mb-0">
+            <div className="left flex flex-1 md:flex-auto w-full md:w-auto md:flex-col gap-x-2 gap-y-3 justify-between">
                 {product.images.map((img, index) => (
                     <div
                         key={index}
-                        className={`box w-20 h-[90px] rounded-sm flex items-center justify-center
+                        className={`box md:w-20 md:h-[90px] w-12 h-14 rounded-sm flex items-center justify-center
                             ${activeIndex == index ? 'border-primary border' : ''}`}
                     >
                         <div
-                            className="img w-[70px] h-20 relative cursor-pointer"
+                            className="img md:w-[70px] md:h-20 w-10 h-12 relative cursor-pointer"
                             onClick={() => setActiveIndex(index)}
                         >
                             <Image
@@ -29,7 +29,7 @@ export default function ProductImages({ product }) {
                 ))}
             </div>
             <div className="right">
-                <div className="img relative w-[400px] h-[400px]">
+                <div className="img relative md:w-[400px] w-60 md:h-[400px] h-60">
                     <Image
                         src={product.images[activeIndex]}
                         fill

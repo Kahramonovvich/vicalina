@@ -68,7 +68,7 @@ export default function ProductInfoComponents({ product }) {
                         </div>
                     )}
                     {activeComponent === 'Mijozlar fikri' && (
-                        <div className="box grid grid-cols-5 gap-x-10">
+                        <div className="box md:grid grid-cols-5 gap-x-10">
                             <div className="col-span-3">
                                 <div className="top mb-4">
                                     <h3 className="font-medium leading-normal text-2xl">
@@ -99,7 +99,7 @@ export default function ProductInfoComponents({ product }) {
                                     Ko’proq ko’rish
                                 </button>
                             </div>
-                            <div className="box col-span-2">
+                            <div className="box col-span-2 mt-5 md:mt-0">
                                 <div className="top mb-4">
                                     <h3 className="font-medium leading-normal text-2xl">
                                         Fikr qoldirish

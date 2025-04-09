@@ -51,7 +51,7 @@ export default async function ProductInfoPage({ params }) {
     return (
         <div className="productInfo">
             <div className="container">
-                <div className="top my-12 flex items-center gap-x-3">
+                <div className="top md:my-12 my-8 flex items-center gap-x-3">
                     <Link href={'/'}>
                         <HomeIcon />
                     </Link>
@@ -70,11 +70,11 @@ export default async function ProductInfoPage({ params }) {
                         {category?.replace(/-/gi, ' ').charAt(0).toLocaleUpperCase() + category.replace(/-/gi, ' ').slice(1)}
                     </Link>
                     <TopArrowICon />
-                    <p className='text-primary leading-normal'>
+                    <p className='text-primary leading-normal truncate'>
                         {name.charAt(0).toLocaleUpperCase() + name.slice(1)}
                     </p>
                 </div>
-                <div className="content grid grid-cols-11 gap-x-20">
+                <div className="content md:grid grid-cols-11 gap-x-20">
                     <ProductImages
                         product={product}
                     />
@@ -117,8 +117,8 @@ export default async function ProductInfoPage({ params }) {
                                 </div>
                             )}
                         </div>
-                        <div className="box mt-6 flex items-center justify-between">
-                            <div className="brand flex items-center">
+                        <div className="box mt-6 md:flex items-center justify-between">
+                            <div className="brand flex items-center mb-3 md:mb-0">
                                 <p className="text-sm leading-normal mr-2 text-[#1A1A1A]">Brend:</p>
                                 <div className="box w-14 h-14 border rounded flex items-center justify-center">
                                     <div className="img w-12 h-12 relative">

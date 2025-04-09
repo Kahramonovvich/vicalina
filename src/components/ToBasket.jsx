@@ -120,7 +120,8 @@ export default function ToBasket({ id, products }) {
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.2 }}
                         >
-                            Savatchaga qo'shildi
+                            <span className='md:block hidden'>Savatchaga qo'shildi</span>
+                            <span className='block md:hidden'>Qo'shildi</span>
                         </motion.span>
                     ) : (
                         <motion.span
@@ -130,7 +131,8 @@ export default function ToBasket({ id, products }) {
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.2 }}
                         >
-                            Savatchaga qo'shish
+                            <span className='md:block hidden'>Savatchaga qo'shish</span>
+                            <span className='block md:hidden'>Qo'shish</span>
                         </motion.span>
                     )}
                 </AnimatePresence>

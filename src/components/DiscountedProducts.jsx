@@ -8,8 +8,9 @@ import { formatCurrency } from '@/utils/utils';
 import Link from 'next/link';
 import LikeButtonComponent from './LikeButtonComponent';
 import RatingIcon from './RatingIcon';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
-const getDiscountedProducts = (products) => {
+const getDiscountedProducts = (products, isMobile) => {
     return [...products]
         .filter(product => product.discount && product.price && product.newPrice)
         .map(product => ({
@@ -18,12 +19,13 @@ const getDiscountedProducts = (products) => {
             discountPercent: ((product.price - product.newPrice) / product.price) * 100
         }))
         .sort((a, b) => b.discountPercent - a.discountPercent)
-        .slice(0, 5);
+        .slice(0, isMobile ? 6 : 5);
 };
 
 export default function DiscountedProducts({ products }) {
 
-    const discountedProducts = getDiscountedProducts(products);
+    const isMobile = useMediaQuery('(max-width: 768px)');
+    const discountedProducts = getDiscountedProducts(products, isMobile);
 
     return (
         <div className="discountedProducts bg-orange px-5 md:py-11 py-5 mt-8 md:mt-[45px]">
@@ -34,34 +36,34 @@ export default function DiscountedProducts({ products }) {
                             key={product.id}
                             product={product}
                             top={'grid grid-cols-11'}
-                            image={'w-[130px] h-[130px]'}
-                            title={'text-sm leading-[18px]'}
-                            priceText={'text-base leading-[18px]'}
+                            image={'md:w-[130px] w-[100px] md:h-[130px] h-[100px]'}
+                            title={'text-sm md:leading-[18px]'}
+                            priceText={'text-base md:leading-[18px]'}
                             info={'text-[10px] leading-none'}
                             stars={'!text-xs'}
                             like={{ w: '19', h: '17' }}
-                            btn={'text-xs leading-none px-3'}
+                            btn={'text-xs leading-none px-3 md:w-auto w-full py-2 mt-3 md:py-0 md:mt-0'}
                             pad={'px-3 py-2.5'}
-                            bottom={'p-4 justify-center col-span-6'}
+                            bottom={'md:p-4 p-2 justify-center col-span-6'}
                             t={'col-span-5'}
                         />
                     ))}
                 </div>
-                <div className="md:col-span-2 grid md:grid-cols-3 md:gap-y-0 gap-y-5 md:gap-x-5">
-                    {discountedProducts?.slice(2, 5).map((product) => (
+                <div className="md:col-span-2 grid grid-cols-2 gap-x-2 md:grid-cols-3 md:gap-y-0 gap-y-5 md:gap-x-5">
+                    {discountedProducts?.slice(2, isMobile ? 6 : 5).map((product) => (
                         <ProductCard
                             key={product.id}
                             product={product}
                             top={'flex flex-col'}
-                            image={'w-[170px] h-[170px]'}
-                            title={'leading-[23px]'}
-                            priceText={'text-lg leading-[23px]'}
-                            info={'text-xs leading-none'}
+                            image={'md:w-[170px] md:h-[170px] w-[100px] h-[100px] '}
+                            title={'md:leading-[23px] text-sm md:text-base'}
+                            priceText={'md:text-lg md:leading-[23px]'}
+                            info={'md:text-xs leading-none text-[10px]'}
                             stars={'!text-sm'}
-                            btn={'text-sm leading-none px-4'}
-                            oldPrc={'text-xs leading-[23px]'}
-                            pad={'p-3.5'}
-                            bottom={'p-5 pt-2.5 justify-between'}
+                            btn={'text-sm leading-none px-4 md:w-auto w-full py-2 mt-3 md:py-0 md:mt-0'}
+                            oldPrc={'text-xs md:leading-[23px]'}
+                            pad={'md:p-3.5 p-3'}
+                            bottom={'md:p-5 md:pt-2.5 p-3 pt-1 justify-between'}
                         />
                     ))}
                 </div>
@@ -133,9 +135,9 @@ function ProductCard({ product, top, image, title, priceText, info, stars, like,
                     href={product.slug}
                     className={`${title} text-[#222] hover:text-primary transition-all duration-200 ease-in-out`}
                 >
-                    {`${product.name}`}
+                    {`${product.name} ${product.shortDesc}`}
                 </Link>
-                <div className="flex flex-col gap-y-2.5">
+                <div className="flex flex-col md:gap-y-2.5">
                     <div className="ratingBox flex items-center gap-x-2.5">
                         <p className={`text-[#484848] ${title}`}>
                             {product.rating.rate}
@@ -145,7 +147,7 @@ function ProductCard({ product, top, image, title, priceText, info, stars, like,
                             className={`!text-orange ${stars}`}
                         />
                     </div>
-                    <div className="priceBox flex justify-between">
+                    <div className="priceBox md:flex justify-between">
                         <div className="textBox">
                             <p className={`font-bold text-[#48484899] relative inline-block ${info} ${oldPrc}
                                 after:absolute after:w-full after:h-px after:left-0 after:top-1/2 after:bg-[#48484899]`}

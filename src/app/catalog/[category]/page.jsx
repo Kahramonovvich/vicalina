@@ -195,7 +195,7 @@ export default async function Products({ params, searchParams }) {
                                 <div className="bottom flex-1 md:px-5 px-3 py-2.5 flex flex-col gap-y-1.5 justify-between">
                                     <Link
                                         href={product.slug}
-                                        className='text-[#222] leading-[23px] hover:text-primary transition-all duration-200 ease-in-out'
+                                        className='text-[#222] md:leading-[23px] text-sm md:text-base hover:text-primary transition-all duration-200 ease-in-out'
                                     >
                                         {`${product.name} - ${product.shortDesc}`}
                                     </Link>
@@ -210,7 +210,7 @@ export default async function Products({ params, searchParams }) {
                                             />
                                         </div>
                                         <div className="priceBox md:flex items-center justify-between">
-                                            <p className='font-bold text-lg leading-[23px] mb-3 md:mb-0'>
+                                            <p className='font-bold md:text-lg md:leading-[23px] mb-3 md:mb-0'>
                                                 {formatCurrency(product.discount ? product.newPrice : product.price)}
                                             </p>
                                             <AddToBasketButton

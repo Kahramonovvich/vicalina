@@ -30,7 +30,7 @@ export default function NewProducts({ products }) {
                         Ko’proq ko’rish
                     </Link>
                 </div>
-                <div className="grid md:grid-cols-4 gap-y-5 gap-x-14">
+                <div className="grid md:grid-cols-4 grid-cols-2 gap-y-5 md:gap-x-14 gap-x-2">
                     {newestProducts?.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}
@@ -76,7 +76,7 @@ function ProductCard({ product }) {
                 >
                     {product.images.map((img, index) => (
                         <SwiperSlide key={index}>
-                            <div className="imgBox relative w-[170px] h-[170px] mx-auto">
+                            <div className="imgBox relative md:w-[170px] md:h-[170px] w-[100px] h-[100px] mx-auto">
                                 <Image
                                     fill
                                     src={img}
@@ -96,12 +96,12 @@ function ProductCard({ product }) {
                     ))}
                 </div>
             </div>
-            <div className="bottom flex-1 p-5 pt-2.5 flex flex-col gap-y-1.5 justify-between">
+            <div className="bottom flex-1 md:p-5 md:pt-2.5 p-3 pt-1 flex flex-col gap-y-1.5 justify-between">
                 <Link
                     href={product.slug}
-                    className='text-[#222] leading-[23px] hover:text-primary transition-all duration-200 ease-in-out'
+                    className='text-[#222] md:leading-[23px] md:text-base text-sm hover:text-primary transition-all duration-200 ease-in-out'
                 >
-                    {`${product.name}`}
+                    {`${product.name} ${product.shortDesc}`}
                 </Link>
                 <div className="flex flex-col gap-y-3">
                     <div className="ratingBox flex items-center gap-x-2.5">
@@ -113,12 +113,12 @@ function ProductCard({ product }) {
                             className='!text-sm !text-orange'
                         />
                     </div>
-                    <div className="priceBox flex items-center justify-between">
-                        <p className='font-bold text-lg leading-[23px]'>
+                    <div className="priceBox md:flex items-center justify-between">
+                        <p className='font-bold md:text-lg md:leading-[23px] mb-3 md:mb-0'>
                             {formatCurrency(product.discount ? product.newPrice : product.price)}
                         </p>
                         <button
-                            className='bg-primary text-white font-semibold text-sm px-4 py-3 rounded-md leading-none'
+                            className='bg-primary text-white font-semibold text-sm px-4 py-3 rounded-md leading-none w-full md:w-auto'
                         >
                             Sotib olish
                         </button>
