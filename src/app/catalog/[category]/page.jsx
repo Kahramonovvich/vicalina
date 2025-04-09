@@ -156,7 +156,7 @@ export default async function Products({ params, searchParams }) {
                         />
                     </div>
                     <div
-                        className={`filteredProducts grid gap-x-10 md:gap-y-6 gap-y-4 md:grid-cols-3 md:col-span-3 col-span-4`}
+                        className={`filteredProducts grid md:gap-x-10 gap-x-2 md:gap-y-6 gap-y-4 grid-cols-2 md:grid-cols-3 md:col-span-3 col-span-4`}
                     >
                         {filteredProducts.map((product) => (
                             <div
@@ -164,7 +164,7 @@ export default async function Products({ params, searchParams }) {
                                 className="productBox flex flex-col overflow-hidden rounded-[14px] group hover:shadow-md
                                     transition-all duration-300 ease-in-out"
                             >
-                                <div className="top bg-[#F0F1F2] p-5 pb-[34px] rounded-b-[14px] group-hover:rounded-none
+                                <div className="top bg-[#F0F1F2] md:p-5 md:pb-[34px] p-3 pb-10 rounded-b-[14px] group-hover:rounded-none
                                         transition-all duration-300 ease-in-out"
                                 >
                                     <div className="flex items-center justify-between">
@@ -177,13 +177,13 @@ export default async function Products({ params, searchParams }) {
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center opacity-0
+                                        <div className="md:w-10 w-7 md:h-10 h-7 bg-white rounded-full flex items-center justify-center opacity-0
                                             group-hover:opacity-100 transition-all duration-300 ease-in-out"
                                         >
                                             <LikeButtonComponent id={product.id} />
                                         </div>
                                     </div>
-                                    <div className="imgBox relative w-[210px] h-[210px] mx-auto">
+                                    <div className="imgBox relative md:w-[210px] w-[110px] md:h-[210px] h-[110px] mx-auto">
                                         <Image
                                             fill
                                             src={product.images[0]}
@@ -192,7 +192,7 @@ export default async function Products({ params, searchParams }) {
                                         />
                                     </div>
                                 </div>
-                                <div className="bottom flex-1 px-5 py-2.5 flex flex-col gap-y-1.5 justify-between">
+                                <div className="bottom flex-1 md:px-5 px-3 py-2.5 flex flex-col gap-y-1.5 justify-between">
                                     <Link
                                         href={product.slug}
                                         className='text-[#222] leading-[23px] hover:text-primary transition-all duration-200 ease-in-out'
@@ -209,8 +209,8 @@ export default async function Products({ params, searchParams }) {
                                                 className='!text-sm !text-orange'
                                             />
                                         </div>
-                                        <div className="priceBox flex items-center justify-between">
-                                            <p className='font-bold text-lg leading-[23px]'>
+                                        <div className="priceBox md:flex items-center justify-between">
+                                            <p className='font-bold text-lg leading-[23px] mb-3 md:mb-0'>
                                                 {formatCurrency(product.discount ? product.newPrice : product.price)}
                                             </p>
                                             <AddToBasketButton

@@ -1,10 +1,16 @@
 'use client'
 import { motion } from 'framer-motion';
 import { useLikedProduct } from '@/hooks/useLikedProducts';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 export default function LikeButtonComponent({ id, params }) {
 
     const { isLiked, toggleLiked } = useLikedProduct(id);
+    const isMobile = useMediaQuery('(max-width: 768px)');
+    const size = {
+        w: isMobile ? 19 : 23,
+        h: isMobile ? 17 : 20
+    };
 
     return (
         <motion.button
@@ -14,8 +20,8 @@ export default function LikeButtonComponent({ id, params }) {
         >
             <motion.svg
                 key={isLiked ? 'filled' : 'outline'}
-                width={params?.w || 23}
-                height={params?.h || 20}
+                width={params?.w || size?.w}
+                height={params?.h || size?.h}
                 viewBox="0 0 23 20"
                 xmlns="http://www.w3.org/2000/svg"
                 initial={{ scale: 1.3, opacity: 0 }}

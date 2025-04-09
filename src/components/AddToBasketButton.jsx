@@ -94,7 +94,7 @@ export default function AddToBasketButton({ id, qty = 1, products }) {
                         initial={{ opacity: 0, scale: 0.7 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.7 }}
-                        className="flex items-center gap-2 border rounded-full p-1 h-10"
+                        className="flex items-center gap-2 border rounded-full p-1 h-10 w-full justify-between"
                     >
                         <button
                             onClick={handleRemove}
