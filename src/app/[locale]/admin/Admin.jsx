@@ -33,6 +33,9 @@ export default function Admin({ products, admins, languageId }) {
                         >
                             Buyurtmalar
                         </div>
+                        <button className='bg-primary text-white rounded-full px-5 py-2 w-max'>
+                            Chiqish
+                        </button>
                     </div>
                     <div className="col-span-9 border rounded-lg">
                         {activeComponent === 'Admin' && <AdminComponent admins={admins} />}

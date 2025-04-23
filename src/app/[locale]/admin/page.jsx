@@ -11,7 +11,16 @@ export default async function page() {
     const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {
         next: { tags: ['products'] }
     });
-    const products = await resProducts.json();
+
+    const text = await resProducts.text();
+    let products;
+
+    try {
+        products = JSON.parse(text);
+    } catch (e) {
+        console.error('Ошибка парсинга JSON:', text);
+        products = [];
+    }
 
     const resAdmin = await fetch(`${BASE_URL}/api/Admin/GetAll`, {
         next: { tags: ['admins'] }

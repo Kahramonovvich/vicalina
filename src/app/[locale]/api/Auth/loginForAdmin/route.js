@@ -1,10 +1,10 @@
 import { cookies } from 'next/headers';
-
 const BASE_URL = process.env.API_BASE_URL;
 
 export async function POST(req) {
     try {
         const body = await req.json();
+        console.log(body);
 
         const res = await fetch(`${BASE_URL}/api/Auth/loginForAdmin`, {
             method: 'POST',
@@ -15,10 +15,14 @@ export async function POST(req) {
         });
 
         const data = await res.json();
+        console.log('🚀 BACKEND DATA:', data);
 
-        const token = data.token;
+        const token = data?.token;
+        console.log('🔥 TOKEN:', token);
+
         if (!token) {
-            return new Response(JSON.stringify({ error: 'Invalid token' }), { status: 401 });
+            console.log('🚫 NO TOKEN, NOT SETTING COOKIE');
+            return new Response("Unauthorized", { status: 401 });
         }
 
         const cookieStore = await cookies();
@@ -29,7 +33,7 @@ export async function POST(req) {
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
             path: '/',
-            maxAge: 60 * 60 * 24,
+            maxAge: 60 * 60 * 2,
         });
 
         return Response.json({ success: true });

@@ -1,15 +1,17 @@
 'use client';
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsloading] = useState(false);
     const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsloading(true);
 
         const res = await fetch('/api/Auth/loginForAdmin', {
             method: 'POST',
@@ -21,10 +23,11 @@ export default function LoginPage() {
         });
 
         if (res.ok) {
-            router.push('/admin'); // редирект после логина
+            router.push('/admin');
+            setIsloading(false);
         } else {
             alert('Неверный логин или пароль');
-        }
+        };
     };
 
     return (
@@ -45,7 +48,11 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
             />
-            <button className='bg-black text-white p-2 rounded hover:opacity-80'>Войти</button>
+            <button
+                disabled={isLoading}
+                className='bg-black text-white p-2 rounded hover:opacity-80'>
+                {isLoading ? 'Kirilmoqda...' : 'Kirish'}
+            </button>
         </form>
     );
 };
