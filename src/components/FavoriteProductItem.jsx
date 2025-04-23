@@ -19,7 +19,7 @@ export default function FavoriteProductItem({ product, onRemove }) {
                 <div className="imgBox relative md:w-28 w-24 md:h-20 h-14">
                     <Image
                         fill
-                        src={product.images[0]}
+                        src={product.images[0].filePath}
                         alt={product.name}
                         style={{ objectFit: 'contain' }}
                     />

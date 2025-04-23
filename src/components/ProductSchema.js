@@ -11,14 +11,14 @@ export default function ProductSchema({ product }) {
         "sku": product.sku,
         "brand": {
             "@type": "Brand",
-            "name": product.brand || "Без бренда"
+            "name": "Vicalina"
         },
         "offers": {
             "@type": "Offer",
             "priceCurrency": "UZS",
             "price": productPrice,
             "availability": "https://schema.org/InStock",
-            "url": `https://example.com//catalog/${product.category.toLowerCase().replace(/\s+/g, '-')}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`
+            "url": `https://vicalinaofficial.uz/catalog/${product.category.toLowerCase().replace(/\s+/g, '-')}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`
 
         }
     }

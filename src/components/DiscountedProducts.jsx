@@ -9,6 +9,7 @@ import Link from 'next/link';
 import LikeButtonComponent from './LikeButtonComponent';
 import RatingIcon from './RatingIcon';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
+import OneOrderModal from './OneOrder';
 
 const getDiscountedProducts = (products, isMobile) => {
     return [...products]
@@ -74,6 +75,9 @@ export default function DiscountedProducts({ products }) {
 
 function ProductCard({ product, top, image, title, priceText, info, stars, like, btn, oldPrc, pad, bottom, t }) {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [open, setOpen] = useState(false);
+    const [activeId, setActiveId] = useState('');
+    const [activePrice, setActivePrice] = useState('');
 
     const handleSlideChange = (swiper) => {
         setActiveIndex(swiper.realIndex);
@@ -91,6 +95,12 @@ function ProductCard({ product, top, image, title, priceText, info, stars, like,
         <div
             className={`box rounded-xl overflow-hidden hover:shadow-md transition-all duration-200 ease-in-out ${top}`}
         >
+            <OneOrderModal
+                open={open}
+                onClose={() => setOpen(false)}
+                id={activeId}
+                price={activePrice}
+            />
             <div className={`top bg-[#F0F1F2] ${t}`}>
                 <div className={`flex items-center justify-between ${pad}`}>
                     <div className={`p-2 bg-orange rounded-md text-white font-semibold ${info}`}>
@@ -113,8 +123,8 @@ function ProductCard({ product, top, image, title, priceText, info, stars, like,
                             <div className={`imgBox relative ${image} mx-auto`}>
                                 <Image
                                     fill
-                                    src={img}
-                                    alt={`${product.name} - ${product.shortDesc}`}
+                                    src={img.filePath}
+                                    alt={`${product.name} - ${product.shortDescription}`}
                                     style={{ objectFit: 'contain' }}
                                 />
                             </div>
@@ -135,15 +145,15 @@ function ProductCard({ product, top, image, title, priceText, info, stars, like,
                     href={product.slug}
                     className={`${title} text-[#222] hover:text-primary transition-all duration-200 ease-in-out`}
                 >
-                    {`${product.name} ${product.shortDesc}`}
+                    {`${product.name} ${product.shortDescription}`}
                 </Link>
                 <div className="flex flex-col md:gap-y-2.5">
                     <div className="ratingBox flex items-center gap-x-2.5">
                         <p className={`text-[#484848] ${title}`}>
-                            {product.rating.rate}
+                            {product.rating}
                         </p>
                         <RatingIcon
-                            value={product.rating.rate}
+                            value={product.rating}
                             className={`!text-orange ${stars}`}
                         />
                     </div>
@@ -159,6 +169,11 @@ function ProductCard({ product, top, image, title, priceText, info, stars, like,
                             </p>
                         </div>
                         <button
+                            onClick={() => {
+                                setOpen(true);
+                                setActiveId(product.id);
+                                setActivePrice(product.discount ? product.newPrice : product.price);
+                            }}
                             className={`bg-primary text-white font-semibold rounded-md ${btn}`}
                         >
                             Sotib olish

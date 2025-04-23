@@ -8,6 +8,7 @@ import { formatCurrency } from '@/utils/utils';
 import Link from 'next/link';
 import LikeButtonComponent from './LikeButtonComponent';
 import RatingIcon from './RatingIcon';
+import OneOrderModal from './OneOrder';
 
 function getNewestProducts(products, count = 4) {
     return [...products].slice(-count).reverse();
@@ -42,6 +43,9 @@ export default function NewProducts({ products }) {
 
 function ProductCard({ product }) {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [open, setOpen] = useState(false);
+    const [activeId, setActiveId] = useState('');
+    const [activePrice, setActivePrice] = useState('');
 
     const handleSlideChange = (swiper) => {
         setActiveIndex(swiper.realIndex);
@@ -57,6 +61,12 @@ function ProductCard({ product }) {
 
     return (
         <div className="box flex flex-col rounded-xl overflow-hidden shadow-md transition-all duration-200 ease-in-out">
+            <OneOrderModal
+                open={open}
+                onClose={() => setOpen(false)}
+                id={activeId}
+                price={activePrice}
+            />
             <div className="top bg-[#F0F1F2]">
                 <div className="flex items-center justify-between p-3.5">
                     <div className="py-2 px-2.5 opacity-0 cursor-default bg-orange rounded-md text-white font-semibold text-xs leading-none">
@@ -79,8 +89,8 @@ function ProductCard({ product }) {
                             <div className="imgBox relative md:w-[170px] md:h-[170px] w-[100px] h-[100px] mx-auto">
                                 <Image
                                     fill
-                                    src={img}
-                                    alt={`${product.name} - ${product.shortDesc}`}
+                                    src={img.filePath}
+                                    alt={`${product.name} - ${product.shortDescription}`}
                                     style={{ objectFit: 'contain' }}
                                 />
                             </div>
@@ -101,15 +111,15 @@ function ProductCard({ product }) {
                     href={product.slug}
                     className='text-[#222] md:leading-[23px] md:text-base text-sm hover:text-primary transition-all duration-200 ease-in-out'
                 >
-                    {`${product.name} ${product.shortDesc}`}
+                    {`${product.name} ${product.shortDescription}`}
                 </Link>
                 <div className="flex flex-col gap-y-3">
                     <div className="ratingBox flex items-center gap-x-2.5">
                         <p className='text-[#484848] leading-[23px]'>
-                            {product.rating.rate}
+                            {product.rating}
                         </p>
                         <RatingIcon
-                            value={product.rating.rate}
+                            value={product.rating}
                             className='!text-sm !text-orange'
                         />
                     </div>
@@ -118,6 +128,11 @@ function ProductCard({ product }) {
                             {formatCurrency(product.discount ? product.newPrice : product.price)}
                         </p>
                         <button
+                            onClick={() => {
+                                setOpen(true);
+                                setActiveId(product.id);
+                                setActivePrice(product.discount ? product.newPrice : product.price);
+                            }}
                             className='bg-primary text-white font-semibold text-sm px-4 py-3 rounded-md leading-none w-full md:w-auto'
                         >
                             Sotib olish

@@ -20,7 +20,7 @@ export default function ProductImages({ product }) {
                             onClick={() => setActiveIndex(index)}
                         >
                             <Image
-                                src={img}
+                                src={img.filePath}
                                 fill style={{ objectFit: 'contain' }}
                                 alt={product.name}
                             />
@@ -31,7 +31,7 @@ export default function ProductImages({ product }) {
             <div className="right">
                 <div className="img relative md:w-[400px] w-60 md:h-[400px] h-60">
                     <Image
-                        src={product.images[activeIndex]}
+                        src={product.images[activeIndex].filePath}
                         fill
                         alt={product.name}
                         style={{ objectFit: 'contain' }}

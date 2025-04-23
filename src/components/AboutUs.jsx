@@ -23,12 +23,12 @@ const checkInfo = [
 const adBox = [
     {
         icon: <CarIocn />,
-        title: 'Bepul yetkazib berish',
-        subTitile: "Barcha buyurtmalaringiz uchun bepul yetkazib berish"
+        title: 'Uzum yoki Wildberries',
+        subTitile: "Uzum yoki Wildberries orqali buyurma berishingiz mumkin"
     },
     {
         icon: <HeadPhonesIcon />,
-        title: 'Aloqa yordam 24/7',
+        title: 'Aloqa yordam',
         subTitile: "Qo'llab-quvvatlash xizmatiga tezkor kirish"
     },
     {

@@ -1,0 +1,26 @@
+import { revalidateTag } from 'next/cache';
+const BASE_URL = process.env.API_BASE_URL;
+
+export async function POST(req) {
+    try {
+        const formData = await req.formData();
+
+        const res = await fetch(`${BASE_URL}/api/Admin/CreateAdmin`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+            revalidateTag('admins');
+        }
+
+        return Response.json(result);
+    } catch (error) {
+        console.error('Ошибка при создании админа:', error);
+        return new Response(JSON.stringify({ error: 'Ошибка сервера' }), {
+            status: 500,
+        });
+    };
+};

@@ -5,8 +5,8 @@ export const formatCurrency = (value) => {
     return `${formatted} so’m`;
 };
 
-export const productsSlug = (product) => {
-    const productsSlug = product?.map(item => ({
+export const productsSlug = async (product) => {
+    const productsSlug = await product?.map(item => ({
         ...item,
         slug: `/catalog/${item.category.toLowerCase().replace(/\s+/g, '-')}/${item.name.toLowerCase().replace(/\s+/g, '-')}-id~${item.id}`
     }));

@@ -2,61 +2,73 @@ export const navMenu = [
     {
         id: 1,
         name: 'QOZONLAR',
-        img: '/images/6a751b6c-5fdf-49ff-a579-569f09927146_removalai_preview 1.png'
+        img: '/images/6a751b6c-5fdf-49ff-a579-569f09927146_removalai_preview 1.png',
+        nameRu: 'КАЗАНЫ'
     },
     {
         id: 2,
         name: 'SKAVAROTKALAR',
-        img: '/images/image.png'
+        img: '/images/image.png',
+        nameRu: 'СКОВОРОДЫ'
     },
     {
         id: 3,
         name: 'PICHOQLAR',
-        img: '/images/0b1d2b30-53ce-427e-8ba8-f8aa0c07d604_removalai_preview.png'
+        img: '/images/0b1d2b30-53ce-427e-8ba8-f8aa0c07d604_removalai_preview.png',
+        nameRu: 'НОЖИ'
     },
     {
         id: 4,
         name: 'OSHXONA NABORLAR',
-        img: '/images/bf28ba1f-8a63-40a4-b13e-a8a7043563a6_removalai_preview.png'
+        img: '/images/bf28ba1f-8a63-40a4-b13e-a8a7043563a6_removalai_preview.png',
+        nameRu: 'КУХОННЫЕ НАБОРЫ'
     },
     {
         id: 5,
         name: 'QOSHIQLAR',
-        img: '/images/Removal-173.png'
+        img: '/images/Removal-173.png',
+        nameRu: 'ЛОЖКИ'
     },
     {
         id: 6,
         name: 'QOZON NABORLAR',
-        img: '/images/3e7bd21f-49f7-4a75-8991-52fbce1c82d8_removalai_preview.png'
+        img: '/images/3e7bd21f-49f7-4a75-8991-52fbce1c82d8_removalai_preview.png',
+        nameRu: 'НАБОРЫ КАЗАНОВ'
     },
     {
         id: 7,
         name: 'KASTRULKALAR',
-        img: '/images/77f0b30b-c80c-47d8-85af-5cad6c6fb1ce_removalai_preview.png'
+        img: '/images/77f0b30b-c80c-47d8-85af-5cad6c6fb1ce_removalai_preview.png',
+        nameRu: 'КАСТРЮЛИ'
     },
     {
         id: 8,
         name: 'KASTRULKA NABORLAR',
-        img: '/images/d0e72209-a575-4e6b-b491-205c49bbad48_removalai_preview.png'
+        img: '/images/d0e72209-a575-4e6b-b491-205c49bbad48_removalai_preview.png',
+        nameRu: 'НАБОРЫ КАСТРЮЛЬ'
     },
     {
         id: 9,
         name: 'KICHIK TURDAGI MAISHIY TEXNIKALAR',
-        img: '/images/b4d960c6-7a30-4f52-867a-e05c9af37129_removalai_preview.png'
+        img: '/images/b4d960c6-7a30-4f52-867a-e05c9af37129_removalai_preview.png',
+        nameRu: 'МЕЛКАЯ БЫТОВАЯ ТЕХНИКА'
     },
     {
         id: 10,
         name: 'MANTIQASQONLAR',
-        img: '/images/cb6c3fc9-7b39-4253-8580-4af06b3f6b50_removalai_preview.png'
+        img: '/images/cb6c3fc9-7b39-4253-8580-4af06b3f6b50_removalai_preview.png',
+        nameRu: 'МАНТОВАРКИ'
     },
     {
         id: 11,
         name: 'BLINITSALAR',
-        img: '/images/dfe31243-dc52-43c7-b65c-68f51569c285_removalai_preview.png'
-    },
+        img: '/images/dfe31243-dc52-43c7-b65c-68f51569c285_removalai_preview.png',
+        nameRu: 'БЛИННИЦЫ'
+    }
 ].map(item => ({
     ...item,
-    slug: `/catalog/${item.name.toLowerCase().replace(/\s+/g, '-')}`
+    slug: `/catalog/${item.name.toLowerCase().replace(/\s+/g, '-')}`,
+    slugRu: `/catalog/${item.nameRu.toLowerCase().replace(/\s+/g, '-')}`
 }));
 
 export const carousel = [
@@ -69,8 +81,8 @@ export const carousel = [
     },
     {
         id: 2,
-        title: 'Siz izlagan oshxona jihozlari shu yerda!',
-        subTitle: 'Bizning yuqori sifatli oshxona anjomlari bilan pishirish yanada oson va qulay bo‘ladi.',
+        title: 'Vicalina siz va oilangiz uchun!',
+        subTitle: 'Yuqori sifatli granit qozonlar, kastrulkalar va kichik maishiy texnikalar.',
         img: '/images/header-2.png',
         slug: '/catalog/qozonlar'
     },
@@ -90,7 +102,7 @@ export const products = [
         price: 350000,//
         newPrice: 299000,
         discount: true,
-        category: 'QOZONLAR',
+        category: 'QOZONLAR', //
         rating: {
             rate: 4.5, count: 120,
         },
@@ -99,14 +111,14 @@ export const products = [
         fullDesc: '10 litrli qozon tez qiziydi, issiqlikni yaxshi saqlaydi va chidamli.', //
         weight: '3kg',//
         color: 'kumush',//
-        type: 'alyuminiy',
-        qty: 50,
+        type: 'alyuminiy', //
+        qty: 50, //
         tages: 'qozon, oshxona, katta',//
         brandImg: '/images/logo.png',
         comments: [
             { clientName: 'Ali', clientComment: 'Zo‘r qozon, palov ajoyib chiqdi!', clientRate: 5 },
         ],
-        sku: 'QZN-001',
+        sku: 'QZN-001', //
     },
     {
         id: 2,

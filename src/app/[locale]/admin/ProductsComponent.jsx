@@ -1,0 +1,136 @@
+'use client'
+import { formatCurrency } from "@/utils/utils"
+import { Pagination } from "@mui/material"
+import Image from "next/image"
+import Link from "next/link"
+import { useState, useMemo } from "react"
+import CreateProductModal from "./CreateProductModal"
+import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import { useRouter } from "next/navigation"
+
+export default function ProductsComponent({ products, languageId }) {
+    const itemsPerPage = 10;
+    const [page, setPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [openModal, setOpenModal] = useState(false);
+
+    const router = useRouter();
+
+    const handlePageChange = (event, value) => {
+        setPage(value);
+    };
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+        setPage(1);
+    };
+
+    const handleOpen = () => setOpenModal(true);
+
+    const deleteProduct = async (productId) => {
+        if (!window.confirm("Rostdan ham o‘chirmoqchimisiz?")) return;
+
+        const res = await fetch(`/api/Products/DeleteProduct?productId=${productId}&languageId=${languageId}`, {
+            method: 'DELETE',
+        });
+
+        if (res.ok) {
+            router.refresh(); // 💥 обновит current route и refetch server components
+        } else {
+            alert("O‘chirishda xatolik yuz berdi");
+            router.refresh(); // 💥 обновит current route и refetch server components
+        }
+    };
+
+    const filteredProducts = useMemo(() => {
+        if (!searchTerm) return products;
+        return products?.filter(product =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            product.sku.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [products, searchTerm]);
+
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentProducts = filteredProducts?.slice(startIndex, endIndex);
+
+    return (
+        <div className="productsComponent p-3">
+            <div className="filterBox mb-5 flex items-center justify-between">
+                <h3 className="text-xl font-semibold">Mahsulotlar</h3>
+                <div className="left flex gap-x-3">
+                    <input
+                        type="search"
+                        name="search"
+                        id="search"
+                        className="p-3 border outline-none w-80 rounded-lg"
+                        placeholder="Mahsulot nomini kiriting"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                    />
+                    <button
+                        onClick={handleOpen}
+                        className="text-lg bg-primary p-3 text-white rounded-lg"
+                    >
+                        Mahsulot yaratish
+                    </button>
+                </div>
+            </div>
+            <div className="products flex flex-col gap-y-2 mb-5">
+                {currentProducts.length > 0 ? (
+                    currentProducts.map((product) => (
+                        <div
+                            key={product.id}
+                            className="box border rounded-lg p-3 grid grid-cols-12 items-center gap-x-5 hover:bg-slate-100 transition-all duration-300 ease-in-out"
+                        >
+                            <div className="img col-span-2 relative w-full h-20">
+                                <Image
+                                    fill
+                                    src={product.images[0].filePath}
+                                    alt={product.name}
+                                    style={{ objectFit: 'contain' }}
+                                />
+                            </div>
+                            <Link
+                                href={product.slug}
+                                className="name col-span-5 text-lg font-semibold truncate"
+                            >
+                                {product.name}
+                            </Link>
+                            <div className="price col-span-2 text-lg font-semibold">
+                                {formatCurrency(product.discount ? product.newPrice : product.price)}
+                            </div>
+                            <div className="btnBox col-span-3 flex items-center justify-end gap-x-5">
+                                <button
+                                    className="bg-primary p-2 text-white rounded-full"
+                                    onClick={() => deleteProduct(product.id)}
+                                >
+                                    <DeleteOutlineRoundedIcon />
+                                </button>
+                                <button className="bg-primary p-2 text-white rounded-full">
+                                    <EditRoundedIcon />
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="text-center text-gray-500">Mahsulot topilmadi</div>
+                )}
+            </div>
+            {filteredProducts.length > itemsPerPage && (
+                <Pagination
+                    variant="outlined"
+                    shape="rounded"
+                    count={Math.ceil(filteredProducts.length / itemsPerPage)}
+                    page={page}
+                    onChange={handlePageChange}
+                />
+            )}
+            <CreateProductModal
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+            />
+        </div>
+    )
+};

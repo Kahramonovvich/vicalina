@@ -28,6 +28,25 @@ const nextConfig = {
 
         return config
     },
+    async rewrites() {
+        return [
+            {
+                source: '/api/:path*',
+                destination: `${process.env.API_BASE_URL}/api/:path*`,
+            },
+        ];
+    },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'http',
+                hostname: '45.138.158.239',
+                port: '5726',
+                pathname: '/upload/**',
+            },
+        ],
+    },
+    output: 'standalone',
 };
 
 export default nextConfig;

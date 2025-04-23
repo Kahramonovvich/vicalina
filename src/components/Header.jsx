@@ -26,12 +26,12 @@ const montserrat = Montserrat({
     display: "swap",
 });
 
-export default function Header({ products }) {
+export default function Header() {
 
     const pathName = usePathname();
-    const isHomePage = pathName === '/';
-    const { basket, totalPrice } = useBasket();
+    const isHomePage = pathName === '/uz' || pathName === '/ru';
 
+    const { basket, totalPrice } = useBasket();
     const [isOpenMenu, setIsOpenMenu] = useState(false);
 
     const handleSearch = (e) => {
@@ -45,8 +45,6 @@ export default function Header({ products }) {
     useEffect(() => {
         setIsOpenMenu(false);
     }, [pathName]);
-
-    console.log(totalPrice);
 
     return (
         <header>

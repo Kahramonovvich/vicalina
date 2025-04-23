@@ -44,7 +44,7 @@ export default function ProductInfoComponents({ product }) {
                 <div className="bottom">
                     {activeComponent === 'Tavsif' && (
                         <div className="box leading-normal text-sm text-[#808080]">
-                            {product.fullDesc}
+                            {product.description}
                         </div>
                     )}
                     {activeComponent === 'Mahsulot haqida' && (
@@ -63,7 +63,7 @@ export default function ProductInfoComponents({ product }) {
                                 <p className="text-sm leading-normal text-[#666666]">{product.type}</p>
                                 <p className="text-sm leading-normal text-[#666666]">{product.category?.charAt(0).toLocaleUpperCase() + product.category.toLocaleLowerCase().slice(1)}</p>
                                 <p className="text-sm leading-normal text-[#666666]">{product.qty > 0 ? `Mavjud (${product.qty})` : 'Tez orada'}</p>
-                                <p className="text-sm leading-normal text-[#666666]">{product.tages}</p>
+                                <p className="text-sm leading-normal text-[#666666]">{product.tags}</p>
                             </div>
                         </div>
                     )}
@@ -105,7 +105,6 @@ export default function ProductInfoComponents({ product }) {
                                         Fikr qoldirish
                                     </h3>
                                 </div>
-
                                 <form className="space-y-4">
                                     <div>
                                         <label className="block text-sm mb-1">Ism Familiya</label>
@@ -137,7 +136,6 @@ export default function ProductInfoComponents({ product }) {
                                             emptyIcon={<StarBorderRoundedIcon className='!text-xl !text-orange' />}
                                         />
                                     </div>
-
                                     <div>
                                         <label className="block text-sm mb-1">Fikr yozish</label>
                                         <textarea
@@ -146,7 +144,6 @@ export default function ProductInfoComponents({ product }) {
                                             rows="4"
                                         />
                                     </div>
-
                                     <button
                                         type="submit"
                                         className="bg-indigo-900 text-white px-6 py-2 rounded hover:bg-indigo-800 transition"
