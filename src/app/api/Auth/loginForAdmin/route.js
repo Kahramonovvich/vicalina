@@ -5,7 +5,6 @@ export async function POST(req) {
     try {
         const body = await req.json();
         console.log(body);
-
         const res = await fetch(`${BASE_URL}/api/Auth/loginForAdmin`, {
             method: 'POST',
             headers: {
@@ -25,7 +24,7 @@ export async function POST(req) {
             return new Response("Unauthorized", { status: 401 });
         }
 
-        const cookieStore = await cookies();
+        const cookieStore = cookies();
         cookieStore?.set({
             name: 'admin_token',
             value: token,

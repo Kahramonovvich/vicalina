@@ -3,9 +3,9 @@ import Admin from "./Admin";
 import { headers } from "next/headers";
 const BASE_URL = process.env.API_BASE_URL;
 
-export default async function page() {
+export default async function page({ params }) {
 
-    const locale = headers()?.get('x-nextjs-locale');
+    const locale = await params?.locale;
     const langMap = { uz: 1, ru: 2 };
     const languageId = langMap[locale] || 1;
     const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {

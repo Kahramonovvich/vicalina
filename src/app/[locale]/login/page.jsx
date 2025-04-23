@@ -27,6 +27,7 @@ export default function LoginPage() {
             setIsloading(false);
         } else {
             alert('Неверный логин или пароль');
+            setIsloading(false);
         };
     };
 
