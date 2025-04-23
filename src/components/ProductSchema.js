@@ -22,8 +22,8 @@ export default function ProductSchema({ product }) {
         },
         "aggregateRating": {
             "@type": "AggregateRating",
-            "ratingValue": product.rating || "5", // можно сделать дефолт, если нет данных
-            "reviewCount": product.reviewCount || "1"
+            "ratingValue": product.rating || "5",
+            "reviewCount": product.ratingCount || "1"
         },
         "review": [
             {

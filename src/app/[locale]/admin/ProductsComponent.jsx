@@ -10,7 +10,10 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { useRouter } from "next/navigation"
 
 export default function ProductsComponent({ products, languageId }) {
+
     const itemsPerPage = 10;
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
     const [page, setPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
     const [openModal, setOpenModal] = useState(false);
@@ -31,15 +34,22 @@ export default function ProductsComponent({ products, languageId }) {
     const deleteProduct = async (productId) => {
         if (!window.confirm("Rostdan ham o‘chirmoqchimisiz?")) return;
 
-        const res = await fetch(`/api/Products/DeleteProduct?productId=${productId}&languageId=${languageId}`, {
+        const res1 = await fetch(`/api/Products/DeleteProduct?productId=${productId}&languageId=${1}`, {
             method: 'DELETE',
         });
 
-        if (res.ok) {
-            router.refresh(); // 💥 обновит current route и refetch server components
+        await delay(3000);
+
+        const res2 = await fetch(`/api/Products/DeleteProduct?productId=${productId}&languageId=${2}`, {
+            method: 'DELETE',
+        });
+
+        if (res1.ok && res2.ok) {
+            alert('O`chirildi!');
+            router.refresh();
         } else {
             alert("O‘chirishda xatolik yuz berdi");
-            router.refresh(); // 💥 обновит current route и refetch server components
+            router.refresh();
         }
     };
 

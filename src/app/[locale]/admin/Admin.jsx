@@ -2,11 +2,23 @@
 import { useState } from 'react';
 import ProductsComponent from './ProductsComponent';
 import AdminComponent from './AdminComponent';
+import { useRouter } from 'next/navigation';
 
 export default function Admin({ products, admins, languageId }) {
 
     const [activeComponent, setActiveComponent] = useState('Admin');
 
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        const res = await fetch('/api/Auth/logout', {
+            method: 'POST',
+        });
+
+        if (res.ok) {
+            router.push('/login');
+        }
+    };
     return (
         <div className="admin mt-10">
             <div className="container">
@@ -33,7 +45,9 @@ export default function Admin({ products, admins, languageId }) {
                         >
                             Buyurtmalar
                         </div>
-                        <button className='bg-primary text-white rounded-full px-5 py-2 w-max'>
+                        <button
+                            onClick={handleLogout}
+                            className='bg-primary text-white rounded-full px-5 py-2 w-max'>
                             Chiqish
                         </button>
                     </div>

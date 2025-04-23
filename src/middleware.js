@@ -16,7 +16,7 @@ export function middleware(req) {
     if (path.startsWith("/api")) {
         if (rateLimit.has(ip)) {
             const lastRequestTime = rateLimit.get(ip);
-            if (now - lastRequestTime < 5000) {
+            if (now - lastRequestTime < 3000) {
                 return new Response("Too Many Requests", { status: 429 });
             }
         }

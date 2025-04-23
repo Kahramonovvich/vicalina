@@ -24,6 +24,10 @@ export default function TopProducts({ products }) {
 
     const topProducts = getTopProducts(products);
 
+    const [open, setOpen] = useState(false);
+    const [activeId, setActiveId] = useState('');
+    const [activePrice, setActivePrice] = useState('');
+
     return (
         <div className="topProducts md:mt-[45px] mt-8">
             <div className="container">
@@ -32,20 +36,29 @@ export default function TopProducts({ products }) {
                 </h3>
                 <div className="grid md:grid-cols-4 grid-cols-2 gap-y-5 gap-x-2 md:gap-x-14">
                     {topProducts?.map((product) => (
-                        <ProductCard key={product.id} product={product} />
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                            setActiveId={setActiveId}
+                            setActivePrice={setActivePrice}
+                            setOpen={setOpen}
+                        />
                     ))}
                 </div>
             </div>
+            <OneOrderModal
+                open={open}
+                onClose={() => setOpen(false)}
+                id={activeId}
+                price={activePrice}
+            />
         </div>
     )
 };
 
-function ProductCard({ product }) {
+function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
 
     const [activeIndex, setActiveIndex] = useState(0);
-    const [open, setOpen] = useState(false);
-    const [activeId, setActiveId] = useState('');
-    const [activePrice, setActivePrice] = useState('');
 
     const handleSlideChange = (swiper) => {
         setActiveIndex(swiper.realIndex);
@@ -129,12 +142,6 @@ function ProductCard({ product }) {
                             }}
                             className='bg-primary text-white font-semibold text-sm px-4 py-3 rounded-md leading-none w-full md:w-auto'
                         >
-                            <OneOrderModal
-                                open={open}
-                                onClose={() => setOpen(false)}
-                                id={activeId}
-                                price={activePrice}
-                            />
                             Sotib olish
                         </button>
                     </div>

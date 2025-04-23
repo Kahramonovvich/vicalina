@@ -31,7 +31,7 @@ export default async function Products({ params, searchParams }) {
 
     if (category !== 'barcha mahsulotlar') {
         const resCategory = await fetch(
-            `${BASE_URL}/api/Products/GetAllProductByCategory/${category}?languageId=${languageId}`,
+            `${BASE_URL}/api/Products/GetAllProductByCategory/${category.toLocaleUpperCase()}?languageId=${languageId}`,
             {
                 next: { tags: ['products'] }
             }
