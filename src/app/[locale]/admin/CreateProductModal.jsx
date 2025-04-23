@@ -101,7 +101,6 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                     Description: '',
                     ShortDescription: '',
                     Type: '',
-                    Sku: '',
                     Color: [],
                     AvailabilityCount: 0,
                     Tags: [],
@@ -121,8 +120,6 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
             setIsLoading(false);
         }
     };
-
-    console.log(languageId);
 
     return (
         <div className="createProduct">
@@ -210,6 +207,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                             onChange={handleChange}
                             fullWidth
                             required
+                            disabled={languageId === 2}
                         />
                         <TextField
                             label="Og'irligi"
