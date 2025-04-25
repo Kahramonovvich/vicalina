@@ -9,7 +9,7 @@ import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { useRouter } from "next/navigation"
 
-export default function ProductsComponent({ products, languageId }) {
+export default function ProductsComponent({ products, languageId, token }) {
 
     const itemsPerPage = 10;
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -36,12 +36,18 @@ export default function ProductsComponent({ products, languageId }) {
 
         const res1 = await fetch(`/api/Products/DeleteProduct?productId=${productId}&languageId=${1}`, {
             method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         await delay(3000);
 
         const res2 = await fetch(`/api/Products/DeleteProduct?productId=${productId}&languageId=${2}`, {
             method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         if (res1.ok && res2.ok) {

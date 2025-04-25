@@ -28,8 +28,18 @@ export default function DiscountedProducts({ products }) {
     const isMobile = useMediaQuery('(max-width: 768px)');
     const discountedProducts = getDiscountedProducts(products, isMobile);
 
+    const [open, setOpen] = useState(false);
+    const [activeId, setActiveId] = useState('');
+    const [activePrice, setActivePrice] = useState('');
+
     return (
         <div className="discountedProducts bg-orange px-5 md:py-11 py-5 mt-8 md:mt-[45px]">
+            <OneOrderModal
+                open={open}
+                onClose={() => setOpen(false)}
+                id={activeId}
+                price={activePrice}
+            />
             <div className="grid grid-cols-1 md:grid-cols-3 md:gap-x-5 gap-y-5 md:gap-y-0">
                 <div className="grid grid-rows-2 gap-y-5">
                     {discountedProducts?.slice(0, 2).map((product) => (
@@ -47,6 +57,9 @@ export default function DiscountedProducts({ products }) {
                             pad={'px-3 py-2.5'}
                             bottom={'md:p-4 p-2 justify-center col-span-6'}
                             t={'col-span-5'}
+                            setActiveId={setActiveId}
+                            setActivePrice={setActivePrice}
+                            setOpen={setOpen}
                         />
                     ))}
                 </div>
@@ -65,6 +78,9 @@ export default function DiscountedProducts({ products }) {
                             oldPrc={'text-xs md:leading-[23px]'}
                             pad={'md:p-3.5 p-3'}
                             bottom={'md:p-5 md:pt-2.5 p-3 pt-1 justify-between'}
+                            setActiveId={setActiveId}
+                            setActivePrice={setActivePrice}
+                            setOpen={setOpen}
                         />
                     ))}
                 </div>
@@ -73,11 +89,25 @@ export default function DiscountedProducts({ products }) {
     )
 };
 
-function ProductCard({ product, top, image, title, priceText, info, stars, like, btn, oldPrc, pad, bottom, t }) {
+function ProductCard({
+    product,
+    top,
+    image,
+    title,
+    priceText,
+    info,
+    stars,
+    like,
+    btn,
+    oldPrc,
+    pad,
+    bottom,
+    t,
+    setActiveId,
+    setActivePrice,
+    setOpen,
+}) {
     const [activeIndex, setActiveIndex] = useState(0);
-    const [open, setOpen] = useState(false);
-    const [activeId, setActiveId] = useState('');
-    const [activePrice, setActivePrice] = useState('');
 
     const handleSlideChange = (swiper) => {
         setActiveIndex(swiper.realIndex);
@@ -95,12 +125,6 @@ function ProductCard({ product, top, image, title, priceText, info, stars, like,
         <div
             className={`box rounded-xl overflow-hidden hover:shadow-md transition-all duration-200 ease-in-out ${top}`}
         >
-            <OneOrderModal
-                open={open}
-                onClose={() => setOpen(false)}
-                id={activeId}
-                price={activePrice}
-            />
             <div className={`top bg-[#F0F1F2] ${t}`}>
                 <div className={`flex items-center justify-between ${pad}`}>
                     <div className={`p-2 bg-orange rounded-md text-white font-semibold ${info}`}>

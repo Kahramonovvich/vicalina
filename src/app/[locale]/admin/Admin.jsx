@@ -4,7 +4,7 @@ import ProductsComponent from './ProductsComponent';
 import AdminComponent from './AdminComponent';
 import { useRouter } from 'next/navigation';
 
-export default function Admin({ products, admins, languageId }) {
+export default function Admin({ products, admins, languageId, token }) {
 
     const [activeComponent, setActiveComponent] = useState('Admin');
 
@@ -52,8 +52,14 @@ export default function Admin({ products, admins, languageId }) {
                         </button>
                     </div>
                     <div className="col-span-9 border rounded-lg">
-                        {activeComponent === 'Admin' && <AdminComponent admins={admins} />}
-                        {activeComponent === 'Mahsulotlar' && <ProductsComponent products={products} languageId={languageId} />}
+                        {activeComponent === 'Admin' && <AdminComponent admins={admins} token={token} />}
+                        {activeComponent === 'Mahsulotlar' &&
+                            <ProductsComponent
+                                products={products}
+                                languageId={languageId}
+                                token={token}
+                            />
+                        }
                         {activeComponent === 'Buyurtmalar' && ''}
                     </div>
                 </div>

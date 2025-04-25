@@ -10,7 +10,7 @@ import {
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function UpdateAdminModal({ open, onClose, login }) {
+export default function UpdateAdminModal({ open, onClose, login, token }) {
     const router = useRouter();
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -25,6 +25,9 @@ export default function UpdateAdminModal({ open, onClose, login }) {
         const res = await fetch('/api/Admin/UpdateAdmin', {
             method: 'PUT',
             body: formData,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         const result = await res.json();

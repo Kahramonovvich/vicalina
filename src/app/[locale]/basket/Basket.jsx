@@ -9,12 +9,14 @@ import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import CloseIcon from '@/icons/Close.svg'
 import { useBasket } from "@/context/basket-context"
+import MultiOrderModal from "@/components/MultiOrderModal"
 
 export default function BasketClient({ products }) {
 
     const { setBasket } = useBasket();
 
-    const [items, setItems] = useState([])
+    const [items, setItems] = useState([]);
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         loadBasket();
@@ -57,11 +59,17 @@ export default function BasketClient({ products }) {
     };
 
     const totalPrice = items.reduce((sum, item) => sum + item.total, 0);
-    const deliveryFee = totalPrice >= 500000 ? 0 : 20000;
+    const deliveryFee = totalPrice >= 1500000 ? 0 : 20000;
     const finalPrice = totalPrice + deliveryFee;
 
     return (
         <div className="basket">
+            <MultiOrderModal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                products={items?.map(p => ({ productId: p.id, count: p.qty }))}
+                totalAmount={totalPrice}
+            />
             <div className="container">
                 <div className="top md:my-12 my-5 flex items-center gap-x-3">
                     <Link href={'/'}>
@@ -155,20 +163,24 @@ export default function BasketClient({ products }) {
                                 {formatCurrency(totalPrice)}
                             </p>
                         </div>
-
                         <div className="box flex items-center justify-between h-12 border-y">
                             <p className="leading-normal text-[#4D4D4D]">Yetkazib berish:</p>
                             <p className="text-sm font-medium leading-normal">
                                 {deliveryFee === 0 ? 'Tekin' : formatCurrency(deliveryFee)}
                             </p>
                         </div>
-
                         <div className="box flex items-center justify-between h-12">
                             <p className="font-bold leading-normal text-[#4D4D4D]">Umumiy narx:</p>
                             <p className="font-bold text-sm leading-normal">
                                 {formatCurrency(finalPrice)}
                             </p>
                         </div>
+                        <button
+                            onClick={() => setModalOpen(true)}
+                            className="bg-primary text-white rounded-full py-2 px-5 mt-3"
+                        >
+                            Buyurtma qilish
+                        </button>
                     </div>
                 </div>
             </div>

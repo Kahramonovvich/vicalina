@@ -53,8 +53,9 @@ export default function Header() {
                 <div className="container">
                     <div className="flex items-center justify-between gap-x-12">
                         <div className="logo flex">
-                            <Link href={'/'}>
+                            <Link href={'/'} className="flex flex-col items-center">
                                 <Image src={'/images/logo.png'} alt="Logo" width={182} height={40} className="h-auto" />
+                                <p className="font-semibold text-[12px]">Siz va oilangiz ochun!</p>
                             </Link>
                         </div>
                         <button

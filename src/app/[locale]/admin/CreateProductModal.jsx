@@ -24,7 +24,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
         discount: false,
         Weight: '',
         Color: [],
-        AvailabilityCount: 0,
+        AvailabilityCount: '',
         Tags: [],
         Images: [],
     });
@@ -45,7 +45,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
             discount: false,
             Weight: '',
             Color: [],
-            AvailabilityCount: 0,
+            AvailabilityCount: '',
             Tags: [],
             Images: [],
         });
@@ -54,13 +54,20 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
 
     const handleChange = (e) => {
         const { name, value, type, checked, files } = e.target;
+
         if (type === "checkbox") {
             setForm({ ...form, [name]: checked });
         } else if (type === "file") {
             setForm({ ...form, Images: files });
+        } else if (name === "Quantity") {
+            setForm(prev => ({
+                ...prev,
+                Quantity: value,
+                AvailabilityCount: value,
+            }));
         } else {
             setForm({ ...form, [name]: value });
-        }
+        };
     };
 
     const handleSubmit = async (e) => {
@@ -102,7 +109,6 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                     ShortDescription: '',
                     Type: '',
                     Color: [],
-                    AvailabilityCount: 0,
                     Tags: [],
                 });
                 if (languageId === 2) {

@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import UpdateAdminModal from './UpdateAdminModal';
 
-export default function AdminComponent({ admins }) {
+export default function AdminComponent({ admins, token }) {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [updateOpen, setUpdateOpen] = useState(false);
@@ -25,6 +25,9 @@ export default function AdminComponent({ admins }) {
             const res = await fetch(`/api/Admin/DeleteAdmin`, {
                 method: 'DELETE',
                 body: formData,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
             console.log(res);
             if (res.ok) {
@@ -79,11 +82,13 @@ export default function AdminComponent({ admins }) {
             <CreateAdminModal
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
+                token={token}
             />
             <UpdateAdminModal
                 open={updateOpen}
                 onClose={() => setUpdateOpen(false)}
                 login={login}
+                token={token}
             />
         </div>
     );

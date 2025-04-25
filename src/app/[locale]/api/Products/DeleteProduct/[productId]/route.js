@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+
 const BASE_URL = process.env.API_BASE_URL;
 
 export async function DELETE(request, { params }) {
@@ -6,10 +8,16 @@ export async function DELETE(request, { params }) {
     const languageId = searchParams.get('languageId') || 1;
 
     try {
+        const cookieStore = cookies();
+        const token = cookieStore.get('admin_token')?.value;
+
         const res = await fetch(
             `${BASE_URL}/api/Products/DeleteProduct?productId=${productId}&languageId=${languageId}`,
             {
                 method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             }
         );
 

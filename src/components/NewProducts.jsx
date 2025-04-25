@@ -18,8 +18,18 @@ export default function NewProducts({ products }) {
 
     const newestProducts = getNewestProducts(products);
 
+    const [open, setOpen] = useState(false);
+    const [activeId, setActiveId] = useState('');
+    const [activePrice, setActivePrice] = useState('');
+
     return (
         <div className="newProducts md:mt-[45px] mt-8">
+            <OneOrderModal
+                open={open}
+                onClose={() => setOpen(false)}
+                id={activeId}
+                price={activePrice}
+            />
             <div className="container">
                 <div className="box md:mb-[45px] mb-8 flex items-center justify-between">
                     <h3 className="sectionTop">
@@ -33,7 +43,12 @@ export default function NewProducts({ products }) {
                 </div>
                 <div className="grid md:grid-cols-4 grid-cols-2 gap-y-5 md:gap-x-14 gap-x-2">
                     {newestProducts?.map((product) => (
-                        <ProductCard key={product.id} product={product} />
+                        <ProductCard key={product.id}
+                            product={product}
+                            setActiveId={setActiveId}
+                            setActivePrice={setActivePrice}
+                            setOpen={setOpen}
+                        />
                     ))}
                 </div>
             </div>
@@ -41,11 +56,8 @@ export default function NewProducts({ products }) {
     )
 };
 
-function ProductCard({ product }) {
+function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
     const [activeIndex, setActiveIndex] = useState(0);
-    const [open, setOpen] = useState(false);
-    const [activeId, setActiveId] = useState('');
-    const [activePrice, setActivePrice] = useState('');
 
     const handleSlideChange = (swiper) => {
         setActiveIndex(swiper.realIndex);
@@ -61,12 +73,6 @@ function ProductCard({ product }) {
 
     return (
         <div className="box flex flex-col rounded-xl overflow-hidden shadow-md transition-all duration-200 ease-in-out">
-            <OneOrderModal
-                open={open}
-                onClose={() => setOpen(false)}
-                id={activeId}
-                price={activePrice}
-            />
             <div className="top bg-[#F0F1F2]">
                 <div className="flex items-center justify-between p-3.5">
                     <div className="py-2 px-2.5 opacity-0 cursor-default bg-orange rounded-md text-white font-semibold text-xs leading-none">

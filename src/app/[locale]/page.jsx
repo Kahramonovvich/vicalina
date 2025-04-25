@@ -41,5 +41,5 @@ export default async function Home({ params }) {
       <StaticCommentsComponent />
       <MostNeedComponent products={productsWithSlug} />
     </div>
-  )
-}
+  );
+};

@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+
 const BASE_URL = process.env.API_BASE_URL;
 
 export async function GET(request) {
@@ -5,11 +7,17 @@ export async function GET(request) {
     const languageId = searchParams.get('languageId') || 1;
 
     try {
+        const cookieStore = cookies();
+        const token = cookieStore.get('admin_token')?.value;
+
         const res = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {
             next: {
                 tags: ['products'],
                 revalidate: 60
-            }
+            },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         if (!res.ok) {

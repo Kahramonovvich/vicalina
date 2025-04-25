@@ -9,7 +9,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function CreateAdminModal({ open, onClose }) {
+export default function CreateAdminModal({ open, onClose, token }) {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -32,6 +32,9 @@ export default function CreateAdminModal({ open, onClose }) {
         const res = await fetch('/api/Admin/CreateAdmin', {
             method: 'POST',
             body: formData,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         const result = await res.json();

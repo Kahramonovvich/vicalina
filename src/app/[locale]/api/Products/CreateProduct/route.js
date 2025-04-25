@@ -1,19 +1,23 @@
+import { cookies } from "next/headers";
+
 const BASE_URL = process.env.API_BASE_URL;
 
 export async function POST(req) {
-    try {        
+    try {
         const formData = await req.formData();
-        console.log(formData);
+        
+        const cookieStore = cookies();
+        const token = cookieStore.get('admin_token')?.value;
 
         const res = await fetch(`${BASE_URL}/api/Products/CreateProduct`, {
             method: 'POST',
             body: formData,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         const result = await res.json();
-
-        console.log('res:', res);
-        console.log('resust:', result);
 
         if (result.ok) {
             revalidateTag('products');
