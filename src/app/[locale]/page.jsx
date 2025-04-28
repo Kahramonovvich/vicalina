@@ -26,7 +26,7 @@ export default async function Home({ params }) {
     console.error('Ошибка парсинга JSON:', text);
     products = [];
   };
-  const productsWithSlug = await productsSlug(products); 
+  const productsWithSlug = await productsSlug(products);
 
   return (
     <div className="home">

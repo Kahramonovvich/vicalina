@@ -8,7 +8,7 @@
                     "value": "admin.vicalinaofficial.uz"
                 }
             ],
-            "destination": "https://vicalinaofficial.uz/admin/:path*",
+            "destination": "https://vicalinaofficial.uz/uz/admin/:path*",
             "statusCode": 308
         }
     ]
