@@ -4,7 +4,6 @@ import DiscountedProducts from "@/components/DiscountedProducts";
 import ForKitchen from "@/components/ForKitchen";
 import MostNeedComponent from "@/components/MostNeedComponent";
 import NewProducts from "@/components/NewProducts";
-import OurPartners from "@/components/OurPartners";
 import StaticCommentsComponent from "@/components/StaticCommentsComponent";
 import TopProducts from "@/components/TopProducts";
 import { productsSlug } from "@/utils/utils";
