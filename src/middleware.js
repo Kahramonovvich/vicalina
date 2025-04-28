@@ -8,7 +8,6 @@ const defaultLocale = 'uz';
 export function middleware(req) {
     const url = req.nextUrl.clone();
     const path = url.pathname;
-    const host = req.headers.get('host') || '';
 
     // ===== 1. Rate limiting для API =====
     const ip = req.ip ?? req.headers.get("x-forwarded-for") ?? "unknown";
@@ -24,33 +23,28 @@ export function middleware(req) {
         rateLimit.set(ip, now);
     }
 
-    // ===== 2. Admin поддомен =====
-    if (host.startsWith('admin.')) {
-        return NextResponse.rewrite(new URL('/admin' + path, req.url));
-    }
-
-    // ===== 3. Admin защита =====
+    // ===== 2. Admin защита =====
     const token = req.cookies.get('admin_token');
 
     if ((path === "/ru/admin" || path === "/uz/admin" || path === "/admin" || path.startsWith("/admin/")) && !token?.value) {
         return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    // ===== 4. Локализация =====
+    // ===== 3. Локализация =====
     const isPublicFile = PUBLIC_FILE.test(path) || path.startsWith('/api') || path.includes('_next');
 
     const missingLocale = locales.every(
         (locale) => !path.startsWith(`/${locale}`) && path !== `/${locale}`
     );
 
-    if (!isPublicFile && missingLocale && !host.startsWith('admin.')) {
+    if (!isPublicFile && missingLocale) {
         url.pathname = `/${defaultLocale}${path}`;
         return NextResponse.redirect(url);
     }
 
     return NextResponse.next();
-} 
+}
 
 export const config = {
-    matcher: ["/((?!_next|favicon.ico).*)"],
+    matcher: ["/((?!_next|favicon.ico).*)"], // применимо ко всем, кроме статики
 };
