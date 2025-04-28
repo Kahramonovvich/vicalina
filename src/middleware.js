@@ -26,7 +26,7 @@ export function middleware(req) {
 
     // ===== 2. Admin поддомен =====
     if (host.startsWith('admin.')) {
-        return NextResponse.rewrite(new URL('/uz/admin' + path, req.url));
+        return NextResponse.rewrite(new URL('/admin' + path, req.url));
     }
 
     // ===== 3. Admin защита =====
@@ -49,7 +49,7 @@ export function middleware(req) {
     }
 
     return NextResponse.next();
-}
+} 
 
 export const config = {
     matcher: ["/((?!_next|favicon.ico).*)"],
