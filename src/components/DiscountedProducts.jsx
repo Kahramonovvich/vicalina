@@ -11,6 +11,17 @@ import RatingIcon from './RatingIcon';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import OneOrderModal from './OneOrder';
 
+const translations = {
+    uz: {
+        buyNow: "Sotib olish",
+        href: 'uz'
+    },
+    ru: {
+        buyNow: "Купить",
+        href: 'ru'
+    }
+};
+
 const getDiscountedProducts = (products, isMobile) => {
     return [...products]
         .filter(product => product.discount && product.price && product.newPrice)
@@ -23,7 +34,8 @@ const getDiscountedProducts = (products, isMobile) => {
         .slice(0, isMobile ? 6 : 5);
 };
 
-export default function DiscountedProducts({ products }) {
+export default function DiscountedProducts({ products, languageId }) {
+    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
 
     const isMobile = useMediaQuery('(max-width: 768px)');
     const discountedProducts = getDiscountedProducts(products, isMobile);
@@ -46,6 +58,8 @@ export default function DiscountedProducts({ products }) {
                         <ProductCard
                             key={product.id}
                             product={product}
+                            t={t}
+                            // дальше твои пропсы:
                             top={'grid grid-cols-11'}
                             image={'md:w-[130px] w-[100px] md:h-[130px] h-[100px]'}
                             title={'text-sm md:leading-[18px]'}
@@ -56,7 +70,7 @@ export default function DiscountedProducts({ products }) {
                             btn={'text-xs leading-none px-3 md:w-auto w-full py-2 mt-3 md:py-0 md:mt-0'}
                             pad={'px-3 py-2.5'}
                             bottom={'md:p-4 p-2 justify-center col-span-6'}
-                            t={'col-span-5'}
+                            tText={'col-span-5'}
                             setActiveId={setActiveId}
                             setActivePrice={setActivePrice}
                             setOpen={setOpen}
@@ -68,8 +82,9 @@ export default function DiscountedProducts({ products }) {
                         <ProductCard
                             key={product.id}
                             product={product}
+                            t={t}
                             top={'flex flex-col'}
-                            image={'md:w-[170px] md:h-[170px] w-[100px] h-[100px] '}
+                            image={'md:w-[170px] md:h-[170px] w-[100px] h-[100px]'}
                             title={'md:leading-[23px] text-sm md:text-base'}
                             priceText={'md:text-lg md:leading-[23px]'}
                             info={'md:text-xs leading-none text-[10px]'}
@@ -78,6 +93,7 @@ export default function DiscountedProducts({ products }) {
                             oldPrc={'text-xs md:leading-[23px]'}
                             pad={'md:p-3.5 p-3'}
                             bottom={'md:p-5 md:pt-2.5 p-3 pt-1 justify-between'}
+                            tText={'md:block'}
                             setActiveId={setActiveId}
                             setActivePrice={setActivePrice}
                             setOpen={setOpen}
@@ -91,6 +107,7 @@ export default function DiscountedProducts({ products }) {
 
 function ProductCard({
     product,
+    t,
     top,
     image,
     title,
@@ -102,7 +119,7 @@ function ProductCard({
     oldPrc,
     pad,
     bottom,
-    t,
+    tText,
     setActiveId,
     setActivePrice,
     setOpen,
@@ -122,10 +139,8 @@ function ProductCard({
     };
 
     return (
-        <div
-            className={`box rounded-xl overflow-hidden hover:shadow-md transition-all duration-200 ease-in-out ${top}`}
-        >
-            <div className={`top bg-[#F0F1F2] ${t}`}>
+        <div className={`box rounded-xl overflow-hidden hover:shadow-md transition-all duration-200 ease-in-out ${top}`}>
+            <div className={`top bg-[#F0F1F2] ${tText}`}>
                 <div className={`flex items-center justify-between ${pad}`}>
                     <div className={`p-2 bg-orange rounded-md text-white font-semibold ${info}`}>
                         {`-${product.discountPercent.toFixed(0)}%`}
@@ -133,7 +148,7 @@ function ProductCard({
                     <LikeButtonComponent id={product.id} params={like} />
                 </div>
                 <Swiper
-                    loop={true}
+                    loop
                     autoplay={{
                         delay: 3000,
                         pauseOnMouseEnter: true,
@@ -166,7 +181,7 @@ function ProductCard({
             </div>
             <div className={`bottom flex-1 ${bottom} flex flex-col gap-y-1.5 bg-white`}>
                 <Link
-                    href={product.slug}
+                    href={t.href + product.slug}
                     className={`${title} text-[#222] hover:text-primary transition-all duration-200 ease-in-out`}
                 >
                     {`${product.name} ${product.shortDescription}`}
@@ -200,7 +215,7 @@ function ProductCard({
                             }}
                             className={`bg-primary text-white font-semibold rounded-md ${btn}`}
                         >
-                            Sotib olish
+                            {t.buyNow}
                         </button>
                     </div>
                 </div>

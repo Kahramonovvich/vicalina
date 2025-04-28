@@ -1,3 +1,5 @@
+import { navMenu } from "@/constants/constants";
+
 export const formatCurrency = (value) => {
     if (!value && value !== 0) return '';
     const formatted = String(value)
@@ -6,9 +8,20 @@ export const formatCurrency = (value) => {
 };
 
 export const productsSlug = async (product) => {
-    const productsSlug = await product?.map(item => ({
-        ...item,
-        slug: `/catalog/${item.category.toLowerCase().replace(/\s+/g, '-')}/${item.name.toLowerCase().replace(/\s+/g, '-')}-id~${item.id}`
-    }));
-    return productsSlug;
+    const productsWithSlug = await product.map((prod) => {
+        const category = navMenu.find(
+            (cat) =>
+                cat.name.toLowerCase() === prod.category.toLowerCase() ||
+                cat.nameRu.toLowerCase() === prod.category.toLowerCase()
+        );
+
+        const categorySlug = category ? category.slug : 'unknown-category';
+
+        return {
+            ...prod,
+            slug: `${categorySlug}/${prod.name.toLowerCase().replace(/\s+/g, '-')}-id~${prod.id}`
+        };
+    });
+
+    return productsWithSlug;
 };

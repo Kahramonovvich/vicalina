@@ -7,12 +7,12 @@ import { Swiper } from "swiper/react";
 import { SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
-export default function Categorys() {
+export default function Categorys({ languageId }) {
     return (
         <div className="category md:mt-[45px] mt-8">
             <div className="container">
                 <h3 className="sectionTop md:mb-[45px] mb-8">
-                    Ommabop toifalar
+                    {Number(languageId) === 1 ? 'Ommabop toifalar' : 'Популярные категории'}
                 </h3>
                 <div className="catBox relative bg-[#F0F1F2] rounded-[15px]">
                     <button
@@ -62,10 +62,10 @@ export default function Categorys() {
                                         />
                                     </div>
                                     <Link
-                                        href={menu.slug}
+                                        href={Number(languageId) === 1 ? `uz${menu.slug}` : `ru${menu.slug}`}
                                         className="text-xl text-center hover:text-primary"
                                     >
-                                        {menu.name}
+                                        {Number(languageId) === 1 ? menu.name : menu.nameRu}
                                     </Link>
                                 </div>
                             </SwiperSlide>

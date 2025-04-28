@@ -10,7 +10,15 @@ export default async function BasketPage({ params }) {
   const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {
     next: { tags: ['products'] }
   });
-  const products = await resProducts.json();
+  const text = await resProducts.text();
+  let products;
+
+  try {
+    products = JSON.parse(text);
+  } catch (e) {
+    console.error('Ошибка парсинга JSON:', text);
+    products = [];
+  };
   const productsWithSlug = await productsSlug(products);
 
   return <BasketClient products={productsWithSlug} languageId={languageId} />

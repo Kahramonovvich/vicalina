@@ -2,18 +2,19 @@ import Link from 'next/link';
 import HomeIcon from '@/icons/home.svg'
 import TopArrowICon from '@/icons/topArrow.svg'
 import FilterComponents, { FilterButton, FilterDropdown, RatingChange, TagesSelect } from '@/components/FilterComponents';
-import { headers } from 'next/headers';
 import { formatCurrency, productsSlug } from '@/utils/utils';
 import LikeButtonComponent from '@/components/LikeButtonComponent';
 import Image from 'next/image';
 import RatingIcon from '@/components/RatingIcon';
 import AddToBasketButton from '@/components/AddToBasketButton';
 import ThemeRegistry from '../../providers/ThemeRegistry';
+import { navMenu } from '@/constants/constants';
 const BASE_URL = process.env.API_BASE_URL;
 
 export default async function Products({ params, searchParams }) {
 
     const category = await params?.category?.replace(/-/gi, ' ');
+    const catFilter = navMenu.find((cat) => cat.slug.replace('/catalog/', '') === params?.category);
 
     const locale = await params?.locale;
     const langMap = { uz: 1, ru: 2 };
@@ -24,14 +25,12 @@ export default async function Products({ params, searchParams }) {
     const allProducts = await resProducts.json();
     const productsWithSlug = await productsSlug(allProducts);
 
-    console.log(languageId);
-
-
     let categoryProducts = [];
+    let selectedCategory = Number(languageId) === 1 ? catFilter?.name : catFilter?.nameRu;
 
-    if (category !== 'barcha mahsulotlar') {
+    if (category !== 'all products') {
         const resCategory = await fetch(
-            `${BASE_URL}/api/Products/GetAllProductByCategory/${category.toLocaleUpperCase()}?languageId=${languageId}`,
+            `${BASE_URL}/api/Products/GetAllProductByCategory/${selectedCategory?.toLocaleUpperCase()}?languageId=${languageId}`,
             {
                 next: { tags: ['products'] }
             }
@@ -43,7 +42,10 @@ export default async function Products({ params, searchParams }) {
             console.error('Ошибка при запросе категорий:', resCategory.status);
             categoryProducts = [];
         }
+    } else {
+        selectedCategory = Number(languageId) === 1 ? 'Barcha mahsulotlar' : 'Все продукты';
     };
+
     const productsWithSlugAndCategory = await productsSlug(categoryProducts);
 
     const filter = await searchParams?.filter;
@@ -58,7 +60,7 @@ export default async function Products({ params, searchParams }) {
         priceTo = to;
     };
     const products = async () => {
-        if (category === 'barcha mahsulotlar') {
+        if (category === 'all products') {
             return productsWithSlug;
         } else {
             return productsWithSlugAndCategory;
@@ -112,19 +114,19 @@ export default async function Products({ params, searchParams }) {
         <div className="products">
             <div className="container">
                 <div className="top md:my-12 my-8 flex items-center gap-x-3">
-                    <Link href={'/'}>
+                    <Link href={`/${Number(languageId) === 1 ? 'uz' : 'ru'}`}>
                         <HomeIcon />
                     </Link>
                     <TopArrowICon />
                     <Link
-                        href={'/catalog/barcha-mahsulotlar'}
+                        href={`/${Number(languageId) === 1 ? 'uz' : 'ru'}/catalog/all-products`}
                         className='text-[#999] leading-normal'
                     >
-                        Katalog
+                        {Number(languageId) === 1 ? 'Katalog' : 'Каталог'}
                     </Link>
                     <TopArrowICon />
                     <p className='text-primary leading-normal'>
-                        {category.charAt(0).toLocaleUpperCase() + category.slice(1)}
+                        {selectedCategory?.charAt(0).toLocaleUpperCase() + selectedCategory?.slice(1).toLowerCase()}
                     </p>
                 </div>
                 <div className="filterTopBox mb-6 grid grid-cols-4 md:gap-x-6 gap-x-3 items-center">
@@ -138,12 +140,24 @@ export default async function Products({ params, searchParams }) {
                             price={price}
                             rating={rating}
                             tag={tag}
+                            languageId={languageId}
                         />
                         <div className="resultBox hidden md:block">
                             <p className='text-[#808080] leading-normal'>
-                                <span className='font-semibold text-[#1A1A1A] leading-tight'>
-                                    {filteredProducts?.length}
-                                </span> Natijalar topildi
+                                {Number(languageId) === 1 ? (
+                                    <>
+                                        <span className='font-semibold text-[#1A1A1A] leading-tight'>
+                                            {filteredProducts?.length}
+                                        </span> ta mahsulot topildi
+                                    </>
+                                ) : (
+                                    <>
+                                        Найдено{" "}
+                                        <span className='font-semibold text-[#1A1A1A] leading-tight'>
+                                            {filteredProducts?.length}
+                                        </span> товаров
+                                    </>
+                                )}
                             </p>
                         </div>
                     </div>
@@ -161,6 +175,7 @@ export default async function Products({ params, searchParams }) {
                                 rating={rating}
                                 price={price}
                                 tag={tag}
+                                languageId={languageId}
                             />
                         </ThemeRegistry>
                         <RatingChange
@@ -218,7 +233,7 @@ export default async function Products({ params, searchParams }) {
                                 </div>
                                 <div className="bottom flex-1 md:px-5 px-3 py-2.5 flex flex-col gap-y-1.5 justify-between">
                                     <Link
-                                        href={product.slug}
+                                        href={Number(languageId) === 1 ? '/uz' + product.slug : '/ru' + product.slug}
                                         className='text-[#222] md:leading-[23px] text-sm md:text-base hover:text-primary transition-all duration-200 ease-in-out'
                                     >
                                         {`${product.name} - ${product.shortDescription}`}

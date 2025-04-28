@@ -7,13 +7,26 @@ import Icon from '@/icons/comIcon.svg'
 import Image from 'next/image';
 import RatingIcon from './RatingIcon';
 
-export default function StaticCommentsComponent() {
+const translations = {
+    uz: {
+        title: "Mijozlar nima deydi?",
+        client: "Mijoz"
+    },
+    ru: {
+        title: "Что говорят клиенты?",
+        client: "Клиент"
+    }
+};
+
+export default function StaticCommentsComponent({ languageId }) {
+    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
+
     return (
         <div className="staticCommentsComponent md:mt-[45px] mt-8 md:p-[60px] py-5 bg-[#F2F2F2]">
             <div className="container">
                 <div className="box flex items-center justify-between mb-8">
                     <h3 className="sectionTop">
-                        Mijozlar nima deydi?
+                        {t.title}
                     </h3>
                     <div className="arrowBox flex gap-x-3">
                         <button
@@ -56,9 +69,7 @@ export default function StaticCommentsComponent() {
                         modules={[Navigation]}
                     >
                         {comments.map((com) => (
-                            <SwiperSlide
-                                key={com.id}
-                            >
+                            <SwiperSlide key={com.id}>
                                 <div className="h-full w-full bg-white rounded-lg p-6 flex flex-col justify-between gap-y-4">
                                     <div className="icon">
                                         <Icon />
@@ -83,7 +94,7 @@ export default function StaticCommentsComponent() {
                                                     {com.userName}
                                                 </p>
                                                 <p className='text-sm leading-normal text-[#999]'>
-                                                    Mijoz
+                                                    {t.client}
                                                 </p>
                                             </div>
                                         </div>

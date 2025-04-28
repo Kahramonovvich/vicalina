@@ -7,11 +7,28 @@ import { productsSlug } from "@/utils/utils"
 import FavoriteProductItem from '@/components/FavoriteProductItem'
 import { usePathname } from 'next/navigation'
 
-export default function Favorites() {
+const translations = {
+    uz: {
+        favorites: "Saralangan",
+        product: "Maxsulot",
+        price: "Narx",
+        status: "Holati",
+        empty: "Saralangan maxsulotlar yo‘q",
+    },
+    ru: {
+        favorites: "Избранное",
+        product: "Товар",
+        price: "Цена",
+        status: "Статус",
+        empty: "Нет избранных товаров",
+    }
+};
 
+export default function Favorites() {
     const locale = usePathname().split('/')[1];
     const langMap = { uz: 1, ru: 2 };
     const languageId = langMap[locale] || 1;
+    const t = languageId === 1 ? translations.uz : translations.ru;
 
     const [favoriteProducts, setFavoriteProducts] = useState([]);
 
@@ -29,7 +46,7 @@ export default function Favorites() {
         };
 
         fetchData();
-    }, []);
+    }, [languageId]); // <--- добавил зависимость по languageId, чтобы всё работало правильно при смене языка
 
     return (
         <div className="favorites">
@@ -40,17 +57,17 @@ export default function Favorites() {
                     </Link>
                     <TopArrowICon />
                     <p className='text-primary leading-normal'>
-                        Saralangan
+                        {t.favorites}
                     </p>
                 </div>
                 <h2 className="mb-5 font-semibold text-[32px] leading-tight">
-                    Saralangan
+                    {t.favorites}
                 </h2>
                 <div className="box py-4 border rounded-lg">
                     <div className="top grid grid-cols-12 pb-4 px-6 border-b uppercase font-medium text-sm leading-none text-[#808080]">
-                        <div className="box col-span-5">Maxsulot</div>
-                        <div className="box col-span-3">Narx</div>
-                        <div className="box col-span-4">Holati</div>
+                        <div className="box col-span-5">{t.product}</div>
+                        <div className="box col-span-3">{t.price}</div>
+                        <div className="box col-span-4">{t.status}</div>
                     </div>
                     <div className="bottom mt-3 flex flex-col">
                         {favoriteProducts.map(product => (
@@ -64,7 +81,7 @@ export default function Favorites() {
                         ))}
                         {favoriteProducts.length === 0 && (
                             <p className="text-center text-gray-500 py-6">
-                                Saralangan maxsulotlar yo‘q
+                                {t.empty}
                             </p>
                         )}
                     </div>

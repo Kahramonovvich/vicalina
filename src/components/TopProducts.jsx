@@ -20,7 +20,7 @@ function getTopProducts(products, topN = 4) {
         .slice(0, topN);
 };
 
-export default function TopProducts({ products }) {
+export default function TopProducts({ products, languageId }) {
 
     const topProducts = getTopProducts(products);
 
@@ -32,7 +32,7 @@ export default function TopProducts({ products }) {
         <div className="topProducts md:mt-[45px] mt-8">
             <div className="container">
                 <h3 className="sectionTop md:mb-[45px] mb-8">
-                    Eng yaxshi takliflar
+                    {Number(languageId) === 1 ? 'Eng yaxshi takliflar' : 'Лучшие предложения'}
                 </h3>
                 <div className="grid md:grid-cols-4 grid-cols-2 gap-y-5 gap-x-2 md:gap-x-14">
                     {topProducts?.map((product) => (
@@ -42,6 +42,7 @@ export default function TopProducts({ products }) {
                             setActiveId={setActiveId}
                             setActivePrice={setActivePrice}
                             setOpen={setOpen}
+                            languageId={languageId}
                         />
                     ))}
                 </div>
@@ -56,7 +57,7 @@ export default function TopProducts({ products }) {
     )
 };
 
-function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
+function ProductCard({ product, setActiveId, setActivePrice, setOpen, languageId }) {
 
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -77,7 +78,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
             <div className="top bg-[#F0F1F2]">
                 <div className="flex items-center justify-between md:p-3.5 p-3">
                     <div className="py-2 px-2.5 bg-orange rounded-md text-white font-semibold text-xs leading-none">
-                        Mashxur
+                        {Number(languageId) === 1 ? 'Mashxur' : 'Популярный'}
                     </div>
                     <LikeButtonComponent id={product.id} />
                 </div>
@@ -115,7 +116,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
             </div>
             <div className="bottom flex-1 md:p-5 p-3 md:pt-2.5 pt-1 flex flex-col gap-y-1.5 justify-between">
                 <Link
-                    href={product.slug}
+                    href={Number(languageId) === 1 ? `uz${product.slug}` : `ru${product.slug}`}
                     className='text-[#222] md:leading-[23px] text-sm md:text-base hover:text-primary transition-all duration-200 ease-in-out'
                 >
                     {`${product.name} ${product.shortDescription}`}
@@ -142,7 +143,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
                             }}
                             className='bg-primary text-white font-semibold text-sm px-4 py-3 rounded-md leading-none w-full md:w-auto'
                         >
-                            Sotib olish
+                            {Number(languageId) === 1 ? 'Sotib olish' : 'Купить'}
                         </button>
                     </div>
                 </div>

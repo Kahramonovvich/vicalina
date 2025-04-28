@@ -10,7 +10,25 @@ import LikeButtonComponent from './LikeButtonComponent';
 import RatingIcon from './RatingIcon';
 import OneOrderModal from './OneOrder';
 
-export default function MostNeedComponent({ products }) {
+const translations = {
+    uz: {
+        mostNeeded: "Eng kerakli",
+        seeMore: "Ko’proq ko’rish",
+        popular: "Mashxur",
+        buyNow: "Sotib olish",
+        href: 'uz'
+    },
+    ru: {
+        mostNeeded: "Самое нужное",
+        seeMore: "Смотреть больше",
+        popular: "Популярное",
+        buyNow: "Купить",
+        href: 'ru'
+    }
+};
+
+export default function MostNeedComponent({ products, languageId }) {
+    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
 
     const [mostNeed, setMostNeed] = useState([]);
     const [open, setOpen] = useState(false);
@@ -36,12 +54,13 @@ export default function MostNeedComponent({ products }) {
             <div className="container">
                 <div className="box md:mb-[45px] mb-8 flex items-center justify-between">
                     <h3 className="sectionTop">
-                        Eng kerakli
+                        {t.mostNeeded}
                     </h3>
                     <Link
-                        href={'/catalog/barcha-mahsulotlar'}
-                        className='font-semibold md:text-xl leading-none underline text-[#484848]'>
-                        Ko’proq ko’rish
+                        href={`/${t.href}/catalog/all-products`}
+                        className='font-semibold md:text-xl leading-none underline text-[#484848]'
+                    >
+                        {t.seeMore}
                     </Link>
                 </div>
                 <div className="grid md:grid-cols-4 grid-cols-2 gap-y-5 gap-x-2 md:gap-x-14">
@@ -49,6 +68,7 @@ export default function MostNeedComponent({ products }) {
                         <ProductCard
                             key={product.id}
                             product={product}
+                            t={t}
                             setActiveId={setActiveId}
                             setActivePrice={setActivePrice}
                             setOpen={setOpen}
@@ -60,7 +80,7 @@ export default function MostNeedComponent({ products }) {
     );
 };
 
-function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
+function ProductCard({ product, t, setActiveId, setActivePrice, setOpen }) {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const handleSlideChange = (swiper) => {
@@ -80,7 +100,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
             <div className="top bg-[#F0F1F2]">
                 <div className="flex items-center justify-between p-3.5">
                     <div className="py-2 px-2.5 opacity-0 bg-orange rounded-md text-white font-semibold text-xs leading-none">
-                        Mashxur
+                        {t.popular}
                     </div>
                     <LikeButtonComponent id={product.id} />
                 </div>
@@ -118,7 +138,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
             </div>
             <div className="bottom flex-1 md:p-5 p-3 md:pt-2.5 pt-1 flex flex-col gap-y-1.5 justify-between">
                 <Link
-                    href={product.slug}
+                    href={t.href + product.slug}
                     className='text-[#222] md:leading-[23px] text-sm md:text-base hover:text-primary transition-all duration-200 ease-in-out'
                 >
                     {`${product.name} ${product.shortDescription}`}
@@ -145,7 +165,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
                             }}
                             className='bg-primary text-white font-semibold text-sm px-4 py-3 rounded-md leading-none w-full md:w-auto'
                         >
-                            Sotib olish
+                            {t.buyNow}
                         </button>
                     </div>
                 </div>

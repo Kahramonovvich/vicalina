@@ -9,7 +9,7 @@ import ToBasket from "@/components/ToBasket";
 import ProductImages from "@/components/ProductImages";
 import ProductInfoComponents from "@/components/ProductInfoComponents";
 import ProductSchema from "@/components/ProductSchema";
-import { headers } from "next/headers";
+import { navMenu } from "@/constants/constants";
 const BASE_URL = process.env.API_BASE_URL;
 
 const socialMedia = [
@@ -35,9 +35,33 @@ const socialMedia = [
     },
 ];
 
+const translations = {
+    uz: {
+        catalog: "Katalog",
+        available: "Mavjud",
+        rating: "Reyting",
+        peopleBought: "kishi sotib oldi",
+        brand: "Brend:",
+        share: "Ulashish:",
+        catalogText: "Katalog:",
+        tagText: "Teg:",
+    },
+    ru: {
+        catalog: "Каталог",
+        available: "В наличии",
+        rating: "Рейтинг",
+        peopleBought: "человек купили",
+        brand: "Бренд:",
+        share: "Поделиться:",
+        catalogText: "Каталог:",
+        tagText: "Тег:",
+    }
+};
+
 export default async function ProductInfoPage({ params }) {
 
     const { category, slug } = await params;
+    const catFilter = navMenu.find((cat) => cat.slug.replace('/catalog/', '') === category);
     const decodeSlug = decodeURIComponent(slug);
     const normalizeSlug = (s) => s.replace(/[‘’`ʻʼ]/g, "'");
     const cleanSlug = normalizeSlug(decodeSlug);
@@ -45,19 +69,37 @@ export default async function ProductInfoPage({ params }) {
     const name = namePart.replace(/-/gi, ' ');
     const id = idPart;
 
-    const locale = headers().get('x-nextjs-locale');
+    const locale = await params.locale;
     const langMap = { uz: 1, ru: 2 };
     const languageId = langMap[locale] || 1;
 
     const resProduct = await fetch(`${BASE_URL}/api/Products/GetProductById/?languageId=${languageId}&productId=${id}`, {
         next: { tags: ['products'] },
     });
-    const product = await resProduct.json();
+    const oneText = await resProduct.text();
+    let product;
+    try {
+        product = JSON.parse(oneText);
+    } catch (e) {
+        console.error('Ошибка парсинга JSON:', oneText);
+        product = [];
+    };
 
+    //  PRODUCTS
     const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {
         next: { tags: ['products'] }
     });
-    const products = await resProducts.json();
+    const text = await resProducts.text();
+    let products;
+    try {
+        products = JSON.parse(text);
+    } catch (e) {
+        console.error('Ошибка парсинга JSON:', text);
+        products = [];
+    };
+
+    const selectedCategory = Number(languageId) === 1 ? catFilter?.name : catFilter?.nameRu;
+    const t = languageId === 1 ? translations.uz : translations.ru;
 
     return (
         <div className="productInfo">
@@ -68,17 +110,17 @@ export default async function ProductInfoPage({ params }) {
                     </Link>
                     <TopArrowICon />
                     <Link
-                        href={'/catalog/barcha-mahsulotlar'}
+                        href={'/catalog/all-products'}
                         className='text-[#999] leading-normal'
                     >
-                        Katalog
+                        {t.catalog}
                     </Link>
                     <TopArrowICon />
                     <Link
                         href={`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}`}
                         className='text-[#999] leading-normal'
                     >
-                        {category?.replace(/-/gi, ' ').charAt(0).toLocaleUpperCase() + category.replace(/-/gi, ' ').slice(1)}
+                        {selectedCategory?.replace(/-/gi, ' ').charAt(0).toLocaleUpperCase() + selectedCategory?.replace(/-/gi, ' ').slice(1).toLocaleLowerCase()}
                     </Link>
                     <TopArrowICon />
                     <p className='text-primary leading-normal truncate'>
@@ -96,17 +138,17 @@ export default async function ProductInfoPage({ params }) {
                             >
                                 {product.name}
                             </h2>
-                            <span className="text-primary rounded px-2 py-1 bg-[#00006633] text-sm leading-normal">Mavjud</span>
+                            <span className="text-primary rounded px-2 py-1 bg-[#00006633] text-sm leading-normal">{t.available}</span>
                         </div>
                         <div className="ratingBox flex items-center">
                             <RatingIcon
                                 value={product.rating}
                                 className='!text-lg !text-orange'
                             />
-                            <p className="text-sm leading-normal text-[#666] ml-1">{product.rating} Reyting</p>
+                            <p className="text-sm leading-normal text-[#666] ml-1">{product.rating} {t.rating}</p>
                             <p className="font-medium text-sm leading-normal mx-3 text-[#B3B3B3]">•</p>
                             <p className="text-sm leading-normal text-[#666]">{product.numberOfPurchases}</p>
-                            <p className="text-sm leading-normal font-medium text-[#333] ml-1">kishi sotib oldi</p>
+                            <p className="text-sm leading-normal font-medium text-[#333] ml-1">{t.peopleBought}</p>
                         </div>
                         <div className="priceBox flex items-center mt-5 pb-5 border-b">
                             {product.discount && (
@@ -130,7 +172,7 @@ export default async function ProductInfoPage({ params }) {
                         </div>
                         <div className="box mt-6 md:flex items-center justify-between">
                             <div className="brand flex items-center mb-3 md:mb-0">
-                                <p className="text-sm leading-normal mr-2 text-[#1A1A1A]">Brend:</p>
+                                <p className="text-sm leading-normal mr-2 text-[#1A1A1A]">{t.brand}</p>
                                 <div className="box w-14 h-14 border rounded flex items-center justify-center">
                                     <div className="img w-12 h-12 relative">
                                         <Image
@@ -143,7 +185,7 @@ export default async function ProductInfoPage({ params }) {
                                 </div>
                             </div>
                             <div className="share flex items-center gap-x-2.5">
-                                <p className="text-sm leading-normal text-[#1A1A1A]">Ulashish:</p>
+                                <p className="text-sm leading-normal text-[#1A1A1A]">{t.share}</p>
                                 <div className="socialBox flex items-center gap-x-[5px]">
                                     {socialMedia.map((icon) => (
                                         <a
@@ -163,16 +205,18 @@ export default async function ProductInfoPage({ params }) {
                             {product.shortDescription}
                         </div>
                         <div className="toBasket py-[18px] border-y">
-                            <ToBasket id={product.id} products={products} />
+                            <ToBasket id={product.id} products={products} languageId={languageId} />
                         </div>
                         <div className="bottom mt-6">
                             <div className="box flex flex-col gap-y-3">
-                                <p className="font-medium text-sm leading-normal">Katalog:
+                                <p className="font-medium text-sm leading-normal">
+                                    {t.catalogText}
                                     <span className="font-normal text-[#808080] ml-1">
-                                        {category?.replace(/-/gi, ' ').charAt(0).toLocaleUpperCase() + category.replace(/-/gi, ' ').slice(1)}
+                                        {selectedCategory?.replace(/-/gi, ' ').charAt(0).toLocaleUpperCase() + selectedCategory.replace(/-/gi, ' ').slice(1).toLocaleLowerCase()}
                                     </span>
                                 </p>
-                                <p className="font-medium text-sm leading-normal">Teg:
+                                <p className="font-medium text-sm leading-normal">
+                                    {t.tagText}
                                     <span className="font-normal text-[#808080] ml-1">
                                         {product.tags}
                                     </span>
@@ -183,6 +227,7 @@ export default async function ProductInfoPage({ params }) {
                 </div>
             </div>
             <ProductInfoComponents
+                languageId={languageId}
                 product={product}
             />
             <ProductSchema product={product} />

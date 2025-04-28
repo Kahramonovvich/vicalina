@@ -11,10 +11,41 @@ import CloseIcon from '@/icons/Close.svg'
 import { useBasket } from "@/context/basket-context"
 import MultiOrderModal from "@/components/MultiOrderModal"
 
-export default function BasketClient({ products }) {
+const translations = {
+    uz: {
+        basket: "Savatchangiz",
+        product: "Maxsulot",
+        price: "Narx",
+        quantity: "Soni",
+        totalPrice: "Umumiy narx",
+        delivery: "Yetkazib berish",
+        free: "Tekin",
+        backToShopping: "Xaridlarga qaytish",
+        clearBasket: "Yangilash",
+        orderNow: "Buyurtma qilish",
+        total: "Jami",
+        slug: 'uz'
+    },
+    ru: {
+        basket: "Корзина",
+        product: "Товар",
+        price: "Цена",
+        quantity: "Количество",
+        totalPrice: "Итоговая цена",
+        delivery: "Доставка",
+        free: "Бесплатно",
+        backToShopping: "Вернуться к покупкам",
+        clearBasket: "Очистить корзину",
+        orderNow: "Оформить заказ",
+        total: "Итого",
+        slug: 'ru'
+    }
+};
+
+export default function BasketClient({ products, languageId }) {
+    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
 
     const { setBasket } = useBasket();
-
     const [items, setItems] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -77,22 +108,22 @@ export default function BasketClient({ products }) {
                     </Link>
                     <TopArrowICon />
                     <p className='text-primary leading-normal'>
-                        Savatchangiz
+                        {t.basket}
                     </p>
                 </div>
 
                 <h2 className="mb-5 font-semibold text-[32px] leading-tight">
-                    Savatchangiz
+                    {t.basket}
                 </h2>
 
                 <div className="box md:grid grid-cols-3 gap-x-6 flex flex-col gap-y-5">
                     <div className="left col-span-2 border rounded-lg py-4">
                         <div className="top hidden md:grid grid-cols-12 border-b px-5 pb-4 uppercase font-medium text-sm text-[#808080]">
-                            <div className="col-span-5">Maxsulot</div>
+                            <div className="col-span-5">{t.product}</div>
                             <div className="col-span-7 grid grid-cols-3 gap-x-3">
-                                <p>Narx</p>
-                                <p>Soni</p>
-                                <p>Umumiy narx</p>
+                                <p>{t.price}</p>
+                                <p>{t.quantity}</p>
+                                <p>{t.totalPrice}</p>
                             </div>
                         </div>
 
@@ -141,36 +172,36 @@ export default function BasketClient({ products }) {
 
                         <div className="bottom flex items-center justify-between gap-x-2 md:px-5 px-3 pt-4 border-t">
                             <Link
-                                href={`/catalog/barcha-mahsulotlar`}
+                                href={`/${t.slug}/catalog/all-products`}
                                 className="py-3.5 md:px-8 px-4 font-semibold text-sm leading-tight text-[#4D4D4D] bg-[#F2F2F2] rounded"
                             >
-                                Xaridlarga qaytish
+                                {t.backToShopping}
                             </Link>
                             <button
                                 onClick={clearBasket}
                                 className="py-3.5 md:px-8 px-4 font-semibold text-sm leading-tight text-[#4D4D4D] bg-[#F2F2F2] rounded"
                             >
-                                Yangilash
+                                {t.clearBasket}
                             </button>
                         </div>
                     </div>
                     <div className="right border rounded-lg p-6 h-max">
-                        <p className="font-medium text-xl leading-normal text-[#1A1A1A]">Jami:</p>
+                        <p className="font-medium text-xl leading-normal text-[#1A1A1A]">{t.total}:</p>
 
                         <div className="box flex items-center justify-between h-12">
-                            <p className="leading-normal text-[#4D4D4D]">Narx:</p>
+                            <p className="leading-normal text-[#4D4D4D]">{t.price}:</p>
                             <p className="text-sm font-medium leading-normal">
                                 {formatCurrency(totalPrice)}
                             </p>
                         </div>
                         <div className="box flex items-center justify-between h-12 border-y">
-                            <p className="leading-normal text-[#4D4D4D]">Yetkazib berish:</p>
+                            <p className="leading-normal text-[#4D4D4D]">{t.delivery}:</p>
                             <p className="text-sm font-medium leading-normal">
-                                {deliveryFee === 0 ? 'Tekin' : formatCurrency(deliveryFee)}
+                                {deliveryFee === 0 ? t.free : formatCurrency(deliveryFee)}
                             </p>
                         </div>
                         <div className="box flex items-center justify-between h-12">
-                            <p className="font-bold leading-normal text-[#4D4D4D]">Umumiy narx:</p>
+                            <p className="font-bold leading-normal text-[#4D4D4D]">{t.totalPrice}:</p>
                             <p className="font-bold text-sm leading-normal">
                                 {formatCurrency(finalPrice)}
                             </p>
@@ -179,7 +210,7 @@ export default function BasketClient({ products }) {
                             onClick={() => setModalOpen(true)}
                             className="bg-primary text-white rounded-full py-2 px-5 mt-3"
                         >
-                            Buyurtma qilish
+                            {t.orderNow}
                         </button>
                     </div>
                 </div>

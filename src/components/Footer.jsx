@@ -4,51 +4,65 @@ import { FaTiktok, FaYoutube, FaTelegramPlane, FaInstagram } from "react-icons/f
 import Link from "next/link";
 import Image from "next/image";
 
-const socialMedia = [
-    {
-        name: 'Instagram',
-        href: 'https://www.instagram.com/vicalina.uz/',
-        icon: <FaInstagram />
+const translations = {
+    uz: {
+        subscribe: "Ijtimoiy tarmoqlarimizga obuna bo’ling!",
+        follow: "Bizdagi yangiliklarni ijtioiy tarmoqlarda bilib oling va eng birinchilardan bo’ling!",
+        phonePlaceholder: "Raqamingiz...",
+        connect: "Bog’lanish",
+        goal: "Bizning maqsadimiz – har bir uy bekasiga va oshpazga pishirish jarayonini yanada qulay va yoqimli qilish.",
+        or: "yoki",
+        company: "Kompaniya",
+        aboutCompany: "Kompaniya haqida",
+        certificates: "Sertifikatlar",
+        reviews: "Sharxlar",
+        help: "Yordam",
+        faqs: "Faqs",
+        terms: "Terms & Condition",
+        privacy: "Privacy Policy"
     },
-    {
-        name: 'Telegram',
-        href: 'https://t.me/VicalinaOfficial',
-        icon: <FaTelegramPlane />
-    },
-    {
-        name: 'YouTube',
-        href: 'https://www.youtube.com/@Vicalina_2009',
-        icon: <FaYoutube />
-    },
-    {
-        name: 'TikTok',
-        href: 'https://www.tiktok.com/@vicalina.uz',
-        icon: <FaTiktok />
-    },
-];
+    ru: {
+        subscribe: "Подпишитесь на наши соцсети!",
+        follow: "Следите за нашими новостями в соцсетях и будьте в числе первых!",
+        phonePlaceholder: "Ваш номер...",
+        connect: "Связаться",
+        goal: "Наша цель – сделать процесс приготовления еды ещё удобнее и приятнее для каждой хозяйки и повара.",
+        or: "или",
+        company: "Компания",
+        aboutCompany: "О компании",
+        certificates: "Сертификаты",
+        reviews: "Отзывы",
+        help: "Помощь",
+        faqs: "Вопросы и ответы",
+        terms: "Terms & Condition",
+        privacy: "Политика конфиденциальности"
+    }
+};
 
-const footerMenu = [
-    {
-        id: 1,
-        top: 'Kompaniya',
-        items: [
-            { item: 'Kompaniya haqida' },
-            { item: 'Sertifikatlar' },
-            { item: 'Sharxlar' },
-        ]
-    },
-    {
-        id: 2,
-        top: 'Yordam',
-        items: [
-            { item: 'Faqs' },
-            { item: 'Terms & Condition' },
-            { item: 'Privacy Policy' },
-        ]
-    },
-];
+export default function Footer({ languageId }) {
+    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
 
-export default function Footer() {
+    const footerMenu = [
+        {
+            id: 1,
+            top: t.company,
+            items: [
+                { item: t.aboutCompany },
+                { item: t.certificates },
+                { item: t.reviews },
+            ]
+        },
+        {
+            id: 2,
+            top: t.help,
+            items: [
+                { item: t.faqs },
+                { item: t.terms },
+                { item: t.privacy },
+            ]
+        },
+    ];
+
     const [phoneNumber, setPhoneNumber] = useState('');
 
     const handleSubmit = (e) => {
@@ -62,12 +76,10 @@ export default function Footer() {
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-y-6 md:gap-y-0 gap-x-[58px]">
                         <div className="text">
                             <p className="font-semibold text-2xl leading-normal">
-                                Ijtimoiy tarmoqlarimizga obuna bo’ling!
+                                {t.subscribe}
                             </p>
                             <p className="text-sm leading-normal text-[#999999]">
-                                Bizdagi yangiliklarni ijtioiy tarmoqlarda bilib oling va eng
-                                <br className="hidden md:block" />
-                                birinchilardan bo’ling!
+                                {t.follow}
                             </p>
                         </div>
 
@@ -78,7 +90,7 @@ export default function Footer() {
                             <input
                                 type="text"
                                 className="px-6 py-3.5 pr-44 w-full rounded-full outline-none border"
-                                placeholder="Raqamingiz..."
+                                placeholder={t.phonePlaceholder}
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9+]/g, ""))}
                                 maxLength={13}
@@ -87,7 +99,7 @@ export default function Footer() {
                                 type="submit"
                                 className="flex items-center justify-center bg-primary font-semibold text-white leading-5 absolute top-0 right-0 h-full rounded-full px-10"
                             >
-                                Bog’lanish
+                                {t.connect}
                             </button>
                         </form>
 
@@ -123,7 +135,7 @@ export default function Footer() {
                                 </Link>
                             </div>
                             <p className="leading-normal text-[#808080] text-sm md:text-base">
-                                Bizning maqsadimiz – har bir uy bekasiga va oshpazga pishirish jarayonini yanada qulay va yoqimli qilish.
+                                {t.goal}
                             </p>
                             <div className="text-white flex flex-wrap items-center gap-x-4 gap-y-2">
                                 <a
@@ -132,7 +144,7 @@ export default function Footer() {
                                 >
                                     +998 99 030-00-00
                                 </a>
-                                <span className="text-[#808080] leading-normal">or</span>
+                                <span className="text-[#808080] leading-normal">{t.or}</span>
                                 <a
                                     href="mailto:@vicalina"
                                     className="py-1.5 border-b-2 text-sm leading-normal font-medium"
@@ -164,3 +176,26 @@ export default function Footer() {
         </footer>
     );
 }
+
+const socialMedia = [
+    {
+        name: 'Instagram',
+        href: 'https://www.instagram.com/vicalina.uz/',
+        icon: <FaInstagram />
+    },
+    {
+        name: 'Telegram',
+        href: 'https://t.me/VicalinaOfficial',
+        icon: <FaTelegramPlane />
+    },
+    {
+        name: 'YouTube',
+        href: 'https://www.youtube.com/@Vicalina_2009',
+        icon: <FaYoutube />
+    },
+    {
+        name: 'TikTok',
+        href: 'https://www.tiktok.com/@vicalina.uz',
+        icon: <FaTiktok />
+    },
+];

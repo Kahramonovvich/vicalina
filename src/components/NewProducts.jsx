@@ -10,11 +10,32 @@ import LikeButtonComponent from './LikeButtonComponent';
 import RatingIcon from './RatingIcon';
 import OneOrderModal from './OneOrder';
 
+const translations = {
+    uz: {
+        newest: "Eng yangilar",
+        seeMore: "Ko’proq ko’rish",
+        popular: "Mashxur",
+        buyNow: "Sotib olish",
+        href: 'uz/catalog/all-products?filter=newest',
+        prodHref: 'uz'
+    },
+    ru: {
+        newest: "Новинки",
+        seeMore: "Смотреть больше",
+        popular: "Популярное",
+        buyNow: "Купить",
+        href: 'ru/catalog/all-products?filter=newest',
+        prodHref: 'ru'
+    }
+};
+
 function getNewestProducts(products, count = 4) {
     return [...products].slice(-count).reverse();
 };
 
-export default function NewProducts({ products }) {
+export default function NewProducts({ products, languageId }) {
+
+    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
 
     const newestProducts = getNewestProducts(products);
 
@@ -33,21 +54,23 @@ export default function NewProducts({ products }) {
             <div className="container">
                 <div className="box md:mb-[45px] mb-8 flex items-center justify-between">
                     <h3 className="sectionTop">
-                        Eng yangilar
+                        {t.newest}
                     </h3>
                     <Link
-                        href={'/catalog/barcha-mahsulotlar?filter=newest'}
+                        href={t.href}
                         className='font-semibold md:text-xl leading-none underline text-[#484848]'>
-                        Ko’proq ko’rish
+                        {t.seeMore}
                     </Link>
                 </div>
                 <div className="grid md:grid-cols-4 grid-cols-2 gap-y-5 md:gap-x-14 gap-x-2">
                     {newestProducts?.map((product) => (
-                        <ProductCard key={product.id}
+                        <ProductCard
+                            key={product.id}
                             product={product}
                             setActiveId={setActiveId}
                             setActivePrice={setActivePrice}
                             setOpen={setOpen}
+                            t={t}
                         />
                     ))}
                 </div>
@@ -56,7 +79,7 @@ export default function NewProducts({ products }) {
     )
 };
 
-function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
+function ProductCard({ product, setActiveId, setActivePrice, setOpen, t }) {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const handleSlideChange = (swiper) => {
@@ -76,7 +99,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
             <div className="top bg-[#F0F1F2]">
                 <div className="flex items-center justify-between p-3.5">
                     <div className="py-2 px-2.5 opacity-0 cursor-default bg-orange rounded-md text-white font-semibold text-xs leading-none">
-                        Mashxur
+                        {t.popular}
                     </div>
                     <LikeButtonComponent id={product.id} />
                 </div>
@@ -114,7 +137,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
             </div>
             <div className="bottom flex-1 md:p-5 md:pt-2.5 p-3 pt-1 flex flex-col gap-y-1.5 justify-between">
                 <Link
-                    href={product.slug}
+                    href={t.prodHref + product.slug}
                     className='text-[#222] md:leading-[23px] md:text-base text-sm hover:text-primary transition-all duration-200 ease-in-out'
                 >
                     {`${product.name} ${product.shortDescription}`}
@@ -141,7 +164,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen }) {
                             }}
                             className='bg-primary text-white font-semibold text-sm px-4 py-3 rounded-md leading-none w-full md:w-auto'
                         >
-                            Sotib olish
+                            {t.buyNow}
                         </button>
                     </div>
                 </div>

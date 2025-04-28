@@ -12,13 +12,22 @@ import MorphArrow from './MorphArrow';
 import RatingIcon from './RatingIcon';
 import CheckIcon from '@/icons/check 1.svg'
 
-const options = [
+const optionsUz = [
     { value: '', label: 'Tanlang' },
     { value: 'rating', label: 'Reytingi yuqori' },
     { value: 'cheaper', label: 'Arzonroq' },
     { value: 'expensive', label: 'Qimmatroq' },
     { value: 'discounted', label: "Chegirma bo'yicha" },
     { value: 'newest', label: "Yaqinda qo'shilgan" },
+];
+
+const optionsRu = [
+    { value: '', label: 'Выберите' },
+    { value: 'rating', label: 'Высокий рейтинг' },
+    { value: 'cheaper', label: 'Дешевле' },
+    { value: 'expensive', label: 'Дороже' },
+    { value: 'discounted', label: 'По скидке' },
+    { value: 'newest', label: 'Недавно добавленные' },
 ];
 
 function countProductsByCategory(products, allCategories) {
@@ -28,10 +37,10 @@ function countProductsByCategory(products, allCategories) {
     }, {});
 
     return allCategories.map(category => ({
-        category,
-        count: countMap[category] || 0
+        ...category,
+        count: countMap[category.title] || 0
     }));
-};
+}
 
 const getMinMaxPrices = (products) => {
     if (!products || products.length === 0) return { min: 0, max: 0 };
@@ -54,9 +63,23 @@ const ratingBox = [
     { value: 1 },
 ];
 
-export default function FilterComponents({ category, products, filteredProducts, priceFrom, priceTo, filter, rating, tag }) {
+export default function FilterComponents({
+    category,
+    products,
+    filteredProducts,
+    priceFrom,
+    priceTo,
+    filter,
+    rating,
+    tag,
+    languageId
+}) {
 
-    const allCategories = navMenu.map((item) => item.name);
+    const langCode = Number(languageId) === 1 ? 'uz' : 'ru';
+    const allCategories = navMenu.map((item) => ({
+        title: Number(languageId) === 1 ? item?.name : item?.nameRu,
+        slug: item?.slug
+    }));
     const result = countProductsByCategory(products, allCategories);
     const { min, max } = getMinMaxPrices(products);
     const router = useRouter();
@@ -72,7 +95,7 @@ export default function FilterComponents({ category, products, filteredProducts,
         if (rating) params.set('rating', rating);
         if (tag) params.set('tag', tag);
 
-        router?.push(`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
+        router?.push(`/${langCode}/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
     };
 
     const toggleItem = (index) => {
@@ -103,7 +126,7 @@ export default function FilterComponents({ category, products, filteredProducts,
                     onClick={() => toggleItem(0)}
                     className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
                 >
-                    Barcha Kataloglar
+                    {Number(languageId) === 1 ? "Barcha Kataloglar" : "Все каталоги"}
                     <MorphArrow isOpen={isOpen[0]} />
                 </button>
                 <AnimatePresence initial={false}>
@@ -116,21 +139,21 @@ export default function FilterComponents({ category, products, filteredProducts,
                             className="overflow-hidden"
                         >
                             {result?.map((cat) => (
-                                <div className="box py-2.5 last-of-type:pb-6" key={cat.category}>
+                                <div className="box py-2.5 last-of-type:pb-6" key={cat.title}>
                                     <Link
-                                        href={`/catalog/${cat.category.toLowerCase().replace(/\s+/g, '-')}`}
+                                        href={`/${langCode}${cat.slug.toLowerCase().replace(/\s+/g, '-')}`}
                                         className="box flex items-center gap-x-2"
                                     >
                                         <div
                                             className={`w-5 h-5 border-2 rounded-full flex items-center justify-center
-                                                ${category?.toLowerCase() === cat.category.toLowerCase() ? 'border-primary' : ''}`}
+                                                ${category?.toLowerCase() === cat.title.toLowerCase() ? 'border-primary' : ''}`}
                                         >
                                             <div className={`w-3 h-3 bg-primary rounded-full 
-                                                ${category?.toLowerCase() === cat.category.toLowerCase() ? 'opacity-100' : 'opacity-0'}`}
+                                                ${category?.toLowerCase() === cat.title.toLowerCase() ? 'opacity-100' : 'opacity-0'}`}
                                             ></div>
                                         </div>
                                         <h2 className="text-sm leading-normal text-[#1A1A1A]">
-                                            {cat.category} <span className="text-[#808080]">({cat.count})</span>
+                                            {cat.title} <span className="text-[#808080]">({cat.count})</span>
                                         </h2>
                                     </Link>
                                 </div>
@@ -144,7 +167,7 @@ export default function FilterComponents({ category, products, filteredProducts,
                     onClick={() => toggleItem(1)}
                     className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
                 >
-                    Narx
+                    {Number(languageId) === 1 ? "Narx" : "Цена"}
                     <MorphArrow isOpen={isOpen[1]} />
                 </button>
                 <AnimatePresence initial={false}>
@@ -169,7 +192,9 @@ export default function FilterComponents({ category, products, filteredProducts,
                                 />
                             </div>
                             <p className='text-[#1A1A1A] text-sm leading-normal font-black pb-6'>
-                                <span className='text-[#4D4D4D] font-normal'>Narx: </span>
+                                <span className='text-[#4D4D4D] font-normal'>
+                                    {Number(languageId) === 1 ? "Narx: " : "Цена: "}
+                                </span>
                                 {value[0].toLocaleString('ru-RU').replace(/\s/g, '.')} — {value[1].toLocaleString('ru-RU').replace(/\s/g, '.')} so’m
                             </p>
                         </motion.div>
@@ -180,7 +205,9 @@ export default function FilterComponents({ category, products, filteredProducts,
     );
 };
 
-export function RatingChange({ filter, rating, tag, price, category }) {
+export function RatingChange({ filter, rating, tag, price, category, languageId }) {
+
+    const langCode = Number(languageId) === 1 ? 'uz' : 'ru';
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedRatings, setSelectedRatings] = useState(Number(rating));
@@ -194,7 +221,7 @@ export function RatingChange({ filter, rating, tag, price, category }) {
         if (Number(value) !== Number(rating)) params.set('rating', value);
         if (tag) params.set('tag', tag);
 
-        router?.push(`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
+        router?.push(`/${langCode}/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
     };
 
     const toggleRating = (value) => {
@@ -218,7 +245,8 @@ export function RatingChange({ filter, rating, tag, price, category }) {
                 onClick={() => setIsOpen(!isOpen)}
                 className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
             >
-                Reyting
+                
+                {Number(languageId) === 1 ? "Reyting" : "Рейтинг"}
                 <MorphArrow isOpen={isOpen} />
             </button>
             <AnimatePresence initial={false}>
@@ -367,7 +395,10 @@ export function TagesSelect({ filter, rating, tag, price, category, products }) 
     );
 };
 
-export function FilterDropdown({ filter, category, rating, price, tag }) {
+export function FilterDropdown({ filter, category, rating, price, tag, languageId }) {
+
+    const options = Number(languageId) === 1 ? optionsUz : optionsRu;
+    const langCode = Number(languageId) === 1 ? 'uz' : 'ru';
 
     const router = useRouter();
     const [sort, setSort] = useState(filter || '');
@@ -383,7 +414,7 @@ export function FilterDropdown({ filter, category, rating, price, tag }) {
         if (price) params.set('price', price);
         if (tag) params.set('tag', tag);
 
-        router?.push(`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
+        router?.push(`/${langCode}/catalog/${category.toLowerCase().replace(/\s+/g, '-')}?${params.toString().toLowerCase()}`);
     };
 
     const handleSelect = (value) => {
@@ -411,7 +442,9 @@ export function FilterDropdown({ filter, category, rating, price, tag }) {
 
     return (
         <div className="flex items-center">
-            <label className="text-sm text-[#808080] leading-normal mr-2 hidden md:block">Saralash:</label>
+            <label className="text-sm text-[#808080] leading-normal mr-2 hidden md:block">
+                {Number(languageId) === 1 ? 'Saralash:' : 'Сортировать:'}
+            </label>
             <div className="relative flex-1" ref={dropdownRef}>
                 <div
                     onClick={() => setOpen(prev => !prev)}

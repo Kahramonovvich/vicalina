@@ -27,19 +27,19 @@ export default async function Home({ params }) {
     console.error('Ошибка парсинга JSON:', text);
     products = [];
   };
-  const productsWithSlug = await productsSlug(products);
+  const productsWithSlug = await productsSlug(products); 
 
   return (
     <div className="home">
-      <AboutUs />
+      <AboutUs languageId={languageId} />
       {/* <OurPartners /> */}
-      <Categorys />
-      <TopProducts products={productsWithSlug} />
-      <NewProducts products={productsWithSlug} />
-      <DiscountedProducts products={productsWithSlug} />
-      <ForKitchen products={productsWithSlug} />
-      <StaticCommentsComponent />
-      <MostNeedComponent products={productsWithSlug} />
+      <Categorys languageId={languageId} />
+      <TopProducts products={productsWithSlug} languageId={languageId} />
+      <NewProducts products={productsWithSlug} languageId={languageId} />
+      <DiscountedProducts products={productsWithSlug} languageId={languageId} />
+      <ForKitchen products={productsWithSlug} languageId={languageId} />
+      <StaticCommentsComponent languageId={languageId} />
+      <MostNeedComponent products={productsWithSlug} languageId={languageId} />
     </div>
   );
 };

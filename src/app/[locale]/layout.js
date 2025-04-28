@@ -55,17 +55,21 @@ export const metadata = {
   viewport: "width=device-width, initial-scale=1",
 };
 
-export default async function RootLayout({ children }) {
+export default async function RootLayout({ children, params }) {
+
+  const locale = await params?.locale;
+  const langMap = { uz: 1, ru: 2 };
+  const languageId = langMap[locale] || 1;
 
   return (
     <html lang="uz">
       <body className={dmSans.className}>
-        <TopBanner />
+        <TopBanner languageId={languageId} />
         <BasketProvider>
-          <Header />
+          <Header languageId={languageId} />
           {children}
         </BasketProvider>
-        <Footer />
+        <Footer languageId={languageId} />
         <SpeedInsights />
         <Analytics />
       </body>

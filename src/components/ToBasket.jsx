@@ -7,12 +7,28 @@ import { useEffect, useState } from 'react'
 import { useBasket } from '@/context/basket-context'
 import { motion, AnimatePresence } from 'framer-motion'
 
-export default function ToBasket({ id, products }) {
+const translations = {
+    uz: {
+        add: "Savatchaga qo'shish",
+        added: "Savatchaga qo'shildi",
+        addedShort: "Qo'shildi",
+        addShort: "Qo'shish",
+    },
+    ru: {
+        add: "Добавить в корзину",
+        added: "Добавлено в корзину",
+        addedShort: "Добавлено",
+        addShort: "Добавить",
+    }
+};
+
+export default function ToBasket({ id, products, languageId }) {
 
     const { setBasket } = useBasket();
-
     const [count, setCount] = useState(1);
     const [showControls, setShowControls] = useState(false);
+
+    const t = languageId === 1 ? translations.uz : translations.ru;
 
     useEffect(() => {
         const stored = localStorage.getItem('productsToBasket')
@@ -35,8 +51,8 @@ export default function ToBasket({ id, products }) {
                 basket[index].qty = newQty;
             } else {
                 basket.push({ id, qty: newQty });
-            };
-        };
+            }
+        }
 
         const result = basket.map(basketItem => {
             const product = products.find(p => p.id === basketItem.id);
@@ -107,7 +123,7 @@ export default function ToBasket({ id, products }) {
                 layout
                 onClick={handleInitialClick}
                 className={`addToBasket bg-primary flex items-center justify-center text-white
-                    чgap-x-4 py-4 leading-tight font-semibold flex-1 rounded-full disabled:cursor-not-allowed`}
+                    gap-x-4 py-4 leading-tight font-semibold flex-1 rounded-full disabled:cursor-not-allowed`}
                 disabled={showControls}
                 transition={{ layout: { duration: 0.3 } }}
             >
@@ -120,8 +136,8 @@ export default function ToBasket({ id, products }) {
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.2 }}
                         >
-                            <span className='md:block hidden'>Savatchaga qo'shildi</span>
-                            <span className='block md:hidden'>Qo'shildi</span>
+                            <span className='md:block hidden'>{t.added}</span>
+                            <span className='block md:hidden'>{t.addedShort}</span>
                         </motion.span>
                     ) : (
                         <motion.span
@@ -131,8 +147,8 @@ export default function ToBasket({ id, products }) {
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.2 }}
                         >
-                            <span className='md:block hidden'>Savatchaga qo'shish</span>
-                            <span className='block md:hidden'>Qo'shish</span>
+                            <span className='md:block hidden'>{t.add}</span>
+                            <span className='block md:hidden'>{t.addShort}</span>
                         </motion.span>
                     )}
                 </AnimatePresence>
