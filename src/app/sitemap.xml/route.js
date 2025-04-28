@@ -1,3 +1,5 @@
+import { navMenu } from "@/constants/constants";
+
 const API_BASE_URL = process.env.API_BASE_URL;
 const BASE_URL = 'https://vicalinaofficial.uz';
 const LANG_MAP = {
@@ -14,25 +16,31 @@ export async function GET() {
                 `${API_BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`
             ).then(res => res.json());
 
-            urls.push(`<url><loc>${BASE_URL}/${locale}</loc></url>`);
-            urls.push(`<url><loc>${BASE_URL}/${locale}/login</loc></url>`);
-            urls.push(`<url><loc>${BASE_URL}/${locale}/favorites</loc></url>`);
-            urls.push(`<url><loc>${BASE_URL}/${locale}/basket</loc></url>`);
+            urls.push(`<url><loc>${BASE_URL}</loc></url>`);
+            urls.push(`<url><loc>${BASE_URL}/favorites</loc></url>`);
+            urls.push(`<url><loc>${BASE_URL}/basket</loc></url>`);
+            urls.push(`<url><loc>${BASE_URL}/catalog/all-products</loc></url>`);
 
             const categorySet = new Set();
 
             for (const product of products) {
-                const categorySlug = product.category.toUpperCase().replace(/\s+/g, '-');
+                const category = navMenu.find(
+                    (cat) =>
+                        cat.name.toLowerCase() === product.category.toLowerCase() ||
+                        cat.nameRu.toLowerCase() === product.category.toLowerCase()
+                );
+                const categorySlug = category ? category.slug : 'unknown-category';
+
                 categorySet.add(categorySlug);
 
                 const productSlug = `${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`;
                 urls.push(
-                    `<url><loc>${BASE_URL}/${locale}/catalog/${categorySlug}/${productSlug}</loc></url>`
+                    `<url><loc>${BASE_URL}/${locale}${categorySlug}/${productSlug}</loc></url>`
                 );
             };
 
             for (const category of categorySet) {
-                urls.push(`<url><loc>${BASE_URL}/${locale}/catalog/${category}</loc></url>`);
+                urls.push(`<url><loc>${BASE_URL}/${locale}${category}</loc></url>`);
             };
         };
 

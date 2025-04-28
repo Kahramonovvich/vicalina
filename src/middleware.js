@@ -46,5 +46,5 @@ export function middleware(req) {
 }
 
 export const config = {
-    matcher: ["/((?!_next|favicon.ico).*)"], // применимо ко всем, кроме статики
+    matcher: ["/((?!_next|favicon.ico).*)"],
 };
