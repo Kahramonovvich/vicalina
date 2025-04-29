@@ -60,6 +60,35 @@ const translations = {
     }
 };
 
+export async function generateMetadata({ params }) {
+
+    const locale = await params.locale;
+    const langMap = { uz: 1, ru: 2 };
+    const languageId = langMap[locale] || 1;
+
+    const resProduct = await fetch(`${BASE_URL}/api/Products/GetProductById/?languageId=${languageId}&productId=${id}`, {
+        next: { tags: ['products'] },
+    });
+    const oneText = await resProduct.text();
+    let product;
+    try {
+        product = JSON.parse(oneText);
+    } catch (e) {
+        console.error('Ошибка парсинга JSON:', oneText);
+        product = [];
+    };
+
+    return {
+        title: product.name,
+        description: product.description,
+        openGraph: {
+            title: product.name,
+            description: product.description,
+            images: [product.image],
+        },
+    };
+}
+
 export default async function ProductInfoPage({ params }) {
 
     const { category, slug } = await params;

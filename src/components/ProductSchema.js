@@ -1,11 +1,20 @@
+import { navMenu } from "@/constants/constants";
+
 export default function ProductSchema({ product }) {
+
     const productPrice = product.discount ? product.newPrice : product.price;
+    const category = navMenu.find(
+        (cat) =>
+            cat.name.toLowerCase() === product.category.toLowerCase() ||
+            cat.nameRu.toLowerCase() === product.category.toLowerCase()
+    );
+    const categorySlug = category ? category.slug : 'unknown-category';
 
     const schema = {
         "@context": "https://schema.org/",
         "@type": "Product",
         "name": product.name,
-        "image": product.files,
+        "image": product.images,
         "description": product.description,
         "sku": product.sku,
         "brand": {
@@ -17,7 +26,7 @@ export default function ProductSchema({ product }) {
             "priceCurrency": "UZS",
             "price": productPrice,
             "availability": "https://schema.org/InStock",
-            "url": `https://vicalinaofficial.uz/catalog/${product.category.toLowerCase().replace(/\s+/g, '-')}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
+            "url": `https://vicalinaofficial.uz${categorySlug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
             "priceValidUntil": "2025-12-31" // можешь вставить дату динамически, если надо
         },
         "aggregateRating": {
