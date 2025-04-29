@@ -62,6 +62,15 @@ const translations = {
 
 export async function generateMetadata({ params }) {
 
+    const { category, slug } = await params;
+    const catFilter = navMenu.find((cat) => cat.slug.replace('/catalog/', '') === category);
+    const decodeSlug = decodeURIComponent(slug);
+    const normalizeSlug = (s) => s.replace(/[‘’`ʻʼ]/g, "'");
+    const cleanSlug = normalizeSlug(decodeSlug);
+    const [namePart, idPart] = cleanSlug.split('-id~');
+    const name = namePart.replace(/-/gi, ' ');
+    const id = idPart;
+
     const locale = await params.locale;
     const langMap = { uz: 1, ru: 2 };
     const languageId = langMap[locale] || 1;
@@ -78,16 +87,47 @@ export async function generateMetadata({ params }) {
         product = [];
     };
 
+    if (!product) {
+        return {
+            title: 'Mahsulot topilmadi - Vicalina',
+            description: 'Kechirasiz, bunday mahsulot mavjud emas.',
+            robots: 'noindex, nofollow',
+        };
+    }
+
+    const productName = product.name || 'Mahsulot';
+    const productPrice = product.discount ? product.newPrice : product.price;
+    const productImage = product.images[0].filePath;
+
     return {
-        title: product.name,
-        description: product.description,
+        title: `${productName} — ${formatCurrency(productPrice)} | Vicalina`,
+        description: `${product.shortDescription}. Endi ${productPrice} so'mdan boshlanadi. Sifat kafolati va tez yetkazib berish.`,
+        keywords: `${productName}, ${product.category}, ${product.type}, ${product.color.join(', ')}, Vicalina`,
         openGraph: {
-            title: product.name,
-            description: product.description,
-            images: [product.image],
+            title: `${productName} — xarid qiling hoziroq`,
+            description: `${product.description}`,
+            url: `https://vicalinaofficial.uz/uz/${catFilter.slug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
+            siteName: 'Vicalina',
+            images: [
+                {
+                    url: productImage,
+                    alt: productName,
+                },
+            ],
+            locale: 'uz_UZ',
+            type: 'article',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${productName} — Vicalina`,
+            description: `${product.shortDescription}`,
+            images: [productImage],
+        },
+        alternates: {
+            canonical: `https://vicalinaofficial.uz/uz/${catFilter.slug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
         },
     };
-}
+};
 
 export default async function ProductInfoPage({ params }) {
 
@@ -131,6 +171,9 @@ export default async function ProductInfoPage({ params }) {
 
     const selectedCategory = Number(languageId) === 1 ? catFilter?.name : catFilter?.nameRu;
     const t = languageId === 1 ? translations.uz : translations.ru;
+
+    console.log(catFilter.slug);
+
 
     return (
         <div className="productInfo">
