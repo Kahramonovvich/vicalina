@@ -14,46 +14,70 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-export const metadata = {
-  title: "Vicalina – siz va oilangiz uchun!",
-  description: "Vicalina – bu onlayn do‘kon, unda siz sifatli qozonlar, skavotkalar, oshxona naborlari, pichoqlar va boshqa oshxona buyumlarini xarid qilishingiz mumkin.",
-  keywords: [
-    "Vicalina",
-    "qozonlar",
-    "skavotkalar",
-    "pichoqlar",
-    "oshxona buyumlari",
-    "internet do'kon",
-    "oshxona anjomlari",
-    "kastrulkalar",
-    "naborlar",
-    "maishiy texnika"
-  ],
-  metadataBase: new URL("https://vicalinaofficial.uz"),
-  openGraph: {
-    title: "Vicalina – siz va oilangiz uchun!",
-    description: "Qozonlar, skavotkalar, pichoqlar va boshqa oshxona buyumlari – Vicalina onlayn do‘konida",
-    url: "https://vicalinaofficial.uz",
-    siteName: "Vicalina",
-    locale: "uz_UZ",
-    type: "website",
-    images: [
-      {
-        url: "https://vicalinaofficial.uz/favicon.jpg",
-        width: 1080,
-        height: 1080,
-        alt: "Vicalina logotipi",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Vicalina – siz va oilangiz uchun!",
-    description:
-      "Qozonlar, skavotkalar, pichoqlar va boshqa oshxona buyumlari – Vicalina onlayn do‘konida",
-    images: ["https://vicalinaofficial.uz/favicon.jpg"],
-  },
-  viewport: "width=device-width, initial-scale=1",
+export async function generateMetadata({ params }) {
+
+  const locale = await params?.locale;
+  const isRu = locale === 'ru';
+
+  return {
+    title: isRu ? "Vicalina — для вас и вашей семьи!" : "Vicalina – siz va oilangiz uchun!",
+    description: isRu
+      ? "Vicalina — интернет-магазин, где вы можете купить качественные казаны, сковородки, кухонные наборы, ножи и другую кухонную утварь."
+      : "Vicalina – bu onlayn do‘kon, unda siz sifatli qozonlar, skavotkalar, oshxona naborlari, pichoqlar va boshqa oshxona buyumlarini xarid qilishingiz mumkin.",
+    keywords: isRu
+      ? [
+        "Vicalina",
+        "казаны",
+        "сковородки",
+        "ножи",
+        "кухонная утварь",
+        "интернет магазин",
+        "кухонные принадлежности",
+        "кастрюли",
+        "наборы посуды",
+        "бытовая техника"
+      ]
+      : [
+        "Vicalina",
+        "qozonlar",
+        "skavotkalar",
+        "pichoqlar",
+        "oshxona buyumlari",
+        "internet do'kon",
+        "oshxona anjomlari",
+        "kastrulkalar",
+        "naborlar",
+        "maishiy texnika"
+      ],
+    metadataBase: new URL("https://vicalinaofficial.uz"),
+    openGraph: {
+      title: isRu ? "Vicalina — для вас и вашей семьи!" : "Vicalina – siz va oilangiz uchun!",
+      description: isRu
+        ? "Казаны, сковородки, ножи и другие кухонные товары — в интернет-магазине Vicalina"
+        : "Qozonlar, skavotkalar, pichoqlar va boshqa oshxona buyumlari – Vicalina onlayn do‘konida",
+      url: "https://vicalinaofficial.uz",
+      siteName: "Vicalina",
+      locale: isRu ? "ru_RU" : "uz_UZ",
+      type: "website",
+      images: [
+        {
+          url: "https://vicalinaofficial.uz/favicon.ico",
+          width: 1080,
+          height: 1080,
+          alt: "Vicalina logotipi",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: isRu ? "Vicalina — для вас и вашей семьи!" : "Vicalina – siz va oilangiz uchun!",
+      description: isRu
+        ? "Казаны, сковородки, ножи и другие кухонные товары — в интернет-магазине Vicalina"
+        : "Qozonlar, skavotkalar, pichoqlar va boshqa oshxona buyumlari – Vicalina onlayn do‘konida",
+      images: ["https://vicalinaofficial.uz/favicon.ico"],
+    },
+    viewport: "width=device-width, initial-scale=1",
+  };
 };
 
 const BASE_URL = process.env.API_BASE_URL;
@@ -79,7 +103,7 @@ export default async function RootLayout({ children, params }) {
   const productsWithSlug = await productsSlug(products);
 
   return (
-    <html lang="uz">
+    <html lang={locale}>
       <body className={dmSans.className}>
         <TopBanner languageId={languageId} />
         <BasketProvider>

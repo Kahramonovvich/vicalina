@@ -61,8 +61,7 @@ const translations = {
 };
 
 export async function generateMetadata({ params }) {
-
-    const { category, slug } = await params;
+    const { category, slug, locale } = params;
     const catFilter = navMenu.find((cat) => cat.slug.replace('/catalog/', '') === category);
     const decodeSlug = decodeURIComponent(slug);
     const normalizeSlug = (s) => s.replace(/[‘’`ʻʼ]/g, "'");
@@ -71,42 +70,44 @@ export async function generateMetadata({ params }) {
     const name = namePart.replace(/-/gi, ' ');
     const id = idPart;
 
-    const locale = await params.locale;
     const langMap = { uz: 1, ru: 2 };
     const languageId = langMap[locale] || 1;
 
     const resProduct = await fetch(`${BASE_URL}/api/Products/GetProductById/?languageId=${languageId}&productId=${id}`, {
         next: { tags: ['products'] },
     });
+
     const oneText = await resProduct.text();
     let product;
     try {
         product = JSON.parse(oneText);
     } catch (e) {
         console.error('Ошибка парсинга JSON:', oneText);
-        product = [];
-    };
+        product = null;
+    }
 
     if (!product) {
         return {
-            title: 'Mahsulot topilmadi - Vicalina',
-            description: 'Kechirasiz, bunday mahsulot mavjud emas.',
+            title: locale === 'ru' ? 'Товар не найден - Vicalina' : 'Mahsulot topilmadi - Vicalina',
+            description: locale === 'ru' ? 'Извините, такой товар отсутствует.' : 'Kechirasiz, bunday mahsulot mavjud emas.',
             robots: 'noindex, nofollow',
         };
     }
 
-    const productName = product.name || 'Mahsulot';
+    const productName = product.name || (locale === 'ru' ? 'Товар' : 'Mahsulot');
     const productPrice = product.discount ? product.newPrice : product.price;
     const productImage = product.images[0].filePath;
 
     return {
         title: `${productName} — ${formatCurrency(productPrice)} | Vicalina`,
-        description: `${product.shortDescription}. Endi ${productPrice} so'mdan boshlanadi. Sifat kafolati va tez yetkazib berish.`,
+        description: locale === 'ru'
+            ? `${product.shortDescription}. Цена от ${productPrice} сум. Гарантия качества и быстрая доставка.`
+            : `${product.shortDescription}. Endi ${productPrice} so'mdan boshlanadi. Sifat kafolati va tez yetkazib berish.`,
         keywords: `${productName}, ${product.category}, ${product.type}, ${product.color.join(', ')}, Vicalina`,
         openGraph: {
-            title: `${productName} — xarid qiling hoziroq`,
-            description: `${product.description}`,
-            url: `https://vicalinaofficial.uz/uz/${catFilter.slug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
+            title: `${productName} — ${locale === 'ru' ? 'купить сейчас' : 'xarid qiling hoziroq'}`,
+            description: locale === 'ru' ? product.description : product.description,
+            url: `https://vicalinaofficial.uz/${locale}${catFilter.slug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
             siteName: 'Vicalina',
             images: [
                 {
@@ -114,24 +115,24 @@ export async function generateMetadata({ params }) {
                     alt: productName,
                 },
             ],
-            locale: 'uz_UZ',
+            locale: locale === 'ru' ? 'ru_RU' : 'uz_UZ',
             type: 'article',
         },
         twitter: {
             card: 'summary_large_image',
             title: `${productName} — Vicalina`,
-            description: `${product.shortDescription}`,
+            description: locale === 'ru' ? product.shortDescription : product.shortDescription,
             images: [productImage],
         },
         alternates: {
-            canonical: `https://vicalinaofficial.uz/uz/${catFilter.slug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
+            canonical: `https://vicalinaofficial.uz/${locale}${catFilter.slug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
         },
     };
-};
+}
 
 export default async function ProductInfoPage({ params }) {
 
-    const { category, slug } = await params;
+    const { category, slug, locale } = await params;
     const catFilter = navMenu.find((cat) => cat.slug.replace('/catalog/', '') === category);
     const decodeSlug = decodeURIComponent(slug);
     const normalizeSlug = (s) => s.replace(/[‘’`ʻʼ]/g, "'");
@@ -140,7 +141,6 @@ export default async function ProductInfoPage({ params }) {
     const name = namePart.replace(/-/gi, ' ');
     const id = idPart;
 
-    const locale = await params.locale;
     const langMap = { uz: 1, ru: 2 };
     const languageId = langMap[locale] || 1;
 

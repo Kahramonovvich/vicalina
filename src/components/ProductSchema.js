@@ -14,7 +14,7 @@ export default function ProductSchema({ product }) {
         "@context": "https://schema.org/",
         "@type": "Product",
         "name": product.name,
-        "image": product.images,
+        "image": product.images.map((img) => img.filePath),
         "description": product.description,
         "sku": product.sku,
         "brand": {
