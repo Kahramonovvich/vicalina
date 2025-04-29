@@ -45,6 +45,7 @@ const translations = {
         share: "Ulashish:",
         catalogText: "Katalog:",
         tagText: "Teg:",
+        slug: 'uz'
     },
     ru: {
         catalog: "Каталог",
@@ -55,6 +56,7 @@ const translations = {
         share: "Поделиться:",
         catalogText: "Каталог:",
         tagText: "Тег:",
+        slug: 'ru'
     }
 };
 
@@ -105,19 +107,19 @@ export default async function ProductInfoPage({ params }) {
         <div className="productInfo">
             <div className="container">
                 <div className="top md:my-12 my-8 flex items-center gap-x-3">
-                    <Link href={'/'}>
+                    <Link href={`/${t.slug}`}>
                         <HomeIcon />
                     </Link>
                     <TopArrowICon />
                     <Link
-                        href={'/catalog/all-products'}
+                        href={`/${t.slug}/catalog/all-products`}
                         className='text-[#999] leading-normal'
                     >
                         {t.catalog}
                     </Link>
                     <TopArrowICon />
                     <Link
-                        href={`/catalog/${category.toLowerCase().replace(/\s+/g, '-')}`}
+                        href={`/${t.slug}/catalog/${category.toLowerCase().replace(/\s+/g, '-')}`}
                         className='text-[#999] leading-normal'
                     >
                         {selectedCategory?.replace(/-/gi, ' ').charAt(0).toLocaleUpperCase() + selectedCategory?.replace(/-/gi, ' ').slice(1).toLocaleLowerCase()}

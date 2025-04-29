@@ -1,5 +1,4 @@
 'use client'
-
 import Image from "next/image";
 import Link from "next/link";
 import Burger from '@/icons/burger.svg'
@@ -9,8 +8,8 @@ import SearchIcon from '@/icons/search (4) 1.svg'
 import BasketIcon from '../icons/shopping-cart 1.svg'
 import HeartIcon from '../icons/favorite.svg'
 import { Montserrat } from "next/font/google";
-import { useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -55,21 +54,38 @@ const translations = {
     }
 };
 
-export default function Header({ languageId }) {
+export default function Header({ languageId, products }) {
+
     const t = Number(languageId) === 1 ? translations.uz : translations.ru;
     const pathName = usePathname();
-    const searchParams = useSearchParams();
     const isHomePage = pathName === '/uz' || pathName === '/ru';
 
     const { basket, totalPrice } = useBasket();
     const [isOpenMenu, setIsOpenMenu] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState(Number(languageId) === 1 ? 'UZ' : 'RU');
     const [openLang, setOpenLang] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
-    const handleSearch = (e) => { e.preventDefault(); };
-    const toggleMenu = () => { setIsOpenMenu(!isOpenMenu); };
+    const handleSearch = (e) => {
+        e.preventDefault();
+    };
 
-    useEffect(() => { setIsOpenMenu(false); }, [pathName]);
+    const toggleMenu = () => {
+        setIsOpenMenu(!isOpenMenu);
+    };
+
+    const filteredProducts = useMemo(() => {
+        if (searchTerm) {
+            return products?.filter(product =>
+                product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                product.sku.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+    }, [products, searchTerm]);
+
+    useEffect(() => {
+        setIsOpenMenu(false);
+    }, [pathName]);
 
     return (
         <header>
@@ -88,10 +104,47 @@ export default function Header({ languageId }) {
                             {t.catalog}
                         </button>
                         <form className="flex-1 relative max-w-[464px]" onSubmit={handleSearch}>
-                            <input type="text" placeholder={t.searchPlaceholder} className="bg-[#EFF3F6] w-full px-5 pr-20 outline-none rounded-base py-3" />
+                            <input
+                                type="text"
+                                placeholder={t.searchPlaceholder}
+                                className="bg-[#EFF3F6] w-full px-5 pr-20 outline-none rounded-base py-3"
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
                             <button className="px-[17px] h-full rounded-r-base bg-primary absolute right-0">
                                 <SearchIcon />
                             </button>
+                            {searchTerm.length > 0 && (
+                                <div className="box absolute w-full border mt-3 rounded-lg top-full p-3 bg-white z-40 flex flex-col gap-y-2">
+                                    {filteredProducts.length > 0 ?
+                                        filteredProducts
+                                            .slice(0, 5)
+                                            .map((product) => (
+                                                <Link
+                                                    key={product.id}
+                                                    href={`/${t.href}${product.slug}`}
+                                                    className="flex items-center justify-between gap-x-2 p-2 hover:bg-gray-100 rounded-md border"
+                                                    onClick={() => setSearchTerm('')}
+                                                >
+                                                    <div className="img relative w-14 h-14">
+                                                        <Image
+                                                            fill
+                                                            src={product.images[0].filePath}
+                                                            alt={product.name}
+                                                            style={{ objectFit: 'contain' }}
+                                                        />
+                                                    </div>
+                                                    <div className="font-semibold truncate flex-1">
+                                                        {product.name}
+                                                    </div>
+                                                    <p className="font-semibold">
+                                                        {formatCurrency(product.discount ? product.newPrice : product.price)}
+                                                    </p>
+                                                </Link>
+                                            )) :
+                                        'Mahsulot topilmadi'
+                                    }
+                                </div>
+                            )}
                         </form>
                         <div className="rightBox flex gap-x-5">
                             <Link href={`/${t.href}/admin`} className="box flex flex-col items-center justify-between">

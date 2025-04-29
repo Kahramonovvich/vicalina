@@ -5,7 +5,6 @@ import RatingIcon from "./RatingIcon";
 import { Rating } from "@mui/material";
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import StarBorderRoundedIcon from '@mui/icons-material/StarBorderRounded';
-import { usePathname } from 'next/navigation';
 
 const translations = {
     uz: {
@@ -59,6 +58,59 @@ export default function ProductInfoComponents({ product, languageId }) {
 
     const [activeComponent, setActiveComponent] = useState(t.tabs.description);
     const [value, setValue] = useState(0);
+    const [fullName, setFullName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [text, setText] = useState('');
+
+    const createComment = async (e) => {
+        e.preventDefault();
+
+        const comment = {
+            productId: product.id,
+            fullName,
+            phoneNumber,
+            text
+        };
+
+        if (Number(value) === 0) {
+            alert('Iltimos, mahsulotni baholang!');
+            return;
+        } else if (comment.fullName.length <= 0) {
+            alert('Iltimos, ismingizni yozing!');
+            return;
+        } else if (comment.phoneNumber.length <= 0) {
+            alert('Iltimos, raqamingizni yozing!');
+            return;
+        } else if (comment.text.length <= 0) {
+            alert('Iltimos, izoh yozing!');
+            return;
+        }
+
+        try {
+            const resRat = await fetch(`/api/Rating/CalculateRating?rating=${value}&productId=${product.id}`, {
+                method: 'POST',
+            });
+
+            const resCom = await fetch('/api/Comment/Create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(comment),
+            });
+
+            if (!resRat.ok || !resCom.ok) {
+                const errorRat = await resRat.text();
+                const errorCom = await resCom.text();
+                console.error('❌ Rating error:', resRat.status, errorRat);
+                console.error('❌ Comment error:', resCom.status, errorCom);
+                alert('Izoh qo‘shishda xatolik');
+                return;
+            }
+            alert('✅ Izoh muvaffaqiyatli saqlandi!');
+        } catch (error) {
+            console.error('💥 Server bilan muammo:', error);
+            alert('Server bilan ulanishda xatolik');
+        }
+    };
 
     return (
         <div className="box">
@@ -154,22 +206,29 @@ export default function ProductInfoComponents({ product, languageId }) {
                                         {t.leaveReview}
                                     </h3>
                                 </div>
-                                <form className="space-y-4">
+                                <form
+                                    className="space-y-4"
+                                    onSubmit={createComment}
+                                >
                                     <div>
                                         <label className="block text-sm mb-1">{t.name}</label>
                                         <input
+                                            value={fullName}
                                             type="text"
                                             placeholder={t.name}
                                             className="w-full border rounded px-4 py-2"
+                                            onChange={(e) => setFullName(e.target.value)}
                                         />
                                     </div>
 
                                     <div>
                                         <label className="block text-sm mb-1">{t.phone}</label>
                                         <input
+                                            value={phoneNumber}
                                             type="tel"
                                             placeholder="+998 99 000 00 00"
                                             className="w-full border-2 border-indigo-900 rounded px-4 py-2"
+                                            onChange={(e) => setPhoneNumber(e.target.value)}
                                         />
                                     </div>
 
@@ -188,9 +247,11 @@ export default function ProductInfoComponents({ product, languageId }) {
                                     <div>
                                         <label className="block text-sm mb-1">{t.comment}</label>
                                         <textarea
+                                            value={text}
                                             placeholder="..."
                                             className="w-full border rounded px-4 py-2"
                                             rows="4"
+                                            onChange={(e) => setText(e.target.value)}
                                         />
                                     </div>
                                     <button

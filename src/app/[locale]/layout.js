@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 import { BasketProvider } from "@/context/basket-context";
 import TopBanner from "@/components/Test";
+import { productsSlug } from "@/utils/utils";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -55,18 +56,34 @@ export const metadata = {
   viewport: "width=device-width, initial-scale=1",
 };
 
+const BASE_URL = process.env.API_BASE_URL;
+
 export default async function RootLayout({ children, params }) {
 
   const locale = await params?.locale;
   const langMap = { uz: 1, ru: 2 };
   const languageId = langMap[locale] || 1;
 
+  const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {
+    next: { tags: ['products'] }
+  });
+  const text = await resProducts.text();
+  let products;
+
+  try {
+    products = JSON.parse(text);
+  } catch (e) {
+    console.error('Ошибка парсинга JSON:', text);
+    products = [];
+  };
+  const productsWithSlug = await productsSlug(products);
+
   return (
     <html lang="uz">
       <body className={dmSans.className}>
         <TopBanner languageId={languageId} />
         <BasketProvider>
-          <Header languageId={languageId} />
+          <Header languageId={languageId} products={productsWithSlug} />
           {children}
         </BasketProvider>
         <Footer languageId={languageId} />
