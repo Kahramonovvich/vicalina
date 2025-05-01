@@ -5,7 +5,7 @@ const BASE_URL = 'https://vicalinaofficial.uz';
 const LANG_MAP = {
     uz: 1,
     ru: 2,
-};
+}; 
 
 export async function GET() {
     try {
