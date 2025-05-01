@@ -3,6 +3,7 @@ import { Modal, TextField, Button, MenuItem, Checkbox, FormControlLabel } from "
 import { useState } from "react"
 import { navMenu } from "@/constants/constants";
 import { useRouter } from "next/navigation";
+import imageCompression from 'browser-image-compression';
 
 export default function CreateProductModal({ openModal, setOpenModal }) {
 
@@ -70,8 +71,37 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
         };
     };
 
+    const compressImages = async (files) => {
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true
+        };
+
+        const compressedFiles = [];
+
+        for (const file of files) {
+            const compressed = await imageCompression(file, options);
+            compressedFiles.push(compressed);
+        };
+
+        return compressedFiles;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        setIsLoading(true);
+
+        // const sizeInBytes = Array.from(form.Images)
+        //     .map((img) => img.size)
+        //     .reduce((acc, curr) => acc + curr, 0);
+        // const sizeInMB = sizeInBytes / (1024 * 1024);
+        // if (sizeInMB > 4) {
+        //     alert("Общий размер изображений превышает 4 МБ!");
+        //     return;
+        // };
+
         const formData = new FormData();
 
         Object.entries(form).forEach(([key, value]) => {
@@ -79,21 +109,25 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                 for (const item of value) {
                     formData.append(key, item);
                 }
-            } else if (key === "Images") {
-                for (const img of value) {
-                    formData.append("Files", img);
-                }
-            } else if (key !== "Category") {
+            } else if (key !== "Category" && key !== "Images") {
                 formData.append(key, value);
-            }
+            };
         });
 
         const selectedCategory = navMenu.find(cat => String(cat.id) === String(form.Category));
         const nameToUse = languageId === 1 ? selectedCategory?.name : selectedCategory?.nameRu;
         formData.append("Category", nameToUse);
 
+        const compressedImages = await compressImages(form.Images);
+        compressedImages.forEach((file, index) => {
+            const ext = file.type.split('/')[1];
+            const filename = `image_${index}_${Date.now()}.${ext}`;
+            const renamedFile = new File([file], filename, { type: file.type });
+
+            formData.append('Files', renamedFile);
+        });
+
         try {
-            setIsLoading(true);
             const res = await fetch('api/Products/CreateProduct', {
                 method: 'POST',
                 body: formData,
