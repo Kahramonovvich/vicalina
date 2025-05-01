@@ -7,6 +7,7 @@ import "./globals.css";
 import { BasketProvider } from "@/context/basket-context";
 import TopBanner from "@/components/Test";
 import { productsSlug } from "@/utils/utils";
+import NextTopLoader from "nextjs-toploader";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -105,6 +106,11 @@ export default async function RootLayout({ children, params }) {
   return (
     <html lang={locale}>
       <body className={dmSans.className}>
+        <NextTopLoader
+          color="#000066"
+          height={3}
+          showSpinner={false}
+        />
         <TopBanner languageId={languageId} />
         <BasketProvider>
           <Header languageId={languageId} products={productsWithSlug} />

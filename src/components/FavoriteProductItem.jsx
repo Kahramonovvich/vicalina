@@ -3,8 +3,9 @@ import Image from 'next/image'
 import CloseIcon from '@/icons/Close.svg'
 import { formatCurrency } from '@/utils/utils'
 import { useLikedProduct } from '@/hooks/useLikedProducts'
+import ToBasketFav from './ToBasketFav'
 
-export default function FavoriteProductItem({ product, onRemove }) {
+export default function FavoriteProductItem({ product, onRemove, products, languageId }) {
 
     const { toggleLiked } = useLikedProduct(product.id);
 
@@ -33,21 +34,29 @@ export default function FavoriteProductItem({ product, onRemove }) {
             </div>
             <div className="flex items-center justify-between status col-span-4">
                 <div className={`px-2 py-1 text-sm leading-normal rounded w-max
-                    ${product.qty > 0 ? 'bg-[#20B52633] text-[#2C742F]' : 'bg-[#EA4B4833] text-[#EA4B48]'}`}>
-                    {product.qty > 0 ? 'Mavjud' : 'Tez orada'}
+                    ${product.quantity > 0 ? 'bg-[#20B52633] text-[#2C742F]' : 'bg-[#EA4B4833] text-[#EA4B48]'}`}>
+                    {product.quantity > 0 ? 'Mavjud' : 'Tez orada'}
                 </div>
                 <div className="toBasket flex items-center gap-x-6">
-                    <button className='bg-primary px-8 py-3.5 rounded text-white hidden md:block'>
-                        Savatga qo’shish
-                    </button>
+                    <div className="box hidden md:block">
+                        <ToBasketFav
+                            products={products}
+                            languageId={languageId}
+                            id={product.id}
+                        />
+                    </div>
                     <button onClick={handleClick}>
                         <CloseIcon />
                     </button>
                 </div>
             </div>
-            <button className='bg-primary px-8 py-2 rounded text-white col-span-12 mt-2 md:hidden'>
-                Savatga qo’shish
-            </button>
+            <div className='col-span-12 mt-2 md:hidden'>
+                <ToBasketFav
+                    products={products}
+                    languageId={languageId}
+                    id={product.id}
+                />
+            </div>
         </div>
     )
 }

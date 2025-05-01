@@ -31,6 +31,7 @@ export default function Favorites() {
     const t = languageId === 1 ? translations.uz : translations.ru;
 
     const [favoriteProducts, setFavoriteProducts] = useState([]);
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,10 +44,11 @@ export default function Favorites() {
 
             const filtered = productsWithSlug.filter(product => likedIds.includes(product.id));
             setFavoriteProducts(filtered);
+            setProducts(products);
         };
 
         fetchData();
-    }, [languageId]); // <--- добавил зависимость по languageId, чтобы всё работало правильно при смене языка
+    }, [languageId]);
 
     return (
         <div className="favorites">
@@ -77,6 +79,8 @@ export default function Favorites() {
                                 onRemove={() => {
                                     setFavoriteProducts(prev => prev.filter(p => p.id !== product.id))
                                 }}
+                                products={products}
+                                languageId={languageId}
                             />
                         ))}
                         {favoriteProducts.length === 0 && (

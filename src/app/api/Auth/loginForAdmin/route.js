@@ -22,12 +22,15 @@ export async function POST(req) {
         if (!token) {
             console.log('🚫 NO TOKEN, NOT SETTING COOKIE');
             return new Response("Unauthorized", { status: 401 });
-        }
+        };
 
         const cookieStore = cookies();
         cookieStore?.set({
             name: 'admin_token',
-            value: token,
+            value: JSON.stringify({
+                token,
+                expiresAt: Date.now() + 2 * 60 * 60 * 1000,
+            }),
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',

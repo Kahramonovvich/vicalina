@@ -10,19 +10,19 @@ import { motion, AnimatePresence } from 'framer-motion'
 const translations = {
     uz: {
         add: "Savatchaga qo'shish",
-        added: "Savatchaga qo'shildi",
-        addedShort: "Qo'shildi",
+        added: "Savatchadan o'chirish",
+        addedShort: "O'chirish",
         addShort: "Qo'shish",
     },
     ru: {
         add: "Добавить в корзину",
-        added: "Добавлено в корзину",
-        addedShort: "Добавлено",
+        added: "Убрать из корзины",
+        addedShort: "Убрать",
         addShort: "Добавить",
     }
 };
 
-export default function ToBasket({ id, products, languageId, onFav }) {
+export default function ToBasketFav({ id, products, languageId }) {
 
     const { setBasket } = useBasket();
     const [count, setCount] = useState(1);
@@ -71,12 +71,6 @@ export default function ToBasket({ id, products, languageId, onFav }) {
         setBasket(result);
     };
 
-    const handleAdd = () => {
-        const newQty = count + 1;
-        setCount(newQty);
-        updateLocalStorage(newQty);
-    }
-
     const handleRemove = () => {
         const newQty = count - 1;
         setCount(newQty);
@@ -92,39 +86,11 @@ export default function ToBasket({ id, products, languageId, onFav }) {
 
     return (
         <motion.div layout className="flex items-center gap-x-3">
-            <AnimatePresence>
-                {showControls && (
-                    <motion.div
-                        className="qty flex items-center p-2 border rounded-full"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <button
-                            onClick={handleRemove}
-                            className='w-[34px] h-[34px] bg-[#F2F2F2] rounded-full'
-                        >
-                            <RemoveIcon />
-                        </button>
-                        <p className='w-6 flex items-center justify-center'>
-                            {count}
-                        </p>
-                        <button
-                            onClick={handleAdd}
-                            className='w-[34px] h-[34px] bg-[#F2F2F2] rounded-full'
-                        >
-                            <AddIcon />
-                        </button>
-                    </motion.div>
-                )}
-            </AnimatePresence>
             <motion.button
                 layout
-                onClick={handleInitialClick}
+                onClick={showControls ? handleRemove : handleInitialClick}
                 className={`addToBasket bg-primary flex items-center justify-center text-white
-                    gap-x-4 py-4 leading-tight font-semibold flex-1 rounded-full disabled:cursor-not-allowed`}
-                disabled={showControls}
+                    gap-x-4 px-8 py-3.5 rounded leading-tight font-semibold flex-1 disabled:cursor-not-allowed`}
                 transition={{ layout: { duration: 0.3 } }}
             >
                 <AnimatePresence mode="wait">
@@ -152,13 +118,7 @@ export default function ToBasket({ id, products, languageId, onFav }) {
                         </motion.span>
                     )}
                 </AnimatePresence>
-                <Bag />
             </motion.button>
-            {!onFav && (
-                <div className='bg-[#0000661A] w-[52px] h-[52px] flex items-center justify-center rounded-full'>
-                    <LikeButtonComponent id={id} />
-                </div>
-            )}
         </motion.div>
     )
 };

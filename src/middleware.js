@@ -24,9 +24,14 @@ export function middleware(req) {
     }
 
     // ===== 2. Admin защита =====
-    const token = req.cookies.get('admin_token');
+    const cookie = req.cookies.get('admin_token');
+    let token = '';
+    if (cookie) {
+        const cookieData = JSON?.parse(cookie?.value);
+        token = cookieData.token;
+    };
 
-    if ((path === "/ru/admin" || path === "/uz/admin" || path === "/admin" || path.startsWith("/admin/")) && !token?.value) {
+    if ((path === "/ru/admin" || path === "/uz/admin" || path === "/admin" || path.startsWith("/admin/")) && !token) {
         return NextResponse.redirect(new URL("/login", req.url));
     }
 

@@ -24,7 +24,6 @@ export default function LoginPage() {
 
         if (res.ok) {
             router.push('/admin');
-            setIsloading(false);
         } else {
             alert('Неверный логин или пароль');
             setIsloading(false);

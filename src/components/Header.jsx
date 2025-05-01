@@ -85,6 +85,7 @@ export default function Header({ languageId, products }) {
 
     useEffect(() => {
         setIsOpenMenu(false);
+        setSearchTerm('');
     }, [pathName]);
 
     return (
@@ -106,6 +107,7 @@ export default function Header({ languageId, products }) {
                         <form className="flex-1 relative max-w-[464px]" onSubmit={handleSearch}>
                             <input
                                 type="text"
+                                value={searchTerm}
                                 placeholder={t.searchPlaceholder}
                                 className="bg-[#EFF3F6] w-full px-5 pr-20 outline-none rounded-base py-3"
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -134,7 +136,7 @@ export default function Header({ languageId, products }) {
                                                         />
                                                     </div>
                                                     <div className="font-semibold truncate flex-1">
-                                                        {product.name}
+                                                        {product.name} - {product.shortDescription}
                                                     </div>
                                                     <p className="font-semibold">
                                                         {formatCurrency(product.discount ? product.newPrice : product.price)}
@@ -245,13 +247,51 @@ export default function Header({ languageId, products }) {
                         </div>
                     </div>
                 </div>
-                <div className="mt-4 flex gap-2">
+                <div className="mt-4 flex gap-2 relative">
                     <form onSubmit={handleSearch} className="flex-1 relative">
-                        <input type="text" placeholder={t.searchMobile} className="bg-[#EFF3F6] w-full px-4 pr-12 py-2 rounded-md" />
+                        <input
+                            type="text"
+                            placeholder={t.searchMobile}
+                            className="bg-[#EFF3F6] w-full px-4 pr-12 py-2 rounded-md"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                         <button type="submit" className="absolute right-0 rounded-r-md px-3 top-1/2 -translate-y-1/2 bg-primary h-full">
                             <SearchIcon />
                         </button>
                     </form>
+                    {searchTerm.length > 0 && (
+                        <div className="box absolute w-full border mt-3 rounded-lg top-full p-3 bg-white z-40 flex flex-col gap-y-2">
+                            {filteredProducts.length > 0 ?
+                                filteredProducts
+                                    .slice(0, 5)
+                                    .map((product) => (
+                                        <Link
+                                            key={product.id}
+                                            href={`/${t.href}${product.slug}`}
+                                            className="flex items-center justify-between gap-x-2 p-2 hover:bg-gray-100 rounded-md border"
+                                            onClick={() => setSearchTerm('')}
+                                        >
+                                            <div className="img relative w-14 h-14">
+                                                <Image
+                                                    fill
+                                                    src={product.images[0].filePath}
+                                                    alt={product.name}
+                                                    style={{ objectFit: 'contain' }}
+                                                />
+                                            </div>
+                                            <div className="font-semibold truncate flex-1">
+                                                {product.name}
+                                            </div>
+                                            <p className="font-semibold">
+                                                {formatCurrency(product.discount ? product.newPrice : product.price)}
+                                            </p>
+                                        </Link>
+                                    )) :
+                                'Mahsulot topilmadi'
+                            }
+                        </div>
+                    )}
                     <button onClick={toggleMenu} className="flex items-center justify-center px-3 py-2 bg-primary text-white rounded-md">
                         {!isOpenMenu ? <Burger /> : <CloseBurger />}
                     </button>

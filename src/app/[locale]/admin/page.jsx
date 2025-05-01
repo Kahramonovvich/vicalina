@@ -10,7 +10,10 @@ export default async function page({ params }) {
     const languageId = langMap[locale] || 1;
 
     const cookieStore = cookies();
-    const token = cookieStore.get('admin_token')?.value;
+    const cookie = cookieStore?.get('admin_token');
+    const cookieData = JSON?.parse(cookie?.value);
+    const token = cookieData?.token;
+    const expiresAt = cookieData?.expiresAt;
 
     const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {
         next: { tags: ['products'] }
@@ -41,6 +44,7 @@ export default async function page({ params }) {
             admins={admins}
             languageId={languageId}
             token={token}
+            expiresAt={expiresAt}
         />
     )
 }
