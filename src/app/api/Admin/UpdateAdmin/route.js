@@ -5,9 +5,17 @@ export async function PUT(request) {
     try {
         const formData = await request.formData();
 
+        const cookieStore = cookies();
+        const cookie = cookieStore?.get('admin_token');
+        const cookieData = JSON?.parse(cookie?.value);
+        const token = cookieData?.token;
+
         const res = await fetch(`${BASE_URL}/api/Admin/UpdateAdmin`, {
             method: 'PUT',
             body: formData,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         const result = await res.json();

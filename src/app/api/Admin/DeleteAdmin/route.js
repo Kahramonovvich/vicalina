@@ -4,10 +4,18 @@ const BASE_URL = process.env.API_BASE_URL;
 export async function DELETE(request) {
     const formData = await request.formData();
 
+    const cookieStore = cookies();
+    const cookie = cookieStore?.get('admin_token');
+    const cookieData = JSON?.parse(cookie?.value);
+    const token = cookieData?.token;
+
     try {
         const res = await fetch(`${BASE_URL}/api/Admin/DeleteAdmin`, {
             method: 'DELETE',
             body: formData,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         const result = await res.json();

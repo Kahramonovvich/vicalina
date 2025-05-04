@@ -139,10 +139,10 @@ export default function Footer({ languageId }) {
                             </p>
                             <div className="text-white flex flex-wrap items-center gap-x-4 gap-y-2">
                                 <a
-                                    href="tel:+998990300000"
+                                    href="tel:+998555000098"
                                     className="py-1.5 border-b-2 text-sm leading-normal font-medium"
                                 >
-                                    +998 99 030-00-00
+                                    +998 55 500-00-98
                                 </a>
                                 <span className="text-[#808080] leading-normal">{t.or}</span>
                                 <a

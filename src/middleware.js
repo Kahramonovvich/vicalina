@@ -10,18 +10,18 @@ export function middleware(req) {
     const path = url.pathname;
 
     // ===== 1. Rate limiting для API =====
-    const ip = req.ip ?? req.headers.get("x-forwarded-for") ?? "unknown";
-    const now = Date.now();
+    // const ip = req.ip ?? req.headers.get("x-forwarded-for") ?? "unknown";
+    // const now = Date.now();
 
-    if (path.startsWith("/api")) {
-        if (rateLimit.has(ip)) {
-            const lastRequestTime = rateLimit.get(ip);
-            if (now - lastRequestTime < 3000) {
-                return new Response("Too Many Requests", { status: 429 });
-            }
-        }
-        rateLimit.set(ip, now);
-    }
+    // if (path.startsWith("/api")) {
+    //     if (rateLimit.has(ip)) {
+    //         const lastRequestTime = rateLimit.get(ip);
+    //         if (now - lastRequestTime < 3000) {
+    //             return new Response("Too Many Requests", { status: 429 });
+    //         }
+    //     }
+    //     rateLimit.set(ip, now);
+    // }
 
     // ===== 2. Admin защита =====
     const cookie = req.cookies.get('admin_token');

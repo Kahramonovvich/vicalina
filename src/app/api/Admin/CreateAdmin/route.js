@@ -7,7 +7,9 @@ export async function POST(req) {
         const formData = await req.formData();
 
         const cookieStore = cookies();
-        const token = cookieStore.get('admin_token')?.value;
+        const cookie = cookieStore?.get('admin_token');
+        const cookieData = JSON?.parse(cookie?.value);
+        const token = cookieData?.token;
 
         const res = await fetch(`${BASE_URL}/api/Admin/CreateAdmin`, {
             method: 'POST',

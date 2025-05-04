@@ -5,9 +5,9 @@ const BASE_URL = process.env.API_BASE_URL;
 export async function GET() {
     try {
         const cookieStore = cookies();
-        const token = cookieStore.get('admin_token')?.value;
-        
-        console.log('token', token);
+        const cookie = cookieStore?.get('admin_token');
+        const cookieData = JSON?.parse(cookie?.value);
+        const token = cookieData?.token;
 
         const res = await fetch(`${BASE_URL}/api/Admin/GetAll`, {
             headers: {

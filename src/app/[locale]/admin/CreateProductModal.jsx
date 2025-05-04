@@ -1,6 +1,6 @@
 'use client'
 import { Modal, TextField, Button, MenuItem, Checkbox, FormControlLabel } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { navMenu } from "@/constants/constants";
 import { useRouter } from "next/navigation";
 import imageCompression from 'browser-image-compression';
@@ -11,6 +11,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
 
     const [languageId, setLanguageId] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
+    const [isClose, setIsClose] = useState(false);
     const [form, setForm] = useState({
         LanguageId: languageId,
         Name: '',
@@ -31,6 +32,11 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
     });
 
     const handleClose = () => {
+
+        if (isLoading || languageId === 2 && !isClose) {
+            return;
+        };
+
         setOpenModal(false);
         setForm({
             LanguageId: languageId,
@@ -51,6 +57,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
             Images: [],
         });
         setLanguageId(1);
+        setIsClose(false);
     };
 
     const handleChange = (e) => {
@@ -92,15 +99,6 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
         e.preventDefault();
 
         setIsLoading(true);
-
-        // const sizeInBytes = Array.from(form.Images)
-        //     .map((img) => img.size)
-        //     .reduce((acc, curr) => acc + curr, 0);
-        // const sizeInMB = sizeInBytes / (1024 * 1024);
-        // if (sizeInMB > 4) {
-        //     alert("Общий размер изображений превышает 4 МБ!");
-        //     return;
-        // };
 
         const formData = new FormData();
 
@@ -146,8 +144,8 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                     Tags: [],
                 });
                 if (languageId === 2) {
+                    setIsClose(true);
                     router.refresh();
-                    handleClose();
                 };
             } else {
                 alert('Xatolik');
@@ -160,6 +158,12 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (languageId === 2) {
+            handleClose();
+        };
+    }, [languageId, isClose]);
 
     return (
         <div className="createProduct">

@@ -4,7 +4,6 @@ const BASE_URL = process.env.API_BASE_URL;
 export async function POST(req) {
     try {
         const body = await req.json();
-        console.log(body);
         const res = await fetch(`${BASE_URL}/api/Auth/loginForAdmin`, {
             method: 'POST',
             headers: {
