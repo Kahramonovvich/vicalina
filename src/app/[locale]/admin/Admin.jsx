@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import ProductsComponent from './ProductsComponent';
 import AdminComponent from './AdminComponent';
 import { useRouter } from 'next/navigation';
+import OrdersComponent from './OrdersComponent';
 
-export default function Admin({ products, admins, languageId, token, expiresAt }) {
+export default function Admin({ products, admins, languageId, token, expiresAt, orders }) {
 
     const locale = Number(languageId) === 1 ? 'uz' : 'ru';
     const router = useRouter();
@@ -120,7 +121,12 @@ export default function Admin({ products, admins, languageId, token, expiresAt }
                                 token={token}
                             />
                         }
-                        {activeComponent === 'Buyurtmalar' && ''}
+                        {activeComponent === 'Buyurtmalar' &&
+                            <OrdersComponent
+                                orders={orders}
+                                products={products}
+                                languageId={languageId}
+                            />}
                     </div>
                 </div>
             </div>

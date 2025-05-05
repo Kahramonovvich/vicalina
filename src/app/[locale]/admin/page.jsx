@@ -11,7 +11,12 @@ export default async function page({ params }) {
 
     const cookieStore = cookies();
     const cookie = cookieStore?.get('admin_token');
-    const cookieData = JSON?.parse(cookie?.value);
+    let cookieData = {};
+    try {
+        cookieData = JSON.parse(cookie?.value || '{}');
+    } catch (e) {
+        console.error('Ошибка парсинга cookie:', cookie?.value);
+    };
     const token = cookieData?.token;
     const expiresAt = cookieData?.expiresAt;
 
@@ -22,10 +27,13 @@ export default async function page({ params }) {
     const text = await resProducts.text();
     let products;
 
+    console.log('resProducts.status:', resProducts.status);
+    console.log('resProducts text:', text);
+
     try {
         products = JSON.parse(text);
     } catch (e) {
-        console.error('Ошибка парсинга JSON:', text);
+        console.error('Ошибка парсинга Products JSON:', text);
         products = [];
     };
 
@@ -35,6 +43,24 @@ export default async function page({ params }) {
             Authorization: `Bearer ${token}`,
         },
     });
+
+    const resOrders = await fetch(`${BASE_URL}/api/Order/GetAllOrders`, {
+        next: { tags: ['orders'] },
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    const textOrder = await resOrders.text();
+    let orders;
+
+    try {
+        orders = JSON.parse(textOrder);
+    } catch (e) {
+        console.error('Ошибка парсинга Order JSON:', textOrder);
+        orders = [];
+    };
+
     const admins = await resAdmin.json();
     const productsWithSlug = await productsSlug(products);
 
@@ -45,6 +71,7 @@ export default async function page({ params }) {
             languageId={languageId}
             token={token}
             expiresAt={expiresAt}
+            orders={orders}
         />
     )
-}
+};

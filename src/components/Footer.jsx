@@ -144,13 +144,13 @@ export default function Footer({ languageId }) {
                                 >
                                     +998 55 500-00-98
                                 </a>
-                                <span className="text-[#808080] leading-normal">{t.or}</span>
+                                {/* <span className="text-[#808080] leading-normal">{t.or}</span>
                                 <a
                                     href="mailto:@vicalina"
                                     className="py-1.5 border-b-2 text-sm leading-normal font-medium"
                                 >
                                     @vicalina
-                                </a>
+                                </a> */}
                             </div>
                         </div>
 

@@ -1,13 +1,14 @@
 'use client'
 import { formatCurrency } from "@/utils/utils"
-import { Pagination } from "@mui/material"
+import { CircularProgress, Pagination } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import CreateProductModal from "./CreateProductModal"
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { useRouter } from "next/navigation"
+import UpdateProductModal from "./UpdateProductModal"
 
 export default function ProductsComponent({ products, languageId, token }) {
 
@@ -17,6 +18,9 @@ export default function ProductsComponent({ products, languageId, token }) {
     const [page, setPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
     const [openModal, setOpenModal] = useState(false);
+    const [openUpdateModal, setOpenUpdateModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [product, setProduct] = useState({});
 
     const router = useRouter();
 
@@ -31,8 +35,28 @@ export default function ProductsComponent({ products, languageId, token }) {
 
     const handleOpen = () => setOpenModal(true);
 
+    const handleOpenUpdate = async (id) => {
+
+        setIsLoading(true);
+
+        try {
+            const res = await fetch(`/api/Products/GetProductById/?languageId=${languageId}&productId=${id}`);
+            if (res.ok) {
+                const product = await res.json();
+                setProduct(product);
+                setOpenUpdateModal(true);
+            };
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const deleteProduct = async (productId) => {
         if (!window.confirm("Rostdan ham o‘chirmoqchimisiz?")) return;
+
+        setIsLoading(true);
 
         const res1 = await fetch(`/api/Products/DeleteProduct?productId=${productId}&languageId=${1}`, {
             method: 'DELETE',
@@ -52,6 +76,7 @@ export default function ProductsComponent({ products, languageId, token }) {
 
         if (res1.ok && res2.ok) {
             alert('O`chirildi!');
+            setIsLoading(false);
             router.refresh();
         } else {
             alert("O‘chirishda xatolik yuz berdi");
@@ -71,8 +96,21 @@ export default function ProductsComponent({ products, languageId, token }) {
     const endIndex = startIndex + itemsPerPage;
     const currentProducts = filteredProducts?.slice(startIndex, endIndex);
 
+    useEffect(() => {
+        if (isLoading) {
+            document.body.classList.add('overflow-hidden');
+        } else {
+            document.body.classList.remove('overflow-hidden');
+        }
+    }, [isLoading]);
+
     return (
         <div className="productsComponent p-3">
+            {isLoading && (
+                <div className="box absolute flex items-center justify-center top-0 left-0 w-full h-full bg-white bg-opacity-90 z-[99999999]">
+                    <CircularProgress />
+                </div>
+            )}
             <div className="filterBox mb-5 flex items-center justify-between">
                 <h3 className="text-xl font-semibold">Mahsulotlar</h3>
                 <div className="left flex gap-x-3">
@@ -124,7 +162,10 @@ export default function ProductsComponent({ products, languageId, token }) {
                                 >
                                     <DeleteOutlineRoundedIcon />
                                 </button>
-                                <button className="bg-primary p-2 text-white rounded-full">
+                                <button
+                                    className="bg-primary p-2 text-white rounded-full"
+                                    onClick={() => handleOpenUpdate(product.id)}
+                                >
                                     <EditRoundedIcon />
                                 </button>
                             </div>
@@ -146,6 +187,12 @@ export default function ProductsComponent({ products, languageId, token }) {
             <CreateProductModal
                 openModal={openModal}
                 setOpenModal={setOpenModal}
+            />
+            <UpdateProductModal
+                openModal={openUpdateModal}
+                setOpenModal={setOpenUpdateModal}
+                languageId={languageId}
+                product={product}
             />
         </div>
     )

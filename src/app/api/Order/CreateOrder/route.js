@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 const BASE_URL = process.env.API_BASE_URL;
 
 export async function POST(req) {
@@ -10,11 +11,11 @@ export async function POST(req) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(body),
-            next: {
-                revalidate: 60,
-                tags: ['orders']
-            }
         });
+
+        if (res.ok) {
+            revalidateTag('orders');
+        };
 
         const contentType = res.headers.get("content-type");
 

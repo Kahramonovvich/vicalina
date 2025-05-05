@@ -15,8 +15,8 @@ export default function OneOrderModal({ open, onClose, id, price }) {
 
         const orderData = {
             customerData: {
-                fullName,
-                phoneNumber,
+                name: fullName,
+                phoneNumber: phoneNumber,
             },
             products: [
                 {

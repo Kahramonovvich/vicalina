@@ -1,0 +1,34 @@
+import { cookies } from 'next/headers';
+
+const BASE_URL = process.env.API_BASE_URL;
+
+export async function GET() {
+    try {
+        const cookieStore = cookies();
+        const cookie = cookieStore?.get('admin_token');
+        const cookieData = JSON?.parse(cookie?.value);
+        const token = cookieData?.token;
+
+        const res = await fetch(`${BASE_URL}/api/Order/GetAllOrders`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            next: {
+                tags: ['orders'],
+                revalidate: 60,
+            },
+        });
+
+        if (!res.ok) {
+            const err = await res.text();
+            console.error('API error:', res.status, err);
+            return new Response(JSON.stringify([]), { status: res.status });
+        }
+
+        const data = await res.json();
+        return Response.json(data);
+    } catch (err) {
+        console.error('API fetch error:', err.message);
+        return new Response(JSON.stringify([]), { status: 500 });
+    }
+};

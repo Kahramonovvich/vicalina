@@ -1,4 +1,5 @@
 import { revalidateTag } from 'next/cache';
+import { cookies } from 'next/headers';
 const BASE_URL = process.env.API_BASE_URL;
 
 export async function DELETE(request) {

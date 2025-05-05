@@ -14,8 +14,8 @@ export default function MultiOrderModal({ open, onClose, products, totalAmount }
 
         const orderData = {
             customerData: {
-                fullName,
-                phoneNumber,
+                name: fullName,
+                phoneNumber: phoneNumber,
             },
             products,
             totalAmount,
@@ -38,9 +38,6 @@ export default function MultiOrderModal({ open, onClose, products, totalAmount }
             alert(result.error || 'Buyurtma jo‘natishda xatolik');
         }
     };
-
-    console.log(products);
-    console.log(totalAmount);
 
     return (
         <Modal open={open} onClose={onClose}>

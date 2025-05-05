@@ -120,21 +120,21 @@ export default function ProductInfoComponents({ product, languageId }) {
                         <button
                             onClick={() => setActiveComponent(t.tabs.description)}
                             className={`text-[#808080] font-medium leading-normal p-4
-                        ${activeComponent === t.tabs.description ? 'border-b-2 border-primary' : ''}`}
+                                ${activeComponent === t.tabs.description ? 'border-b-2 border-primary' : ''}`}
                         >
                             {t.tabs.description}
                         </button>
                         <button
                             onClick={() => setActiveComponent(t.tabs.about)}
                             className={`text-[#808080] font-medium leading-normal p-4
-                        ${activeComponent === t.tabs.about ? 'border-b-2 border-primary' : ''}`}
+                                ${activeComponent === t.tabs.about ? 'border-b-2 border-primary' : ''}`}
                         >
                             {t.tabs.about}
                         </button>
                         <button
                             onClick={() => setActiveComponent(t.tabs.feedback)}
                             className={`text-[#808080] font-medium leading-normal p-4
-                        ${activeComponent === t.tabs.feedback ? 'border-b-2 border-primary' : ''}`}
+                                ${activeComponent === t.tabs.feedback ? 'border-b-2 border-primary' : ''}`}
                         >
                             {t.tabs.feedback}
                         </button>
@@ -176,7 +176,7 @@ export default function ProductInfoComponents({ product, languageId }) {
                                         {t.reviews}
                                     </h3>
                                 </div>
-                                {product.comments.map((com, index) => (
+                                {product.comments.slice(0, 5).map((com, index) => (
                                     <div
                                         key={index}
                                         className="box pb-5 mb-5 border-b"
@@ -184,7 +184,7 @@ export default function ProductInfoComponents({ product, languageId }) {
                                         <div className="top flex gap-x-3">
                                             <UserICon />
                                             <div className="box">
-                                                <p className="text-sm font-medium leading-normal">{com.clientName}</p>
+                                                <p className="text-sm font-medium leading-normal">{com.fullName}</p>
                                                 <RatingIcon
                                                     value={com.clientRate}
                                                     className='!text-base !text-orange'
@@ -192,13 +192,15 @@ export default function ProductInfoComponents({ product, languageId }) {
                                             </div>
                                         </div>
                                         <div className="bottom mt-3 text-sm leading-normal text-[#808080]">
-                                            {com.clientComment}
+                                            {com.text}
                                         </div>
                                     </div>
                                 ))}
-                                <button className="text-primary py-3.5 border-2 border-primary w-full rounded text-sm font-semibold leading-tight">
-                                    {t.seeMore}
-                                </button>
+                                {product.comments.length > 5 && (
+                                    <button className="text-primary py-3.5 border-2 border-primary w-full rounded text-sm font-semibold leading-tight">
+                                        {t.seeMore}
+                                    </button>
+                                )}
                             </div>
                             <div className="box col-span-2 mt-5 md:mt-0">
                                 <div className="top mb-4">
