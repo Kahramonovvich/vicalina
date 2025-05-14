@@ -89,7 +89,7 @@ export default function AboutUs({ languageId }) {
                     </p>
                     <div className="box h-px w-full border md:hidden"></div>
                     <a
-                        href="https://www.wildberries.ru/brands/vicalina"
+                        href="https://www.wildberries.ru/catalog/0/search.aspx?search=vicalina.uz"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
