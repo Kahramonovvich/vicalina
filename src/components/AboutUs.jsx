@@ -1,9 +1,14 @@
+'use client'
 import CheckIcon from '@/icons/check 1.svg';
 import Image from 'next/image';
 import CarIcon from '@/icons/delivery-truck 1.svg';
 import HeadPhonesIcon from '@/icons/headphones 1.svg';
 import BagIcon from '@/icons/shopping-bag.svg';
 import PackageIcon from '@/icons/package.svg';
+import { Modal } from '@mui/material';
+import { useState } from 'react';
+import UzumLogo from '@/icons/uzumLogo.svg'
+import Wildberries from '@/icons/wildberries.svg'
 
 const translations = {
     uz: {
@@ -22,8 +27,8 @@ Vicalina – siz va oilangiz uchun!`,
             'Ishonchli va uzoq muddatli foydalanish'
         ],
         ads: [
-            { title: 'Uzum yoki Wildberries', subTitle: 'Uzum yoki Wildberries orqali buyurma berishingiz mumkin' },
-            { title: 'Aloqa yordam', subTitle: "Qo'llab-quvvatlash xizmatiga tezkor kirish" },
+            { title: 'Uzum yoki Wildberries', subTitle: 'Uzum yoki Wildberries orqali buyurma berishingiz mumkin', but: true, slu: 'uzum' },
+            { title: 'Aloqa yordam', subTitle: "Qo'llab-quvvatlash xizmatiga tezkor kirish", but: true, slu: 'nomer' },
             { title: "100% Xavfsiz to'lov", subTitle: "Pulingiz tejalishini kafolatlaymiz" },
             { title: 'Almashtirish imkoniyati', subTitle: "30 kun davomida sifatsiz mahsulotni qaytarib berish imkoniyati" }
         ]
@@ -53,10 +58,39 @@ Vicalina — для вас и вашей семьи!`,
 };
 
 export default function AboutUs({ languageId }) {
+
     const t = Number(languageId) === 1 ? translations.uz : translations.ru;
+
+    const [open, setOpen] = useState(false);
+
+    const handleClose = () => setOpen(false);
 
     return (
         <div className="aboutUs md:mt-[45px] mt-8">
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <div className="box flex items-center gap-x-5 bg-white p-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg">
+                    <a
+                        href="https://uzum.uz/ru/vicalina"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <UzumLogo className='w-72 h-16' />
+                    </a>
+                    |
+                    <a
+                        href="https://www.wildberries.ru/brands/vicalina"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <Wildberries />
+                    </a>
+                </div>
+            </Modal>
             <div className="container">
                 <h3 className="font-semibold text-[40px] leading-tight">{t.aboutTitle}</h3>
             </div>
@@ -97,7 +131,12 @@ export default function AboutUs({ languageId }) {
                                 {item.title.includes('Uzum') ? <CarIcon /> : item.title.includes('Поддержка') || item.title.includes('Aloqa') ? <HeadPhonesIcon /> : item.title.includes('to\'lov') || item.title.includes('оплата') ? <BagIcon /> : <PackageIcon />}
                             </div>
                             <div className="box flex flex-col gap-y-2 h-full">
-                                <p className='text-xl font-bold leading-normal'>{item.title}</p>
+                                <p
+                                    className={`text-xl font-bold leading-normal ${item.but ? 'cursor-pointer' : ''}`}
+                                    onClick={() => item.but && item.slu === 'uzum' && setOpen(true)}
+                                >
+                                    {item.title}
+                                </p>
                                 <p className='text-sm leading-normal text-[#999]'>{item.subTitle}</p>
                             </div>
                         </div>

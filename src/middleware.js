@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 
-const rateLimit = new Map();
 const PUBLIC_FILE = /\.(.*)$/;
 const locales = ['uz', 'ru'];
 const defaultLocale = 'uz';
