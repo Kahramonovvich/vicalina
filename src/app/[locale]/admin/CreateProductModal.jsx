@@ -245,11 +245,13 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
 
                 if (res1.ok && res2.ok) {
                     alert("Mahsulot qo'shildi");
+                    localStorage.removeItem('ruProduct');
+                    localStorage.removeItem('uzProduct');
                     setIsClose(true);
                     router.refresh();
                 } else {
                     alert('Xatolik');
-                    console.error('Xatolik:', res1 && res2);
+                    console.error('Xatolik:', res1.statusText && res2.statusText);
                 };
             } catch (err) {
                 console.error(err);
