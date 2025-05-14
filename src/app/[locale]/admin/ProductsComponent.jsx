@@ -188,6 +188,7 @@ export default function ProductsComponent({ products, languageId, token }) {
             <CreateProductModal
                 openModal={openModal}
                 setOpenModal={setOpenModal}
+                token={token}
             />
             <UpdateProductModal
                 openModal={openUpdateModal}

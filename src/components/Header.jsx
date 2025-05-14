@@ -33,8 +33,6 @@ const translations = {
         login: "Kirish",
         favorites: "Saralangan",
         basket: "Savatchangiz",
-        buyNow: "Hozir xarid qiling",
-        viewCatalog: "Katalogni ko‘rish",
         slogan: "Siz va oilangiz uchun!",
         catalog: "KATALOG",
         searchMobile: "Izlash...",
@@ -45,8 +43,6 @@ const translations = {
         login: "Войти",
         favorites: "Избранное",
         basket: "Ваша корзина",
-        buyNow: "Купить сейчас",
-        viewCatalog: "Посмотреть каталог",
         slogan: "Для вас и вашей семьи!",
         catalog: "КАТАЛОГ",
         searchMobile: "Поиск...",
@@ -340,15 +336,14 @@ export default function Header({ languageId, products }) {
                         {carousel.map((item) => (
                             <SwiperSlide key={item.id} className="rounded-3xl overflow-hidden">
                                 <Image fill src={item.img} alt={item.img} style={{ objectFit: 'cover' }} />
-                                <div className="absolute top-0 left-0 bg-primary bg-opacity-55 w-full h-full"></div>
-                                <div className="contentBox absolute bottom-20 left-4 md:left-24 text-white w-[90%] md:w-[803px]">
+                                <div className="contentBox absolute bottom-20 left-4 md:left-24 text-white w-[90%] md:w-[803px] hidden">
                                     <h1 className="font-black text-3xl md:text-5xl uppercase">
                                         {Number(languageId) === 1 ? item.title : item.titleRu}
                                     </h1>
                                     <h2 className="mt-3 font-semibold text-lg md:text-2xl">
                                         {Number(languageId) === 1 ? item.subTitle : item.subTitleRu}
                                     </h2>
-                                    <div className="btnBox flex flex-col sm:flex-row items-start gap-3 md:gap-x-5 mt-6 md:mt-9">
+                                    {/* <div className="btnBox flex flex-col sm:flex-row items-start gap-3 md:gap-x-5 mt-6 md:mt-9">
                                         <button className="px-6 bg-orange rounded-md text-lg md:text-xl font-semibold h-[45px] md:h-[50px]">
                                             <Link
                                                 href={Number(languageId) === 1 ? `uz${item.slug}` : `ru${item.slug}`}
@@ -359,7 +354,7 @@ export default function Header({ languageId, products }) {
                                         <button className="px-6 border rounded-md text-lg md:text-xl font-semibold h-[45px] md:h-[50px]" onClick={toggleMenu}>
                                             {t.viewCatalog}
                                         </button>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </SwiperSlide>
                         ))}

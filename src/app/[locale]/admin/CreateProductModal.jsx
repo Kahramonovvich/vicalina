@@ -59,7 +59,7 @@ function base64ToFile(base64, filename, type) {
     return new File([u8arr], filename, { type: mime });
 };
 
-export default function CreateProductModal({ openModal, setOpenModal }) {
+export default function CreateProductModal({ openModal, setOpenModal, token }) {
 
     const router = useRouter();
 
@@ -182,7 +182,6 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
             try {
                 const obj = await formDataToObjectWithFiles(formData);
                 localStorage.setItem('uzProduct', JSON.stringify(obj));
-
                 setLanguageId(2);
                 setForm({
                     ...form,
@@ -236,11 +235,17 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                 const res1 = await fetch('api/Products/CreateProduct', {
                     method: 'POST',
                     body: newFormDataUz,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
 
                 const res2 = await fetch('api/Products/CreateProduct', {
                     method: 'POST',
                     body: newFormDataRu,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
 
                 if (res1.ok && res2.ok) {
@@ -250,12 +255,12 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                     setIsClose(true);
                     router.refresh();
                 } else {
-                    alert('Xatolik');
-                    console.error('Xatolik:', res1.statusText && res2.statusText);
+                    alert('Xatolik!');
+                    console.error('Xatolik:', res1.status && res2.status);
                 };
             } catch (err) {
                 console.error(err);
-                alert('Xatolik!');
+                alert('Xatolik:', err);
             } finally {
                 setIsLoading(false);
             };

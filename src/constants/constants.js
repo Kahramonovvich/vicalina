@@ -88,15 +88,15 @@ export const carousel = [
         img: '/images/header-1.png',
         slug: '/catalog/all-products',
     },
-    {
-        id: 2,
-        title: 'Vicalina siz va oilangiz uchun!',
-        subTitle: 'Yuqori sifatli granit qozonlar, kastrulkalar va kichik maishiy texnikalar.',
-        titleRu: 'Vicalina для вас и вашей семьи!',
-        subTitleRu: 'Качественные гранитные казаны, кастрюли и мелкая бытовая техника.',
-        img: '/images/header-2.png',
-        slug: '/catalog/all-products',
-    },
+    // {
+    //     id: 2,
+    //     title: 'Vicalina siz va oilangiz uchun!',
+    //     subTitle: 'Yuqori sifatli granit qozonlar, kastrulkalar va kichik maishiy texnikalar.',
+    //     titleRu: 'Vicalina для вас и вашей семьи!',
+    //     subTitleRu: 'Качественные гранитные казаны, кастрюли и мелкая бытовая техника.',
+    //     img: '/images/header-2.png',
+    //     slug: '/catalog/all-products',
+    // },
 ];
 
 export const comments = [

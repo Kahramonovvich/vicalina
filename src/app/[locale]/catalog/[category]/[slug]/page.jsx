@@ -253,7 +253,7 @@ export default async function ProductInfoPage({ params }) {
                                             fill
                                             src={'/images/logo.png'}
                                             style={{ objectFit: 'contain' }}
-                                            alt='brand logo'
+                                            alt='Vicalina'
                                         />
                                     </div>
                                 </div>
