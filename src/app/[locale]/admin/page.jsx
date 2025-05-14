@@ -27,9 +27,6 @@ export default async function page({ params }) {
     const text = await resProducts.text();
     let products;
 
-    console.log('resProducts.status:', resProducts.status);
-    console.log('resProducts text:', text);
-
     try {
         products = JSON.parse(text);
     } catch (e) {

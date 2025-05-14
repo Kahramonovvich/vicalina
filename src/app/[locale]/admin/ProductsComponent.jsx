@@ -80,6 +80,7 @@ export default function ProductsComponent({ products, languageId, token }) {
             router.refresh();
         } else {
             alert("O‘chirishda xatolik yuz berdi");
+            setIsLoading(false);
             router.refresh();
         }
     };
@@ -107,7 +108,7 @@ export default function ProductsComponent({ products, languageId, token }) {
     return (
         <div className="productsComponent p-3">
             {isLoading && (
-                <div className="box absolute flex items-center justify-center top-0 left-0 w-full h-full bg-white bg-opacity-90 z-[99999999]">
+                <div className="box fixed flex items-center justify-center top-0 left-0 w-full h-full bg-white bg-opacity-90 z-[99999999]">
                     <CircularProgress />
                 </div>
             )}

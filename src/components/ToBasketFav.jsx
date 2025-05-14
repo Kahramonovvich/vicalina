@@ -1,8 +1,4 @@
 'use client'
-import AddIcon from '@mui/icons-material/Add'
-import RemoveIcon from '@mui/icons-material/Remove'
-import Bag from '@/icons/bag.svg'
-import LikeButtonComponent from './LikeButtonComponent'
 import { useEffect, useState } from 'react'
 import { useBasket } from '@/context/basket-context'
 import { motion, AnimatePresence } from 'framer-motion'

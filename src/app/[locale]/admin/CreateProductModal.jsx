@@ -5,6 +5,60 @@ import { navMenu } from "@/constants/constants";
 import { useRouter } from "next/navigation";
 import imageCompression from 'browser-image-compression';
 
+async function formDataToObjectWithFiles(formData) {
+    const obj = {};
+    const filesMap = {};
+
+    for (let [key, value] of formData.entries()) {
+        if (value instanceof File) {
+            if (!filesMap[key]) {
+                filesMap[key] = [];
+            };
+
+            const base64 = await fileToBase64(value);
+            filesMap[key].push({
+                name: value.name,
+                type: value.type,
+                size: value.size,
+                data: base64
+            });
+        } else {
+            if (obj[key]) {
+                if (!Array.isArray(obj[key])) {
+                    obj[key] = [obj[key]];
+                }
+                obj[key].push(value);
+            } else {
+                obj[key] = value;
+            };
+        };
+    };
+
+    Object.assign(obj, filesMap);
+    return obj;
+};
+
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+};
+
+function base64ToFile(base64, filename, type) {
+    const arr = base64.split(',');
+    const mime = type || arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    };
+    return new File([u8arr], filename, { type: mime });
+};
+
 export default function CreateProductModal({ openModal, setOpenModal }) {
 
     const router = useRouter();
@@ -13,7 +67,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
     const [isLoading, setIsLoading] = useState(false);
     const [isClose, setIsClose] = useState(false);
     const [form, setForm] = useState({
-        LanguageId: languageId,
+        LanguageId: 1,
         Name: '',
         Description: '',
         ShortDescription: '',
@@ -39,7 +93,7 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
 
         setOpenModal(false);
         setForm({
-            LanguageId: languageId,
+            LanguageId: 1,
             Name: '',
             Description: '',
             ShortDescription: '',
@@ -121,18 +175,15 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
             const ext = file.type.split('/')[1];
             const filename = `image_${index}_${Date.now()}.${ext}`;
             const renamedFile = new File([file], filename, { type: file.type });
-
             formData.append('Files', renamedFile);
         });
 
-        try {
-            const res = await fetch('api/Products/CreateProduct', {
-                method: 'POST',
-                body: formData,
-            });
-            if (res.ok) {
+        if (languageId === 1) {
+            try {
+                const obj = await formDataToObjectWithFiles(formData);
+                localStorage.setItem('uzProduct', JSON.stringify(obj));
+
                 setLanguageId(2);
-                alert("Mahsulot qo'shildi");
                 setForm({
                     ...form,
                     LanguageId: 2,
@@ -143,20 +194,70 @@ export default function CreateProductModal({ openModal, setOpenModal }) {
                     Color: [],
                     Tags: [],
                 });
-                if (languageId === 2) {
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsLoading(false);
+            };
+        } else {
+            try {
+                const obj = await formDataToObjectWithFiles(formData);
+                localStorage.setItem('ruProduct', JSON.stringify(obj));
+
+                const uzProduct = await JSON.parse(localStorage.getItem('uzProduct'));
+                const ruProduct = await JSON.parse(localStorage.getItem('ruProduct'));
+
+                const newFormDataUz = new FormData();
+
+                Object.entries(uzProduct).forEach(([key, value]) => {
+                    if (Array.isArray(value) && value[0]?.data && value[0]?.name) {
+                        for (const item of value) {
+                            const file = base64ToFile(item.data, item.name, item.type);
+                            newFormDataUz.append(key, file);
+                        };
+                    } else {
+                        newFormDataUz.append(key, value);
+                    };
+                });
+
+                const newFormDataRu = new FormData();
+
+                Object.entries(ruProduct).forEach(([key, value]) => {
+                    if (Array.isArray(value) && value[0]?.data && value[0]?.name) {
+                        for (const item of value) {
+                            const file = base64ToFile(item.data, item.name, item.type);
+                            newFormDataRu.append(key, file);
+                        };
+                    } else {
+                        newFormDataRu.append(key, value);
+                    };
+                });
+
+                const res1 = await fetch('api/Products/CreateProduct', {
+                    method: 'POST',
+                    body: newFormDataUz,
+                });
+
+                const res2 = await fetch('api/Products/CreateProduct', {
+                    method: 'POST',
+                    body: newFormDataRu,
+                });
+
+                if (res1.ok && res2.ok) {
+                    alert("Mahsulot qo'shildi");
                     setIsClose(true);
                     router.refresh();
+                } else {
+                    alert('Xatolik');
+                    console.error('Xatolik:', res1 && res2);
                 };
-            } else {
-                alert('Xatolik');
-                console.error('Xatolik:', res);
-            }
-        } catch (err) {
-            console.error(err);
-            alert('Xatolik!');
-        } finally {
-            setIsLoading(false);
-        }
+            } catch (err) {
+                console.error(err);
+                alert('Xatolik!');
+            } finally {
+                setIsLoading(false);
+            };
+        };
     };
 
     useEffect(() => {
