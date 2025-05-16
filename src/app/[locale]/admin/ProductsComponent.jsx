@@ -15,6 +15,8 @@ export default function ProductsComponent({ products, languageId, token }) {
     const itemsPerPage = 10;
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+    const slu = Number(languageId) === 1 ? 'uz' : 'ru';
+
     const [page, setPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
     const [openModal, setOpenModal] = useState(false);
@@ -148,7 +150,7 @@ export default function ProductsComponent({ products, languageId, token }) {
                                 />
                             </div>
                             <Link
-                                href={product.slug}
+                                href={`/${slu}${product.slug}`}
                                 className="name col-span-5 text-lg font-semibold truncate"
                             >
                                 {product.name}
