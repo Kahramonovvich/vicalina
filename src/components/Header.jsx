@@ -332,10 +332,24 @@ export default function Header({ languageId, products }) {
                             <ArrowIcon className='rotate-180' />
                         </button>
                     </div>
-                    <Swiper className="mt-5 w-full h-[481px] rounded-[20px] overflow-hidden" loop autoplay={{ delay: 5000, pauseOnMouseEnter: true }} spaceBetween={30} navigation={{ prevEl: '.swiper-button-prev-custom', nextEl: '.swiper-button-next-custom' }} speed={1000} simulateTouch={false} modules={[Autoplay, Navigation]}>
+                    <Swiper
+                        className="mt-5 w-full rounded-[20px] overflow-hidden"
+                        loop
+                        autoplay={{ delay: 5000, pauseOnMouseEnter: true }}
+                        spaceBetween={30}
+                        navigation={{ prevEl: '.swiper-button-prev-custom', nextEl: '.swiper-button-next-custom' }}
+                        speed={1000} simulateTouch={false} modules={[Autoplay, Navigation]}
+                    >
                         {carousel.map((item) => (
                             <SwiperSlide key={item.id} className="rounded-3xl overflow-hidden">
-                                <Image fill src={item.img} alt={item.img} style={{ objectFit: 'cover' }} />
+                                <div className="img relative w-full aspect-[2.75/1]">
+                                    <Image
+                                        fill
+                                        src={item.img}
+                                        alt={item.img}
+                                        style={{ objectFit: 'cover' }}
+                                    />
+                                </div>
                                 <div className="contentBox absolute bottom-20 left-4 md:left-24 text-white w-[90%] md:w-[803px] hidden">
                                     <h1 className="font-black text-3xl md:text-5xl uppercase">
                                         {Number(languageId) === 1 ? item.title : item.titleRu}
