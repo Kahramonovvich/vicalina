@@ -3,8 +3,10 @@ import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import { useState } from 'react';
 
 export default function MultiOrderModal({ open, onClose, products, totalAmount }) {
+
     const [fullName, setFullName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [isFocused, setIsFocused] = useState(false);
 
     const createOrder = async () => {
         if (!phoneNumber || products.length === 0) {
@@ -15,7 +17,7 @@ export default function MultiOrderModal({ open, onClose, products, totalAmount }
         const orderData = {
             customerData: {
                 name: fullName,
-                phoneNumber: phoneNumber,
+                phoneNumber: `+998${phoneNumber}`,
             },
             products,
             totalAmount,
@@ -62,13 +64,38 @@ export default function MultiOrderModal({ open, onClose, products, totalAmount }
                     label="Ism Familiya"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
+                    InputProps={{
+                        style: {
+                            fontWeight: '600',
+                            fontFamily: 'DM Sans, sans-serif',
+                        },
+                    }}
                 />
-                <TextField
-                    label="Telefon raqam"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    required
-                />
+                <div className="box relative">
+                    {isFocused && (
+                        <div className="absolute top-1/2 -translate-y-1/2 left-3.5 font-semibold pointer-events-none">
+                            +998
+                        </div>
+                    )}
+                    <TextField
+                        label="Telefon raqam"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        required
+                        type='number'
+                        onWheel={(e) => e.target.blur()}
+                        className='w-full'
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                        InputProps={{
+                            style: {
+                                paddingLeft: '40px',
+                                fontWeight: '600',
+                                fontFamily: 'DM Sans, sans-serif',
+                            },
+                        }}
+                    />
+                </div>
                 <Button variant="contained" onClick={createOrder}>Yuborish</Button>
             </Box>
         </Modal>
