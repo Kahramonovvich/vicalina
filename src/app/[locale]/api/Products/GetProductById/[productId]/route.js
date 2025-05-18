@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 const BASE_URL = process.env.API_BASE_URL;
 
 export async function GET(request, { params }) {
-    const { productId } = params;
+    const { productId } = await params;
     const { searchParams } = new URL(request.url);
     const languageId = searchParams.get('languageId') || 1;
 

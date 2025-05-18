@@ -12,8 +12,7 @@ export async function DELETE(request, { params }) {
         const cookieData = JSON?.parse(cookie?.value);
         const token = cookieData?.token;
 
-        const res = await fetch(
-            `${BASE_URL}/api/Products/DeleteProduct?productId=${productId}&languageId=${languageId}`,
+        const res = await fetch(`${BASE_URL}/api/Products/DeleteProduct?productId=${productId}&languageId=${languageId}`,
             {
                 method: 'DELETE',
                 headers: {
@@ -23,6 +22,7 @@ export async function DELETE(request, { params }) {
         );
 
         if (!res.ok) {
+            revalidateTag('products');
             const text = await res.text();
             console.error('❌ Ошибка удаления продукта:', res.status, text);
             return new Response(JSON.stringify({ error: 'Ошибка удаления' }), {

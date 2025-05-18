@@ -38,11 +38,17 @@ export default function ProductsComponent({ products, languageId, token }) {
     const handleOpen = () => setOpenModal(true);
 
     const handleOpenUpdate = async (id) => {
-
         setIsLoading(true);
-
         try {
-            const res = await fetch(`/api/Products/GetProductById/?languageId=${languageId}&productId=${id}`);
+            const res = await fetch(`/api/Products/GetProductById/?languageId=${languageId}&productId=${id}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                next: {
+                    tags: ['products']
+                },
+            });
             if (res.ok) {
                 const product = await res.json();
                 setProduct(product);
@@ -52,7 +58,7 @@ export default function ProductsComponent({ products, languageId, token }) {
             console.error(error);
         } finally {
             setIsLoading(false);
-        }
+        };
     };
 
     const deleteProduct = async (productId) => {
@@ -106,6 +112,9 @@ export default function ProductsComponent({ products, languageId, token }) {
             document.body.classList.remove('overflow-hidden');
         }
     }, [isLoading]);
+
+    console.log(product);
+    console.log(openUpdateModal);
 
     return (
         <div className="productsComponent p-3">
