@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { navMenu } from "@/constants/constants";
 import { useRouter } from "next/navigation";
 import imageCompression from 'browser-image-compression';
+import { set, get, clear } from 'idb-keyval';
 
 async function formDataToObjectWithFiles(formData) {
     const obj = {};
@@ -181,7 +182,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
         if (languageId === 1) {
             try {
                 const obj = await formDataToObjectWithFiles(formData);
-                localStorage.setItem('uzProduct', JSON.stringify(obj));
+                await set('uzProduct', obj);
 
                 localStorage.setItem('uzNeed', JSON.stringify(true));
                 localStorage.setItem('ruNeed', JSON.stringify(true));
@@ -205,10 +206,10 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
         } else {
             try {
                 const obj = await formDataToObjectWithFiles(formData);
-                localStorage.setItem('ruProduct', JSON.stringify(obj));
+                await set('ruProduct', obj);
 
-                const uzProduct = await JSON.parse(localStorage.getItem('uzProduct'));
-                const ruProduct = await JSON.parse(localStorage.getItem('ruProduct'));
+                const uzProduct = await get('uzProduct');
+                const ruProduct = await get('ruProduct');
 
                 const uzNeed = await JSON.parse(localStorage.getItem('uzNeed'));
                 const ruNeed = await JSON.parse(localStorage.getItem('ruNeed'));
@@ -271,9 +272,8 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                 const ruTrue = await JSON.parse(localStorage.getItem('ruTrue'));
 
                 if (uzTrue && ruTrue) {
+                    await clear();
                     alert("Mahsulot qo'shildi");
-                    localStorage.removeItem('ruProduct');
-                    localStorage.removeItem('uzProduct');
                     localStorage.removeItem('uzNeed');
                     localStorage.removeItem('ruNeed');
                     localStorage.removeItem('uzTrue');
@@ -328,6 +328,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={handleChange}
                             fullWidth
                             required
+                            disabled={isLoading}
                         />
                         <TextField
                             label="Tavsif"
@@ -336,6 +337,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={handleChange}
                             fullWidth
                             required
+                            disabled={isLoading}
                             multiline
                             maxRows={10}
                         />
@@ -346,6 +348,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={handleChange}
                             fullWidth
                             required
+                            disabled={isLoading}
                         />
                         <TextField
                             label="Narxi"
@@ -355,7 +358,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={handleChange}
                             fullWidth
                             required
-                            disabled={languageId === 2}
+                            disabled={languageId === 2 || isLoading}
                         />
                         <TextField
                             label="Yangi narxi"
@@ -374,6 +377,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={handleChange}
                             fullWidth
                             required
+                            disabled={isLoading}
                         />
                         <TextField
                             label="Ombordagi soni"
@@ -383,7 +387,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={handleChange}
                             fullWidth
                             required
-                            disabled={languageId === 2}
+                            disabled={languageId === 2 || isLoading}
                         />
                         <TextField
                             label="SKU"
@@ -392,7 +396,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={handleChange}
                             fullWidth
                             required
-                            disabled={languageId === 2}
+                            disabled={languageId === 2 || isLoading}
                         />
                         <TextField
                             label="Og'irligi"
@@ -402,7 +406,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={handleChange}
                             fullWidth
                             required
-                            disabled={languageId === 2}
+                            disabled={languageId === 2 || isLoading}
                         />
                         <TextField
                             select
@@ -412,7 +416,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={handleChange}
                             fullWidth
                             required
-                            disabled={languageId === 2}
+                            disabled={languageId === 2 || isLoading}
                         >
                             {navMenu.map((option) => (
                                 <MenuItem key={option.id} value={option.id}>
@@ -427,6 +431,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={(e) => setForm({ ...form, Tags: e.target.value.split(',') })}
                             fullWidth
                             required
+                            disabled={isLoading}
                         />
                         <TextField
                             label="Rangi"
@@ -435,6 +440,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={(e) => setForm({ ...form, Color: e.target.value.split(',') })}
                             fullWidth
                             required
+                            disabled={isLoading}
                         />
                         <FormControlLabel
                             control={
@@ -442,7 +448,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                                     checked={form.discount}
                                     onChange={handleChange}
                                     name="discount"
-                                    disabled={languageId === 2}
+                                    disabled={languageId === 2 || isLoading}
                                 />
                             }
                             label="Chegirma bormi?"
@@ -454,7 +460,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
                             onChange={handleChange}
                             required
                             max={4}
-                            disabled={languageId === 2}
+                            disabled={languageId === 2 || isLoading}
                         />
                         <div className="md:col-span-2 flex justify-end mt-4">
                             <Button
