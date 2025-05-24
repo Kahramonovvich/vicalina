@@ -75,7 +75,14 @@ export const navMenu = [
         nameRu: 'БЛИННИЦЫ',
         img: '/images/dfe31243-dc52-43c7-b65c-68f51569c285_removalai_preview.png',
         slug: '/catalog/crepe-makers'
-    }
+    },
+    {
+        id: 12,
+        name: 'CHOYNAKLAR',
+        nameRu: 'ЧАЙНИКИ',
+        img: '/images/choynak.png',
+        slug: '/catalog/kettles'
+    },
 ];
 
 export const carousel = [

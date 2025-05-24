@@ -40,7 +40,7 @@ export default function ProductsComponent({ products, languageId, token }) {
     const handleOpenUpdate = async (id) => {
         setIsLoading(true);
         try {
-            const res = await fetch(`/api/Products/GetProductById/${id}?languageId=${languageId}`, {
+            const res = await fetch(`/api/Products/GetProductById?languageId=${languageId}&productId=${id}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -66,14 +66,14 @@ export default function ProductsComponent({ products, languageId, token }) {
 
         setIsLoading(true);
 
-        const res1 = await fetch(`/api/Products/DeleteProduct/${productId}?languageId=1`, {
+        const res1 = await fetch(`/api/Products/DeleteProduct?productId=${productId}&languageId=1`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` },
         });
 
         await delay(3000);
 
-        const res2 = await fetch(`/api/Products/DeleteProduct/${productId}?languageId=2`, {
+        const res2 = await fetch(`/api/Products/DeleteProduct?productId=${productId}&languageId=2`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` },
         });

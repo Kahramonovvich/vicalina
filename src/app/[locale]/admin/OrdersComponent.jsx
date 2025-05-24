@@ -46,7 +46,7 @@ export default function OrdersComponent({ orders, products, languageId }) {
                                     <div className="name col-span-6">
                                         <Link
                                             href={`/${slug}${orderedProducts?.slug}`}
-                                            className="font-semibold text-lg truncate hover:text-primary"
+                                            className="font-semibold text-lg truncate hover:text-primary w-full block"
                                         >
                                             Mahsulot nomi: {orderedProducts?.name} - {orderedProducts?.shortDescription}
                                         </Link>
