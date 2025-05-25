@@ -216,7 +216,6 @@ export default function UpdateProductModal({ openModal, setOpenModal, languageId
                             onChange={handleChange}
                             fullWidth
                             required
-                            disabled={languageId === 2}
                         />
                         <TextField
                             label="Yangi narxi"
@@ -226,7 +225,7 @@ export default function UpdateProductModal({ openModal, setOpenModal, languageId
                             onChange={handleChange}
                             fullWidth
                             required={form.discount}
-                            disabled={!form.discount || languageId === 2}
+                            disabled={!form.discount}
                         />
                         <TextField
                             label="Turi"
@@ -244,7 +243,6 @@ export default function UpdateProductModal({ openModal, setOpenModal, languageId
                             onChange={handleChange}
                             fullWidth
                             required
-                            disabled={languageId === 2}
                         />
                         <TextField
                             label="SKU"
@@ -253,7 +251,6 @@ export default function UpdateProductModal({ openModal, setOpenModal, languageId
                             onChange={handleChange}
                             fullWidth
                             required
-                            disabled={languageId === 2}
                         />
                         <TextField
                             label="Og'irligi"
@@ -272,7 +269,6 @@ export default function UpdateProductModal({ openModal, setOpenModal, languageId
                             onChange={handleChange}
                             fullWidth
                             required
-                            disabled={languageId === 2}
                         >
                             {navMenu.map((option) => (
                                 <MenuItem key={option.id} value={option.id}>
@@ -302,7 +298,6 @@ export default function UpdateProductModal({ openModal, setOpenModal, languageId
                                     checked={form.discount}
                                     onChange={handleChange}
                                     name="discount"
-                                    disabled={languageId === 2}
                                 />
                             }
                             label="Chegirma bormi?"
@@ -313,7 +308,6 @@ export default function UpdateProductModal({ openModal, setOpenModal, languageId
                             multiple
                             onChange={handleChange}
                             max={4}
-                            disabled={languageId === 2}
                         />
                         <div className="md:col-span-2 flex justify-end mt-4">
                             <Button
