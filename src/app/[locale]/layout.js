@@ -51,6 +51,14 @@ export async function generateMetadata({ params }) {
         "maishiy texnika"
       ],
     metadataBase: new URL("https://vicalinaofficial.uz"),
+    alternates: {
+      canonical: `https://vicalinaofficial.uz/${locale}`,
+      languages: {
+        'uz-UZ': 'https://vicalinaofficial.uz/uz',
+        'ru-RU': 'https://vicalinaofficial.uz/ru',
+        'x-default': 'https://vicalinaofficial.uz/',
+      },
+    },
     openGraph: {
       title: isRu ? "Vicalina — для вас и вашей семьи!" : "Vicalina – siz va oilangiz uchun!",
       description: isRu
