@@ -42,11 +42,12 @@ export default function ProductsComponent({ products, languageId, token }) {
         try {
             const res = await fetch(`/api/Products/GetProductById?languageId=${languageId}&productId=${id}`, {
                 method: 'GET',
+                next: {
+                    tags: ['products'],
+                    revalidate: 60
+                },
                 headers: {
                     Authorization: `Bearer ${token}`,
-                },
-                next: {
-                    tags: ['products']
                 },
             });
             if (res.ok) {

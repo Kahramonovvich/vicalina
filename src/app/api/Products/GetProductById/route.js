@@ -8,8 +8,6 @@ export async function GET(request, { params }) {
     const languageId = searchParams.get('languageId') || 1;
     const productId = searchParams.get('productId');
 
-    console.log(productId);
-
     try {
         const cookieStore = cookies();
         const cookie = cookieStore?.get('admin_token');
