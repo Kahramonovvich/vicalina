@@ -126,6 +126,7 @@ export default function Admin({ products, admins, languageId, token, expiresAt, 
                                 orders={orders}
                                 products={products}
                                 languageId={languageId}
+                                token={token}
                             />}
                     </div>
                 </div>
