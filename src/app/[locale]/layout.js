@@ -5,7 +5,6 @@ import { DM_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 import { BasketProvider } from "@/context/basket-context";
-import TopBanner from "@/components/Test";
 import { productsSlug } from "@/utils/utils";
 import NextTopLoader from "nextjs-toploader";
 
@@ -119,7 +118,7 @@ export default async function RootLayout({ children, params }) {
           height={3}
           showSpinner={false}
         />
-        <TopBanner languageId={languageId} />
+        {/* <TopBanner languageId={languageId} /> */}
         <BasketProvider>
           <Header languageId={languageId} products={productsWithSlug} />
           {children}
