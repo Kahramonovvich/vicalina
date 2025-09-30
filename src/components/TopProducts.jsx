@@ -75,8 +75,8 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen, languageId
 
     return (
         <div className="box flex flex-col rounded-xl overflow-hidden shadow-md transition-all duration-200 ease-in-out">
-            <div className="top bg-[#F0F1F2]">
-                <div className="flex items-center justify-between md:p-3.5 p-3">
+            <div className="top bg-[#F0F1F2] md:aspect-[1.16/1] aspect-[0.79/1] relative">
+                <div className="flex items-center justify-between p-3.5 absolute top-0 left-0 z-20 w-full">
                     <div className="py-2 px-2.5 bg-orange rounded-md text-white font-semibold text-xs leading-none">
                         {Number(languageId) === 1 ? 'Mashxur' : 'Популярный'}
                     </div>
@@ -91,21 +91,22 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen, languageId
                     speed={1000}
                     onSlideChange={handleSlideChange}
                     modules={[Autoplay]}
+                    className='w-full h-full'
                 >
                     {product.images.map((img, index) => (
                         <SwiperSlide key={index}>
-                            <div className="imgBox relative md:w-[170px] md:h-[170px] w-[100px] h-[100px] mx-auto">
+                            <div className="imgBox relative w-full h-full mx-auto">
                                 <Image
                                     fill
                                     src={img.filePath}
                                     alt={`${product.name} - ${product.shortDescription}`}
-                                    style={{ objectFit: 'contain' }}
+                                    style={{ objectFit: 'cover' }}
                                 />
                             </div>
                         </SwiperSlide>
                     ))}
                 </Swiper>
-                <div className="flex justify-center gap-1 mt-3.5 pb-2.5">
+                <div className="flex justify-center gap-1 mt-3.5 pb-2.5 absolute bottom-0 w-full left-0 z-20">
                     {[0, 1, 2].map((dotIdx) => (
                         <span
                             key={dotIdx}

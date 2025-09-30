@@ -203,10 +203,10 @@ export default async function Products({ params, searchParams }) {
                                 className="productBox flex flex-col overflow-hidden rounded-[14px] group hover:shadow-md
                                     transition-all duration-300 ease-in-out"
                             >
-                                <div className="top bg-[#F0F1F2] md:p-5 md:pb-[34px] p-3 pb-10 rounded-b-[14px] group-hover:rounded-none
-                                        transition-all duration-300 ease-in-out"
+                                <div className="top bg-[#F0F1F2] rounded-b-[14px] group-hover:rounded-none relative
+                                        transition-all duration-300 ease-in-out aspect-square"
                                 >
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex items-center justify-between absolute top-0 left-0 z-20 w-full p-3">
                                         <div className="discountBox">
                                             {product.discount && (
                                                 <div className="py-2 px-3 bg-orange rounded-md text-white font-semibold text-xs leading-none
@@ -222,11 +222,11 @@ export default async function Products({ params, searchParams }) {
                                             <LikeButtonComponent id={product.id} />
                                         </div>
                                     </div>
-                                    <div className="imgBox relative md:w-[210px] w-[110px] md:h-[210px] h-[110px] mx-auto">
+                                    <div className="imgBox relative w-full h-full mx-auto">
                                         <Image
                                             fill
                                             src={product.images[0].filePath}
-                                            style={{ objectFit: 'contain' }}
+                                            style={{ objectFit: 'cover' }}
                                             alt={`${product.name} - ${product.shortDescription}`}
                                         />
                                     </div>
