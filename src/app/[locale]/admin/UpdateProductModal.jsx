@@ -119,8 +119,7 @@ export default function UpdateProductModal({ openModal, setOpenModal, languageId
             const ext = file.type.split('/')[1];
             const filename = `image_${index}_${Date.now()}.${ext}`;
             const renamedFile = new File([file], filename, { type: file.type });
-
-            formData.append('Files', renamedFile);
+            formData.append('ImageFiles', renamedFile);
         });
 
         try {
@@ -130,8 +129,8 @@ export default function UpdateProductModal({ openModal, setOpenModal, languageId
             });
             if (res.ok) {
                 alert("Mahsulot yangilandi");
-                handleClose();
                 router.refresh();
+                handleClose();
             } else {
                 alert('Xatolik');
                 console.error('Xatolik:', res);
@@ -141,7 +140,7 @@ export default function UpdateProductModal({ openModal, setOpenModal, languageId
             alert('Xatolik!');
         } finally {
             setIsLoading(false);
-        }
+        };
     };
 
     useEffect(() => {
@@ -316,7 +315,7 @@ export default function UpdateProductModal({ openModal, setOpenModal, languageId
                                 color="primary"
                                 disabled={isLoading}
                             >
-                                {isLoading ? 'Yaratilmoqda' : 'Yaratish'}
+                                {isLoading ? 'Yangilanmoqda' : 'Yangilash'}
                             </Button>
                         </div>
                     </form>

@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 const BASE_URL = process.env.API_BASE_URL;
@@ -20,17 +21,11 @@ export async function PUT(req) {
         });
 
         const result = await res.json();
-
-        if (result.ok) {
-            revalidateTag('products');
-        } else {
-            console.error(result);
-            console.error(res);
-        };
+        revalidateTag('products');
 
         return Response.json(result);
     } catch (error) {
-        console.error('Mahsulot yaratishda xatolik:', error);
+        console.error('Mahsulot yangilashda xatolik:', error);
         return new Response(JSON.stringify({ error: 'Ошибка сервера' }), {
             status: 500,
         });

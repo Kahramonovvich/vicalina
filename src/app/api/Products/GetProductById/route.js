@@ -2,8 +2,7 @@ import { cookies } from "next/headers";
 
 const BASE_URL = process.env.API_BASE_URL;
 
-export async function GET(request, { params }) {
-    // const { productId } = await params;
+export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const languageId = searchParams.get('languageId') || 1;
     const productId = searchParams.get('productId');
@@ -41,5 +40,5 @@ export async function GET(request, { params }) {
         return new Response(JSON.stringify({ error: "Ошибка сервера" }), {
             status: 500,
         });
-    }
+    };
 };

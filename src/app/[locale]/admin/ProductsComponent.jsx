@@ -40,16 +40,7 @@ export default function ProductsComponent({ products, languageId, token }) {
     const handleOpenUpdate = async (id) => {
         setIsLoading(true);
         try {
-            const res = await fetch(`/api/Products/GetProductById?languageId=${languageId}&productId=${id}`, {
-                method: 'GET',
-                next: {
-                    tags: ['products'],
-                    revalidate: 60
-                },
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const res = await fetch(`/api/Products/GetProductById?languageId=${languageId}&productId=${id}`);
             if (res.ok) {
                 const product = await res.json();
                 setProduct(product);
