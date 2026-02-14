@@ -22,6 +22,7 @@ export default function FavoriteProductItem({ product, onRemove, products, langu
                         fill
                         src={product.images[0].filePath}
                         alt={product.name}
+                        unoptimized
                         style={{ objectFit: 'contain' }}
                     />
                 </div>

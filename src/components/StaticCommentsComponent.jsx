@@ -87,6 +87,7 @@ export default function StaticCommentsComponent({ languageId }) {
                                                     src={com.img}
                                                     alt={com.userName}
                                                     style={{ objectFit: 'contain' }}
+                                                    unoptimized
                                                 />
                                             </div>
                                             <div className="text">

@@ -130,6 +130,7 @@ export default function Footer({ languageId }) {
                                         src={'/images/footerLogo.png'}
                                         width={182}
                                         height={50}
+                                        unoptimized
                                         alt="footer-logo.png"
                                     />
                                 </Link>

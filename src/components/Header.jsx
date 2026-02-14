@@ -92,7 +92,7 @@ export default function Header({ languageId, products }) {
                     <div className="flex items-center justify-between gap-x-12">
                         <div className="logo flex">
                             <Link href={`/${Number(languageId) === 1 ? 'uz' : 'ru'}`} className="flex flex-col items-center">
-                                <Image src={'/images/logo.png'} alt="Logo" width={182} height={40} className="h-auto" />
+                                <Image src={'/images/logo.png'} alt="Logo" unoptimized width={182} height={40} className="h-auto" />
                                 <p className="font-semibold text-[12px]">{t.slogan}</p>
                             </Link>
                         </div>
@@ -129,6 +129,7 @@ export default function Header({ languageId, products }) {
                                                             src={product.images[0].filePath}
                                                             alt={product.name}
                                                             style={{ objectFit: 'contain' }}
+                                                            unoptimized
                                                         />
                                                     </div>
                                                     <div className="font-semibold truncate flex-1">
@@ -204,7 +205,7 @@ export default function Header({ languageId, products }) {
             <div className="md:hidden pt-4 bg-white container">
                 <div className="flex justify-between items-center">
                     <Link href="/">
-                        <Image src="/images/logo.png" alt="Logo" width={140} height={30} />
+                        <Image src="/images/logo.png" alt="Logo" width={140} height={30} unoptimized />
                     </Link>
                     <div className="flex gap-4 items-center">
                         <Link href="/admin"><ProfileIcon /></Link>
@@ -273,6 +274,7 @@ export default function Header({ languageId, products }) {
                                                     fill
                                                     src={product.images[0].filePath}
                                                     alt={product.name}
+                                                    unoptimized
                                                     style={{ objectFit: 'contain' }}
                                                 />
                                             </div>
@@ -308,7 +310,7 @@ export default function Header({ languageId, products }) {
                                             ${pathName === menu.slug ? 'bg-[#0000661A]' : 'hover:bg-[#0000661A]'}`}
                                     >
                                         <div className="relative w-full max-w-10 h-[30px]">
-                                            <Image fill src={menu.img} alt={menu.name} style={{ objectFit: 'contain' }} />
+                                            <Image fill src={menu.img} alt={menu.name} style={{ objectFit: 'contain' }} unoptimized />
                                         </div>
                                         <p className="font-black text-black text-[15px] leading-none">
                                             {Number(languageId) === 1 ? menu.name : menu.nameRu}
@@ -346,6 +348,7 @@ export default function Header({ languageId, products }) {
                                     <Image
                                         fill
                                         src={item.img}
+                                        unoptimized
                                         alt={item.img}
                                         style={{ objectFit: 'cover' }}
                                     />

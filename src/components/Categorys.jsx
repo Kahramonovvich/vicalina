@@ -58,6 +58,7 @@ export default function Categorys({ languageId }) {
                                             fill
                                             src={menu.img}
                                             alt={menu.name}
+                                            unoptimized
                                             style={{ objectFit: 'contain' }}
                                         />
                                     </div>

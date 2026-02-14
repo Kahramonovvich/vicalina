@@ -138,6 +138,7 @@ export default function BasketClient({ products, languageId }) {
                                             src={item.images[0].filePath}
                                             alt={item.name}
                                             fill
+                                            unoptimized
                                             style={{ objectFit: 'contain' }}
                                         />
                                     </div>

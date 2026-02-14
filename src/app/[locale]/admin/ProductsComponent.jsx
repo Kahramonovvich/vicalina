@@ -141,6 +141,7 @@ export default function ProductsComponent({ products, languageId, token }) {
                                     src={product.images[0].filePath}
                                     alt={product.name}
                                     style={{ objectFit: 'contain' }}
+                                    unoptimized
                                 />
                             </div>
                             <Link

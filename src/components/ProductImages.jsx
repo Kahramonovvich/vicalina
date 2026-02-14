@@ -23,6 +23,7 @@ export default function ProductImages({ product }) {
                                 src={img.filePath}
                                 fill style={{ objectFit: 'contain' }}
                                 alt={product.name}
+                                unoptimized
                             />
                         </div>
                     </div>
@@ -35,6 +36,7 @@ export default function ProductImages({ product }) {
                         fill
                         alt={product.name}
                         style={{ objectFit: 'contain' }}
+                        unoptimized
                     />
                 </div>
             </div>

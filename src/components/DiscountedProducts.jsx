@@ -165,6 +165,7 @@ function ProductCard({
                                     src={img.filePath}
                                     alt={`${product.name} - ${product.shortDescription}`}
                                     style={{ objectFit: 'contain' }}
+                                    unoptimized
                                 />
                             </div>
                         </SwiperSlide>

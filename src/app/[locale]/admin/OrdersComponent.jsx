@@ -96,6 +96,7 @@ export default function OrdersComponent({ orders, products, languageId, token })
                                             alt={orderedProducts?.name}
                                             fill
                                             style={{ objectFit: 'contain' }}
+                                            unoptimized={true}
                                         />
                                     </div>
                                     <div className="name col-span-6">

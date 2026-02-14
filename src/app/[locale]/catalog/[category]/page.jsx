@@ -1,269 +1,311 @@
-import Link from 'next/link';
+import Link from "next/link";
 import HomeIcon from '@/icons/home.svg'
 import TopArrowICon from '@/icons/topArrow.svg'
-import FilterComponents, { FilterButton, FilterDropdown, RatingChange, TagesSelect } from '@/components/FilterComponents';
-import { formatCurrency, productsSlug } from '@/utils/utils';
-import LikeButtonComponent from '@/components/LikeButtonComponent';
-import Image from 'next/image';
-import RatingIcon from '@/components/RatingIcon';
-import AddToBasketButton from '@/components/AddToBasketButton';
-import ThemeRegistry from '../../providers/ThemeRegistry';
-import { navMenu } from '@/constants/constants';
+import Image from "next/image";
+import RatingIcon from "@/components/RatingIcon";
+import { formatCurrency } from "@/utils/utils";
+import { FaInstagram, FaTelegramPlane, FaTiktok, FaYoutube } from "react-icons/fa";
+import ToBasket from "@/components/ToBasket";
+import ProductImages from "@/components/ProductImages";
+import ProductInfoComponents from "@/components/ProductInfoComponents";
+import ProductSchema from "@/components/ProductSchema";
+import { navMenu } from "@/constants/constants";
 const BASE_URL = process.env.API_BASE_URL;
 
-export default async function Products({ params, searchParams }) {
+const socialMedia = [
+    {
+        name: 'Instagram',
+        href: 'https://www.instagram.com/vicalina.uz/',
+        icon: <FaInstagram />
+    },
+    {
+        name: 'Telegram',
+        href: 'https://t.me/VicalinaOfficial',
+        icon: <FaTelegramPlane />
+    },
+    {
+        name: 'YouTube',
+        href: 'https://www.youtube.com/@Vicalina_2009',
+        icon: <FaYoutube />
+    },
+    {
+        name: 'TikTok',
+        href: 'https://www.tiktok.com/@vicalina.uz',
+        icon: <FaTiktok />
+    },
+];
 
-    const category = await params?.category?.replace(/-/gi, ' ');
-    const catFilter = navMenu.find((cat) => cat.slug.replace('/catalog/', '') === params?.category);
+const translations = {
+    uz: {
+        catalog: "Katalog",
+        available: "Mavjud",
+        rating: "Reyting",
+        peopleBought: "kishi sotib oldi",
+        brand: "Brend:",
+        share: "Ulashish:",
+        catalogText: "Katalog:",
+        tagText: "Teg:",
+        slug: 'uz'
+    },
+    ru: {
+        catalog: "Каталог",
+        available: "В наличии",
+        rating: "Рейтинг",
+        peopleBought: "человек купили",
+        brand: "Бренд:",
+        share: "Поделиться:",
+        catalogText: "Каталог:",
+        tagText: "Тег:",
+        slug: 'ru'
+    }
+};
 
-    const locale = await params?.locale;
+export async function generateMetadata({ params }) {
+    const { category, slug, locale } = params;
+    const catFilter = navMenu.find((cat) => cat.slug.replace('/catalog/', '') === category);
+    const decodeSlug = decodeURIComponent(slug);
+    const normalizeSlug = (s) => s.replace(/[‘’`ʻʼ]/g, "'");
+    const cleanSlug = normalizeSlug(decodeSlug);
+    const [namePart, idPart] = cleanSlug.split('-id~');
+    const name = namePart.replace(/-/gi, ' ');
+    const id = idPart;
+
     const langMap = { uz: 1, ru: 2 };
     const languageId = langMap[locale] || 1;
+
+    const resProduct = await fetch(`${BASE_URL}/api/Products/GetProductById/?languageId=${languageId}&productId=${id}`, {
+        next: { tags: ['products'] },
+    });
+
+    const oneText = await resProduct.text();
+    let product;
+    try {
+        product = JSON.parse(oneText);
+    } catch (e) {
+        console.error('Ошибка парсинга JSON:', oneText);
+        product = null;
+    }
+
+    if (!product) {
+        return {
+            title: locale === 'ru' ? 'Товар не найден - Vicalina' : 'Mahsulot topilmadi - Vicalina',
+            description: locale === 'ru' ? 'Извините, такой товар отсутствует.' : 'Kechirasiz, bunday mahsulot mavjud emas.',
+            robots: 'noindex, nofollow',
+        };
+    }
+
+    const productName = product.name || (locale === 'ru' ? 'Товар' : 'Mahsulot');
+    const productPrice = product.discount ? product.newPrice : product.price;
+    const productImage = product.images[0].filePath;
+
+    return {
+        title: `${productName} — ${formatCurrency(productPrice)} | Vicalina`,
+        description: locale === 'ru'
+            ? `${product.shortDescription}. Цена от ${productPrice} сум. Гарантия качества и быстрая доставка.`
+            : `${product.shortDescription}. Endi ${productPrice} so'mdan boshlanadi. Sifat kafolati va tez yetkazib berish.`,
+        keywords: `${productName}, ${product.category}, ${product.type}, ${product.color.join(', ')}, Vicalina`,
+        openGraph: {
+            title: `${productName} — ${locale === 'ru' ? 'купить сейчас' : 'xarid qiling hoziroq'}`,
+            description: locale === 'ru' ? product.description : product.description,
+            url: `https://vicalinaofficial.uz/${locale}${catFilter.slug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
+            siteName: 'Vicalina',
+            images: [
+                {
+                    url: productImage,
+                    alt: productName,
+                },
+            ],
+            locale: locale === 'ru' ? 'ru_RU' : 'uz_UZ',
+            type: 'article',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${productName} — Vicalina`,
+            description: locale === 'ru' ? product.shortDescription : product.shortDescription,
+            images: [productImage],
+        },
+        alternates: {
+            canonical: `https://vicalinaofficial.uz/${locale}${catFilter.slug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
+        },
+    };
+}
+
+export default async function ProductInfoPage({ params }) {
+
+    const { category, slug, locale } = await params;
+    const catFilter = navMenu.find((cat) => cat.slug.replace('/catalog/', '') === category);
+    const decodeSlug = decodeURIComponent(slug);
+    const normalizeSlug = (s) => s.replace(/[‘’`ʻʼ]/g, "'");
+    const cleanSlug = normalizeSlug(decodeSlug);
+    const [namePart, idPart] = cleanSlug.split('-id~');
+    const name = namePart.replace(/-/gi, ' ');
+    const id = idPart;
+
+    const langMap = { uz: 1, ru: 2 };
+    const languageId = langMap[locale] || 1;
+
+    const resProduct = await fetch(`${BASE_URL}/api/Products/GetProductById/?languageId=${languageId}&productId=${id}`, {
+        next: { tags: ['products'] },
+    });
+    const oneText = await resProduct.text();
+    let product;
+    try {
+        product = JSON.parse(oneText);
+    } catch (e) {
+        console.error('Ошибка парсинга JSON:', oneText);
+        product = [];
+    };
+
+    //  PRODUCTS
     const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {
         next: { tags: ['products'] }
     });
-    const allProducts = await resProducts.json();
-    const productsWithSlug = await productsSlug(allProducts);
-
-    let categoryProducts = [];
-    let selectedCategory = Number(languageId) === 1 ? catFilter?.name : catFilter?.nameRu;
-
-    if (category !== 'all products') {
-        const resCategory = await fetch(
-            `${BASE_URL}/api/Products/GetAllProductByCategory/${selectedCategory?.toLocaleUpperCase()}?languageId=${languageId}`,
-            {
-                next: { tags: ['products'] }
-            }
-        );
-
-        if (resCategory.ok) {
-            categoryProducts = await resCategory.json();
-        } else {
-            console.error('Ошибка при запросе категорий:', resCategory.status);
-            categoryProducts = [];
-        }
-    } else {
-        selectedCategory = Number(languageId) === 1 ? 'Barcha mahsulotlar' : 'Все продукты';
+    const text = await resProducts.text();
+    let products;
+    try {
+        products = JSON.parse(text);
+    } catch (e) {
+        console.error('Ошибка парсинга JSON:', text);
+        products = [];
     };
 
-    const productsWithSlugAndCategory = await productsSlug(categoryProducts);
+    const selectedCategory = Number(languageId) === 1 ? catFilter?.name : catFilter?.nameRu;
+    const t = languageId === 1 ? translations.uz : translations.ru;
 
-    const filter = await searchParams?.filter;
-    const price = await searchParams?.price;
-    const rating = await searchParams?.rating;
-    const tag = await searchParams?.tag;
-    let priceFrom = null;
-    let priceTo = null;
-    if (price) {
-        const [from, to] = price?.split('-').map(Number);
-        priceFrom = from;
-        priceTo = to;
-    };
-    const products = async () => {
-        if (category === 'all products') {
-            return productsWithSlug;
-        } else {
-            return productsWithSlugAndCategory;
-        };
-    };
+    console.log(catFilter.slug);
 
-    const activeProducts = await products();
-
-    let filteredProducts = activeProducts;
-
-    // Фильтруем по цене
-    if (price) {
-        filteredProducts = activeProducts.filter((product) => {
-            const currentPrice = product.discount && product.newPrice ? product.newPrice : product.price;
-            return currentPrice >= priceFrom && currentPrice <= priceTo;
-        });
-    };
-
-    // Фильтруем по рейтингу
-    if (rating) {
-        filteredProducts = filteredProducts.filter((product) => {
-            return Math.floor(product.rating) >= Number(rating);
-        });
-    };
-
-    // Фильтруем по тегу
-    if (tag) {
-        filteredProducts = filteredProducts.filter((product) => {
-            return product.tages?.toLowerCase().includes(tag.toLowerCase());
-        });
-    };
-
-    // Сортировка по filter
-    if (filter === 'rating') {
-        filteredProducts.sort((a, b) => b.rating - a.rating);
-    } else if (filter === 'cheaper') {
-        filteredProducts.sort((a, b) => a.price - b.price);
-    } else if (filter === 'expensive') {
-        filteredProducts.sort((a, b) => b.price - a.price);
-    } else if (filter === 'discounted') {
-        filteredProducts = filteredProducts.map(product => ({
-            ...product,
-            discountAmount: product.price - product.newPrice,
-            discountPercent: ((product.price - product.newPrice) / product.price) * 100
-        })).sort((a, b) => b.discountPercent - a.discountPercent);
-    } else if (filter === 'newest') {
-        filteredProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    };
 
     return (
-        <div className="products">
+        <div className="productInfo">
             <div className="container">
                 <div className="top md:my-12 my-8 flex items-center gap-x-3">
-                    <Link href={`/${Number(languageId) === 1 ? 'uz' : 'ru'}`}>
+                    <Link href={`/${t.slug}`}>
                         <HomeIcon />
                     </Link>
                     <TopArrowICon />
                     <Link
-                        href={`/${Number(languageId) === 1 ? 'uz' : 'ru'}/catalog/all-products`}
+                        href={`/${t.slug}/catalog/all-products`}
                         className='text-[#999] leading-normal'
                     >
-                        {Number(languageId) === 1 ? 'Katalog' : 'Каталог'}
+                        {t.catalog}
                     </Link>
                     <TopArrowICon />
-                    <p className='text-primary leading-normal'>
-                        {selectedCategory?.charAt(0).toLocaleUpperCase() + selectedCategory?.slice(1).toLowerCase()}
+                    <Link
+                        href={`/${t.slug}/catalog/${category.toLowerCase().replace(/\s+/g, '-')}`}
+                        className='text-[#999] leading-normal'
+                    >
+                        {selectedCategory?.replace(/-/gi, ' ').charAt(0).toLocaleUpperCase() + selectedCategory?.replace(/-/gi, ' ').slice(1).toLocaleLowerCase()}
+                    </Link>
+                    <TopArrowICon />
+                    <p className='text-primary leading-normal truncate'>
+                        {name.charAt(0).toLocaleUpperCase() + name.slice(1)}
                     </p>
                 </div>
-                <div className="filterTopBox mb-6 grid grid-cols-4 md:gap-x-6 gap-x-3 items-center">
-                    <div className="box">
-                        <FilterButton />
-                    </div>
-                    <div className="box md:flex items-center justify-between col-span-3">
-                        <FilterDropdown
-                            category={category}
-                            filter={filter}
-                            price={price}
-                            rating={rating}
-                            tag={tag}
-                            languageId={languageId}
-                        />
-                        <div className="resultBox hidden md:block">
-                            <p className='text-[#808080] leading-normal'>
-                                {Number(languageId) === 1 ? (
-                                    <>
-                                        <span className='font-semibold text-[#1A1A1A] leading-tight'>
-                                            {filteredProducts?.length}
-                                        </span> ta mahsulot topildi
-                                    </>
-                                ) : (
-                                    <>
-                                        Найдено{" "}
-                                        <span className='font-semibold text-[#1A1A1A] leading-tight'>
-                                            {filteredProducts?.length}
-                                        </span> товаров
-                                    </>
-                                )}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div className="filterBottomBox grid grid-cols-4 gap-x-6 ">
-                    <div className='col-span-4 md:col-span-1'>
-                        <ThemeRegistry>
-                            <FilterComponents
-                                category={category}
-                                products={productsWithSlug}
-                                filteredProducts={filteredProducts}
-                                priceFrom={priceFrom}
-                                priceTo={priceTo}
-                                filter={filter}
-                                rating={rating}
-                                price={price}
-                                tag={tag}
-                                languageId={languageId}
-                            />
-                        </ThemeRegistry>
-                        <RatingChange
-                            filter={filter}
-                            rating={rating}
-                            price={price}
-                            tag={tag}
-                            category={category}
-                        />
-                        <TagesSelect
-                            filter={filter}
-                            rating={rating}
-                            price={price}
-                            tag={tag}
-                            category={category}
-                            products={productsWithSlug}
-                        />
-                    </div>
-                    <div
-                        className={`filteredProducts grid md:gap-x-10 gap-x-2 md:gap-y-6 gap-y-4 grid-cols-2 md:grid-cols-3 md:col-span-3 col-span-4`}
-                    >
-                        {filteredProducts.map((product) => (
-                            <div
-                                key={product.id}
-                                className="productBox flex flex-col overflow-hidden rounded-[14px] group hover:shadow-md
-                                    transition-all duration-300 ease-in-out"
+                <div className="content md:grid grid-cols-11 gap-x-20">
+                    <ProductImages
+                        product={product}
+                    />
+                    <div className="col-span-6">
+                        <div className="name flex items-center gap-x-2 mb-3">
+                            <h2
+                                className="text-4xl leading-tight font-semibold text-[#222222]"
                             >
-                                <div className="top bg-[#F0F1F2] rounded-b-[14px] group-hover:rounded-none relative
-                                        transition-all duration-300 ease-in-out aspect-square"
+                                {product.name}
+                            </h2>
+                            <span className="text-primary rounded px-2 py-1 bg-[#00006633] text-sm leading-normal">{t.available}</span>
+                        </div>
+                        <div className="ratingBox flex items-center">
+                            <RatingIcon
+                                value={product.rating}
+                                className='!text-lg !text-orange'
+                            />
+                            <p className="text-sm leading-normal text-[#666] ml-1">{product.rating} {t.rating}</p>
+                            <p className="font-medium text-sm leading-normal mx-3 text-[#B3B3B3]">•</p>
+                            <p className="text-sm leading-normal text-[#666]">{product.numberOfPurchases}</p>
+                            <p className="text-sm leading-normal font-medium text-[#333] ml-1">{t.peopleBought}</p>
+                        </div>
+                        <div className="priceBox flex items-center mt-5 pb-5 border-b">
+                            {product.discount && (
+                                <p
+                                    className="text-xl text-[#B3B3B3] mr-1 relative leading-none
+                                        after:absolute after:h-px after:top-1/2 after:left-0 after:w-full after:bg-[#b3b3b3]"
                                 >
-                                    <div className="flex items-center justify-between absolute top-0 left-0 z-20 w-full p-3">
-                                        <div className="discountBox">
-                                            {product.discount && (
-                                                <div className="py-2 px-3 bg-orange rounded-md text-white font-semibold text-xs leading-none
-                                                        opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out"
-                                                >
-                                                    {`-${(((product.price - product.newPrice) / product.price) * 100).toFixed()}%`}
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="md:w-10 w-7 md:h-10 h-7 bg-white rounded-full flex items-center justify-center opacity-0
-                                            group-hover:opacity-100 transition-all duration-300 ease-in-out"
-                                        >
-                                            <LikeButtonComponent id={product.id} />
-                                        </div>
-                                    </div>
-                                    <div className="imgBox relative w-full h-full mx-auto">
+                                    {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                                </p>
+                            )}
+                            <p className="text-2xl leading-normal font-medium text-primary">
+                                {formatCurrency(product.discount ? product.newPrice : product.price)}
+                            </p>
+                            {product.discount && (
+                                <div className="box px-2.5 py-[3px] bg-[#EA4B481A] ml-3 rounded-full">
+                                    <p className="font-medium text-sm leading-normal text-[#EA4B48]">
+                                        {-(((product.price - product.newPrice) / product.price) * 100).toFixed(0)}%
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                        <div className="box mt-6 md:flex items-center justify-between">
+                            <div className="brand flex items-center mb-3 md:mb-0">
+                                <p className="text-sm leading-normal mr-2 text-[#1A1A1A]">{t.brand}</p>
+                                <div className="box w-14 h-14 border rounded flex items-center justify-center">
+                                    <div className="img w-12 h-12 relative">
                                         <Image
                                             fill
-                                            src={product.images[0].filePath}
-                                            style={{ objectFit: 'cover' }}
-                                            alt={`${product.name} - ${product.shortDescription}`}
+                                            src={'/images/logo.png'}
+                                            style={{ objectFit: 'contain' }}
+                                            alt='Vicalina'
+                                            unoptimized
                                         />
                                     </div>
                                 </div>
-                                <div className="bottom flex-1 md:px-5 px-3 py-2.5 flex flex-col gap-y-1.5 justify-between">
-                                    <Link
-                                        href={Number(languageId) === 1 ? '/uz' + product.slug : '/ru' + product.slug}
-                                        className='text-[#222] md:leading-[23px] text-sm md:text-base hover:text-primary transition-all duration-200 ease-in-out'
-                                    >
-                                        {`${product.name} - ${product.shortDescription}`}
-                                    </Link>
-                                    <div className="flex flex-col gap-y-2.5">
-                                        <div className="ratingBox flex items-center gap-x-2.5">
-                                            <p className='text-[#484848] leading-[23px]'>
-                                                {product.rating}
-                                            </p>
-                                            <RatingIcon
-                                                value={product.rating}
-                                                className='!text-sm !text-orange'
-                                            />
-                                        </div>
-                                        <div className="priceBox md:flex items-center justify-between">
-                                            <p className='font-bold md:text-lg md:leading-[23px] mb-3 md:mb-0'>
-                                                {formatCurrency(product.discount ? product.newPrice : product.price)}
-                                            </p>
-                                            <AddToBasketButton
-                                                id={product.id}
-                                                products={allProducts}
-                                            />
-                                        </div>
-                                    </div>
+                            </div>
+                            <div className="share flex items-center gap-x-2.5">
+                                <p className="text-sm leading-normal text-[#1A1A1A]">{t.share}</p>
+                                <div className="socialBox flex items-center gap-x-[5px]">
+                                    {socialMedia.map((icon) => (
+                                        <a
+                                            key={icon.name}
+                                            href={icon.href}
+                                            target='_blank'
+                                            className="box w-10 h-10 flex items-center justify-center
+                                        hover:bg-primary hover:text-white rounded-full text-lg transition-all duration-200 ease-in-out"
+                                        >
+                                            {icon.icon}
+                                        </a>
+                                    ))}
                                 </div>
                             </div>
-                        ))}
+                        </div>
+                        <div className="shortDesc leading-normal text-sm text-[#808080] mt-4 mb-6">
+                            {product.shortDescription}
+                        </div>
+                        <div className="toBasket py-[18px] border-y">
+                            <ToBasket id={product.id} products={products} languageId={languageId} />
+                        </div>
+                        <div className="bottom mt-6">
+                            <div className="box flex flex-col gap-y-3">
+                                <p className="font-medium text-sm leading-normal">
+                                    {t.catalogText}
+                                    <span className="font-normal text-[#808080] ml-1">
+                                        {selectedCategory?.replace(/-/gi, ' ').charAt(0).toLocaleUpperCase() + selectedCategory.replace(/-/gi, ' ').slice(1).toLocaleLowerCase()}
+                                    </span>
+                                </p>
+                                <p className="font-medium text-sm leading-normal">
+                                    {t.tagText}
+                                    <span className="font-normal text-[#808080] ml-1">
+                                        {product.tags}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <ProductInfoComponents
+                languageId={languageId}
+                product={product}
+            />
+            <ProductSchema product={product} />
         </div>
-    );
+    )
 };

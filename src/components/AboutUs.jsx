@@ -137,6 +137,7 @@ export default function AboutUs({ languageId }) {
                             <Image
                                 src={'/images/company.png'}
                                 fill
+                                unoptimized
                                 style={{ objectFit: 'contain' }}
                                 alt='image'
                                 className='rounded-[15px] overflow-hidden md:object-right object-bottom'

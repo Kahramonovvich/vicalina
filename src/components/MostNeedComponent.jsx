@@ -123,6 +123,7 @@ function ProductCard({ product, t, setActiveId, setActivePrice, setOpen }) {
                                     src={img.filePath}
                                     alt={`${product.name} - ${product.shortDescription}`}
                                     style={{ objectFit: 'cover' }}
+                                    unoptimized
                                 />
                             </div>
                         </SwiperSlide>
