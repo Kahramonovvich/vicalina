@@ -5,11 +5,11 @@ const BASE_URL = process.env.API_BASE_URL;
 
 export default async function page({ params }) {
 
-    const locale = await params?.locale;
+    const { locale } = await params;
     const langMap = { uz: 1, ru: 2 };
     const languageId = langMap[locale] || 1;
 
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const cookie = cookieStore?.get('admin_token');
     let cookieData = {};
     try {

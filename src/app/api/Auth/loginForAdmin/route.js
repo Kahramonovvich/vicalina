@@ -13,17 +13,14 @@ export async function POST(req) {
         });
 
         const data = await res.json();
-        console.log('🚀 BACKEND DATA:', data);
-
         const token = data?.token;
-        console.log('🔥 TOKEN:', token);
 
         if (!token) {
             console.log('🚫 NO TOKEN, NOT SETTING COOKIE');
             return new Response("Unauthorized", { status: 401 });
         };
 
-        const cookieStore = cookies();
+        const cookieStore = await cookies();
         cookieStore?.set({
             name: 'admin_token',
             value: JSON.stringify({
@@ -41,5 +38,5 @@ export async function POST(req) {
     } catch (err) {
         console.error('LOGIN ERROR:', err);
         return new Response(JSON.stringify({ error: 'Login failed' }), { status: 500 });
-    }
-}
+    };
+};

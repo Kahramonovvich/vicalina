@@ -142,6 +142,7 @@ export default function ProductsComponent({ products, languageId, token }) {
                                     alt={product.name}
                                     style={{ objectFit: 'contain' }}
                                     unoptimized
+                                    loading="lazy"
                                 />
                             </div>
                             <Link
