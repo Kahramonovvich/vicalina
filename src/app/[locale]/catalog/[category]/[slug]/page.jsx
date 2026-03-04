@@ -172,9 +172,6 @@ export default async function ProductInfoPage({ params }) {
     const selectedCategory = Number(languageId) === 1 ? catFilter?.name : catFilter?.nameRu;
     const t = languageId === 1 ? translations.uz : translations.ru;
 
-    console.log(catFilter.slug);
-
-
     return (
         <div className="productInfo">
             <div className="container">

@@ -75,7 +75,7 @@ export default function ProductsComponent({ products, languageId, token }) {
             setIsLoading(false);
             router.refresh();
         } else {
-            alert("O‘chirishda xatolik yuz berdi");
+            alert("O'chirishda xatolik yuz berdi");
             setIsLoading(false);
             router.refresh();
         }

@@ -27,7 +27,7 @@ export default function ProductSchema({ product }) {
             "price": productPrice,
             "availability": "https://schema.org/InStock",
             "url": `https://vicalinaofficial.uz${categorySlug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
-            "priceValidUntil": "2025-12-31" // можешь вставить дату динамически, если надо
+            "priceValidUntil": "2025-12-31"
         },
         "aggregateRating": {
             "@type": "AggregateRating",
