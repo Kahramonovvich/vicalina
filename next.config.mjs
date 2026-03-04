@@ -35,9 +35,8 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-                protocol: 'http',
-                hostname: '45.138.158.239',
-                port: '5726',
+                protocol: 'https',
+                hostname: 'api.vicalinaofficial.uz',
                 pathname: '/upload/**',
             },
         ],

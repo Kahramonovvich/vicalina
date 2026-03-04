@@ -16,7 +16,7 @@ const dmSans = DM_Sans({
 
 export async function generateMetadata({ params }) {
 
-  const locale = await params?.locale;
+  const { locale } = await params;
   const isRu = locale === 'ru';
 
   return {
@@ -92,7 +92,7 @@ const BASE_URL = process.env.API_BASE_URL;
 
 export default async function RootLayout({ children, params }) {
 
-  const locale = await params?.locale;
+  const { locale } = await params;
   const langMap = { uz: 1, ru: 2 };
   const languageId = langMap[locale] || 1;
 
