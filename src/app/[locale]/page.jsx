@@ -10,11 +10,12 @@ import { productsSlug } from "@/utils/utils";
 const BASE_URL = process.env.API_BASE_URL;
 
 export default async function Home({ params }) {
-  const locale = await params?.locale;
-  const langMap = { uz: 1, ru: 2 };
-  const languageId = langMap[locale] || 1;
+
+  const { locale } = await params;
+  const langMap = { uz: "uzb", ru: "ru", en: "en" };
+  const languageId = langMap[locale] || "uzb";
   const resProducts = await fetch(
-    `${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`,
+    `${BASE_URL}/api/Products/GetAllProducts?language=${languageId}`,
     {
       next: { tags: ["products"] },
     }
@@ -27,7 +28,7 @@ export default async function Home({ params }) {
   } catch (e) {
     console.error("Ошибка парсинга JSON:", text);
     products = [];
-  }
+  };
   const productsWithSlug = await productsSlug(products);
 
   return (

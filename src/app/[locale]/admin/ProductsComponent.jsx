@@ -58,19 +58,12 @@ export default function ProductsComponent({ products, languageId, token }) {
 
         setIsLoading(true);
 
-        const res1 = await fetch(`/api/Products/DeleteProduct?productId=${productId}&languageId=1`, {
+        const res1 = await fetch(`/api/Products/DeleteProduct?productId=${productId}`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` },
         });
 
-        await delay(3000);
-
-        const res2 = await fetch(`/api/Products/DeleteProduct?productId=${productId}&languageId=2`, {
-            method: 'DELETE',
-            headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (res1.ok && res2.ok) {
+        if (res1.ok) {
             alert('O`chirildi!');
             setIsLoading(false);
             router.refresh();

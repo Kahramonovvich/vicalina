@@ -1,14 +1,13 @@
 import { revalidateTag } from 'next/cache';
+import { cookies } from 'next/headers';
 const BASE_URL = process.env.API_BASE_URL;
 
 export async function PUT(request) {
     try {
         const formData = await request.formData();
-
-        const cookieStore = cookies();
+        const cookieStore = await cookies();
         const cookie = cookieStore?.get('admin_token');
-        const cookieData = JSON?.parse(cookie?.value);
-        const token = cookieData?.token;
+        const token = cookie?.value || '';
 
         const res = await fetch(`${BASE_URL}/api/Admin/UpdateAdmin`, {
             method: 'PUT',

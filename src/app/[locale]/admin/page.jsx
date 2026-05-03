@@ -6,21 +6,23 @@ const BASE_URL = process.env.API_BASE_URL;
 export default async function page({ params }) {
 
     const { locale } = await params;
-    const langMap = { uz: 1, ru: 2 };
-    const languageId = langMap[locale] || 1;
+    const langMap = { uz: "uzb", ru: "ru", en: "en" };
+    const languageId = langMap[locale] || "uzb";
 
     const cookieStore = await cookies();
     const cookie = cookieStore?.get('admin_token');
-    let cookieData = {};
+    let token = '';
     try {
-        cookieData = JSON.parse(cookie?.value || '{}');
+        if (cookie) {
+            token = cookie.value;
+        } else {
+            console.log('🚫 NO TOKEN FOUND IN COOKIES');
+        };
     } catch (e) {
         console.error('Ошибка парсинга cookie:', cookie?.value);
     };
-    const token = cookieData?.token;
-    const expiresAt = cookieData?.expiresAt;
 
-    const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`, {
+    const resProducts = await fetch(`${BASE_URL}/api/Products/GetAllProducts?language=${languageId}`, {
         next: { tags: ['products'] }
     });
 
@@ -67,7 +69,6 @@ export default async function page({ params }) {
             admins={admins}
             languageId={languageId}
             token={token}
-            expiresAt={expiresAt}
             orders={orders}
         />
     )

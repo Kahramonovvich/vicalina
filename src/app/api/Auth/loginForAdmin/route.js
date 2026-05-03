@@ -23,10 +23,7 @@ export async function POST(req) {
         const cookieStore = await cookies();
         cookieStore?.set({
             name: 'admin_token',
-            value: JSON.stringify({
-                token,
-                expiresAt: Date.now() + 2 * 60 * 60 * 1000,
-            }),
+            value: token,
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',

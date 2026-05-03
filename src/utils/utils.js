@@ -7,21 +7,33 @@ export const formatCurrency = (value) => {
     return `${formatted} so’m`;
 };
 
-export const productsSlug = async (product) => {
-    const productsWithSlug = await product.map((prod) => {
-        const category = navMenu.find(
-            (cat) =>
-                cat.name.toLowerCase() === prod.category.toLowerCase() ||
-                cat.nameRu.toLowerCase() === prod.category.toLowerCase()
-        );
+export const productsSlug = async (product = []) => {
+    if (!product || product.length === 0) {
+        return [];
+    } else {
+        try {
+            if (!Array.isArray(product)) {
+                console.error('Expected an array of products');
+                return [];
+            };
+            const productsWithSlug = product.map((prod) => {
+                const category = navMenu.find(
+                    (cat) => cat.name.toLowerCase() === prod.category.toLowerCase() ||
+                        cat.nameRu.toLowerCase() === prod.category.toLowerCase()
+                );
 
-        const categorySlug = category ? category.slug : 'unknown-category';
+                const categorySlug = category ? category.slug : 'unknown-category';
 
-        return {
-            ...prod,
-            slug: `${categorySlug}/${prod.name.toLowerCase().replace(/\s+/g, '-')}-id~${prod.id}`
+                return {
+                    ...prod,
+                    slug: `${categorySlug}/${prod.name.toLowerCase().replace(/\s+/g, '-')}-id~${prod.id}`
+                };
+            });
+
+            return productsWithSlug;
+        } catch (error) {
+            console.error('Error generating product slugs:', error);
+            return [];
         };
-    });
-
-    return productsWithSlug;
+    }
 };

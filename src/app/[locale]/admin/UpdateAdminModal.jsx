@@ -1,5 +1,4 @@
 'use client';
-
 import {
     Modal,
     Box,
@@ -11,38 +10,45 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function UpdateAdminModal({ open, onClose, login, token }) {
+
     const router = useRouter();
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const updateAdmin = async () => {
-        const formData = new FormData();
-        formData.append('Login', login);
-        formData.append('OldPassword', oldPassword);
-        formData.append('NewPassword', newPassword);
-        setIsLoading(true);
-        const res = await fetch('/api/Admin/UpdateAdmin', {
-            method: 'PUT',
-            body: formData,
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        try {
+            const formData = new FormData();
+            formData.append('Login', login);
+            formData.append('OldPassword', oldPassword);
+            formData.append('NewPassword', newPassword);
+            setIsLoading(true);
+            const res = await fetch('/api/Admin/UpdateAdmin', {
+                method: 'PUT',
+                body: formData,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-        const result = await res.json();
+            const result = await res.json();
 
-        if (res.ok && result === true) {
-            alert('Админ успешно обновлён');
-            setOldPassword('');
-            setNewPassword('');
+            if (res.ok) {
+                alert('Админ успешно обновлён');
+                setOldPassword('');
+                setNewPassword('');
+                setIsLoading(false);
+                router.refresh();
+                onClose();
+            } else {
+                alert(result?.error || 'Не удалось обновить админа');
+                setIsLoading(false);
+            };
+        } catch (error) {
+            console.error('Ошибка при обновлении админа:', error);
+            alert('Произошла ошибка при обновлении админа');
             setIsLoading(false);
-            router.refresh();
-            onClose();
-        } else {
-            alert(result?.error || 'Не удалось обновить админа');
-            setIsLoading(false);
-        }
+        };
     };
 
     return (

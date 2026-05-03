@@ -1,143 +1,144 @@
-'use client'
-import { Modal, TextField, Button, MenuItem, Checkbox, FormControlLabel } from "@mui/material"
-import { useEffect, useState } from "react"
+'use client';
+import {
+    Modal,
+    TextField,
+    Button,
+    MenuItem,
+    Checkbox,
+    FormControlLabel,
+} from "@mui/material";
+import { useState } from "react";
 import { navMenu } from "@/constants/constants";
+import imageCompression from "browser-image-compression";
 import { useRouter } from "next/navigation";
-import imageCompression from 'browser-image-compression';
-import { set, get, clear } from 'idb-keyval';
-
-async function formDataToObjectWithFiles(formData) {
-    const obj = {};
-    const filesMap = {};
-
-    for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-            if (!filesMap[key]) {
-                filesMap[key] = [];
-            };
-
-            const base64 = await fileToBase64(value);
-            filesMap[key].push({
-                name: value.name,
-                type: value.type,
-                size: value.size,
-                data: base64
-            });
-        } else {
-            if (obj[key]) {
-                if (!Array.isArray(obj[key])) {
-                    obj[key] = [obj[key]];
-                }
-                obj[key].push(value);
-            } else {
-                obj[key] = value;
-            };
-        };
-    };
-
-    Object.assign(obj, filesMap);
-    return obj;
-};
-
-function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
-};
-
-function base64ToFile(base64, filename, type) {
-    const arr = base64.split(',');
-    const mime = type || arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    };
-    return new File([u8arr], filename, { type: mime });
-};
 
 export default function CreateProductModal({ openModal, setOpenModal, token }) {
 
     const router = useRouter();
-
-    const [languageId, setLanguageId] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
-    const [isClose, setIsClose] = useState(false);
+
     const [form, setForm] = useState({
-        LanguageId: 1,
-        Name: '',
-        Description: '',
-        ShortDescription: '',
-        Price: '',
-        NewPrice: 0,
-        Category: '',
-        Type: '',
-        Quantity: '',
-        Sku: '',
+        price: '',
+        newPrice: '',
+        category: '',
+        type: '',
+        quantity: '',
+        sku: '',
         discount: false,
-        Weight: '',
-        Color: [],
-        AvailabilityCount: '',
-        Tags: [],
-        Images: [],
+        weight: '',
+        color: '',
+        availabilityCount: '',
+        tags: '',
+        files: [],
+        translations: {
+            uz: {
+                name: '',
+                description: '',
+                shortDescription: '',
+            },
+            ru: {
+                name: '',
+                description: '',
+                shortDescription: '',
+            },
+            en: {
+                name: '',
+                description: '',
+                shortDescription: '',
+            },
+        },
     });
 
     const handleClose = () => {
-
-        if (isLoading || languageId === 2 && !isClose) {
-            return;
-        };
+        if (isLoading) return;
 
         setOpenModal(false);
+
         setForm({
-            LanguageId: 1,
-            Name: '',
-            Description: '',
-            ShortDescription: '',
-            Price: '',
-            NewPrice: 0,
-            Category: '',
-            Type: '',
-            Quantity: '',
-            Sku: '',
+            price: '',
+            newPrice: '',
+            category: '',
+            type: '',
+            quantity: '',
+            sku: '',
             discount: false,
-            Weight: '',
-            Color: [],
-            AvailabilityCount: '',
-            Tags: [],
-            Images: [],
+            weight: '',
+            color: '',
+            availabilityCount: '',
+            tags: '',
+            files: [],
+            translations: {
+                uz: {
+                    name: '',
+                    description: '',
+                    shortDescription: '',
+                },
+                ru: {
+                    name: '',
+                    description: '',
+                    shortDescription: '',
+                },
+                en: {
+                    name: '',
+                    description: '',
+                    shortDescription: '',
+                },
+            },
         });
-        setLanguageId(1);
-        setIsClose(false);
     };
 
     const handleChange = (e) => {
         const { name, value, type, checked, files } = e.target;
 
-        if (type === "checkbox") {
-            setForm({ ...form, [name]: checked });
-        } else if (type === "file") {
-            setForm({ ...form, Images: files });
-        } else if (name === "Quantity") {
-            setForm(prev => ({
+        if (type === 'checkbox') {
+            setForm((prev) => ({
                 ...prev,
-                Quantity: value,
-                AvailabilityCount: value,
+                [name]: checked,
             }));
-        } else {
-            setForm({ ...form, [name]: value });
+            return;
         };
+
+        if (type === 'file') {
+            setForm((prev) => ({
+                ...prev,
+                files: Array.from(files),
+            }));
+            return;
+        };
+
+        if (name === 'quantity') {
+            setForm((prev) => ({
+                ...prev,
+                quantity: value,
+                availabilityCount: value,
+            }));
+            return;
+        };
+
+        setForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleTranslationChange = (lang, field, value) => {
+        setForm((prev) => ({
+            ...prev,
+            translations: {
+                ...prev.translations,
+                [lang]: {
+                    ...prev.translations[lang],
+                    [field]: value,
+                },
+            },
+        }));
     };
 
     const compressImages = async (files) => {
         const options = {
             maxSizeMB: 1,
             maxWidthOrHeight: 1920,
-            useWebWorker: true
+            useWebWorker: true,
         };
 
         const compressedFiles = [];
@@ -145,7 +146,7 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
         for (const file of files) {
             const compressed = await imageCompression(file, options);
             compressedFiles.push(compressed);
-        };
+        }
 
         return compressedFiles;
     };
@@ -153,328 +154,305 @@ export default function CreateProductModal({ openModal, setOpenModal, token }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        setIsLoading(true);
+        try {
+            setIsLoading(true);
 
-        const formData = new FormData();
+            const formData = new FormData();
 
-        Object.entries(form).forEach(([key, value]) => {
-            if (Array.isArray(value)) {
-                for (const item of value) {
-                    formData.append(key, item);
-                }
-            } else if (key !== "Category" && key !== "Images") {
-                formData.append(key, value);
-            };
-        });
+            formData.append('Price', form.price);
+            formData.append('NewPrice', form.discount ? form.newPrice : 0);
+            formData.append('Category', navMenu.find((item) => String(item.id) === String(form.category))?.name || '');
+            formData.append('Type', form.type);
+            formData.append('Quantity', form.quantity);
+            formData.append('Sku', form.sku);
+            formData.append('discount', form.discount);
+            formData.append('Weight', form.weight);
+            formData.append('AvailabilityCount', form.availabilityCount);
 
-        const selectedCategory = navMenu.find(cat => String(cat.id) === String(form.Category));
-        const nameToUse = languageId === 1 ? selectedCategory?.name : selectedCategory?.nameRu;
-        formData.append("Category", nameToUse);
-
-        const compressedImages = await compressImages(form.Images);
-        compressedImages.forEach((file, index) => {
-            const ext = file.type.split('/')[1];
-            const filename = `image_${index}_${Date.now()}.${ext}`;
-            const renamedFile = new File([file], filename, { type: file.type });
-            formData.append('Files', renamedFile);
-        });
-
-        if (languageId === 1) {
-            try {
-                const obj = await formDataToObjectWithFiles(formData);
-                await set('uzProduct', obj);
-
-                localStorage.setItem('uzNeed', JSON.stringify(true));
-                localStorage.setItem('ruNeed', JSON.stringify(true));
-
-                setLanguageId(2);
-                setForm({
-                    ...form,
-                    LanguageId: 2,
-                    Name: '',
-                    Description: '',
-                    ShortDescription: '',
-                    Type: '',
-                    Color: [],
-                    Tags: [],
+            form.color
+                .split(',')
+                .map((item) => item.trim())
+                .filter(Boolean)
+                .forEach((item) => {
+                    formData.append('Color', item);
                 });
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setIsLoading(false);
-            };
-        } else {
-            try {
-                const obj = await formDataToObjectWithFiles(formData);
-                await set('ruProduct', obj);
 
-                const uzProduct = await get('uzProduct');
-                const ruProduct = await get('ruProduct');
+            form.tags
+                .split(',')
+                .map((item) => item.trim())
+                .filter(Boolean)
+                .forEach((item) => {
+                    formData.append('Tags', item);
+                });
 
-                const uzNeed = await JSON.parse(localStorage.getItem('uzNeed'));
-                const ruNeed = await JSON.parse(localStorage.getItem('ruNeed'));
+            const translations = [
+                {
+                    language: 'uzb',
+                    name: form.translations.uz.name,
+                    description: form.translations.uz.description,
+                    shortDescription: form.translations.uz.shortDescription,
+                },
+                {
+                    language: 'ru',
+                    name: form.translations.ru.name,
+                    description: form.translations.ru.description,
+                    shortDescription: form.translations.ru.shortDescription,
+                },
+                {
+                    language: 'en',
+                    name: form.translations.en.name,
+                    description: form.translations.en.description,
+                    shortDescription: form.translations.en.shortDescription,
+                },
+            ];
 
-                if (uzNeed) {
-                    const newFormDataUz = new FormData();
-                    Object.entries(uzProduct).forEach(([key, value]) => {
-                        if (Array.isArray(value) && value[0]?.data && value[0]?.name) {
-                            for (const item of value) {
-                                const file = base64ToFile(item.data, item.name, item.type);
-                                newFormDataUz.append(key, file);
-                            };
-                        } else {
-                            newFormDataUz.append(key, value);
-                        };
-                    });
+            formData.append('Translations', JSON.stringify(translations));
 
-                    const res1 = await fetch('api/Products/CreateProduct', {
-                        method: 'POST',
-                        body: newFormDataUz,
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
+            const compressedImages = await compressImages(form.files);
 
-                    if (res1.ok) {
-                        localStorage.setItem('uzNeed', JSON.stringify(false));
-                        localStorage.setItem('uzTrue', JSON.stringify(true));
-                    };
-                };
+            compressedImages.forEach((file, index) => {
+                const ext = file.type.split('/')[1];
+                const filename = `image_${index}_${Date.now()}.${ext}`;
 
-                if (ruNeed) {
-                    const newFormDataRu = new FormData();
-                    Object.entries(ruProduct).forEach(([key, value]) => {
-                        if (Array.isArray(value) && value[0]?.data && value[0]?.name) {
-                            for (const item of value) {
-                                const file = base64ToFile(item.data, item.name, item.type);
-                                newFormDataRu.append(key, file);
-                            };
-                        } else {
-                            newFormDataRu.append(key, value);
-                        };
-                    });
+                const renamedFile = new File([file], filename, {
+                    type: file.type,
+                });
 
-                    const res2 = await fetch('api/Products/CreateProduct', {
-                        method: 'POST',
-                        body: newFormDataRu,
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
+                formData.append('Files', renamedFile);
+            });
 
-                    if (res2.ok) {
-                        localStorage.setItem('ruNeed', JSON.stringify(false));
-                        localStorage.setItem('ruTrue', JSON.stringify(true));
-                    };
-                };
+            const res = await fetch('/api/Products/CreateProduct', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                body: formData,
+            });
 
-                const uzTrue = await JSON.parse(localStorage.getItem('uzTrue'));
-                const ruTrue = await JSON.parse(localStorage.getItem('ruTrue'));
+            if (!res.ok) {
+                throw new Error('Mahsulot yaratilmadi');
+            }
 
-                if (uzTrue && ruTrue) {
-                    await clear();
-                    alert("Mahsulot qo'shildi");
-                    localStorage.removeItem('uzNeed');
-                    localStorage.removeItem('ruNeed');
-                    localStorage.removeItem('uzTrue');
-                    localStorage.removeItem('ruTrue');
-                    setIsClose(true);
-                    router.refresh();
-                } else {
-                    if (uzNeed) {
-                        alert(`Xatolik: O'zbek tilida muhsulot qo'shilmadi. Iltimos yaratish tugmasini qayta bosing!`);
-                        console.error(`Xatolik: O'zbek tilida muhsulot qo'shilmadi. Iltimos yaratish tugmasini qayta bosing!`);
-                    };
-
-                    if (ruNeed) {
-                        alert(`Xatolik: Rus tilida muhsulot qo'shilmadi. Iltimos yaratish tugmasini qayta bosing!`);
-                        console.error(`Xatolik: Rus tilida muhsulot qo'shilmadi. Iltimos yaratish tugmasini qayta bosing!`);
-                    };
-                };
-            } catch (err) {
-                console.error(err);
-                alert('Xatolik:', err);
-            } finally {
-                setIsLoading(false);
-            };
-        };
+            router.refresh();
+            alert("Mahsulot yaratildi. Очередная победа над хаосом Swagger.");
+            handleClose();
+        } catch (error) {
+            console.error(error);
+            alert('Xatolik yuz berdi');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    useEffect(() => {
-        if (languageId === 2) {
-            handleClose();
-        };
-    }, [languageId, isClose]);
-
     return (
-        <div className="createProduct">
-            <Modal
-                open={openModal}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                className="flex items-center justify-center"
-            >
-                <div className="box w-3/4 bg-white p-4 rounded-lg max-h-[90vh] overflow-y-auto">
-                    <div className="box mb-3 flex items-center justify-between">
-                        <p className="text-lg font-semibold">Mahsulot yaratish</p>
-                        <p className="text-lg font-semibold"><span className='text-red-500'>{languageId === 1 ? 'O`zbek' : 'Rus'}</span> tilida to'ldiring!</p>
+        <Modal
+            open={openModal}
+            onClose={handleClose}
+            className="flex items-center justify-center"
+        >
+            <div className="w-11/12 max-w-6xl bg-white p-6 rounded-xl max-h-[90vh] overflow-y-auto">
+                <h2 className="text-2xl font-semibold mb-6">Mahsulot yaratish</h2>
+
+                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <TextField
+                        label="Narxi"
+                        name="price"
+                        type="number"
+                        value={form.price}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <TextField
+                        label="Yangi narxi"
+                        name="newPrice"
+                        type="number"
+                        value={form.newPrice}
+                        onChange={handleChange}
+                        disabled={!form.discount}
+                        required={form.discount}
+                    />
+
+                    <TextField
+                        select
+                        label="Kategoriya"
+                        name="category"
+                        value={form.category}
+                        onChange={handleChange}
+                        required
+                    >
+                        {navMenu.map((item) => (
+                            <MenuItem key={item.id} value={item.id}>
+                                {item.name}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+
+                    <TextField
+                        label="Turi"
+                        name="type"
+                        value={form.type}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <TextField
+                        label="Soni"
+                        name="quantity"
+                        type="number"
+                        value={form.quantity}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <TextField
+                        label="SKU"
+                        name="sku"
+                        value={form.sku}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <TextField
+                        label="Og'irligi"
+                        name="weight"
+                        type="number"
+                        value={form.weight}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <TextField
+                        label="Ranglar"
+                        name="color"
+                        value={form.color}
+                        onChange={handleChange}
+                        placeholder="red, blue, black"
+                        required
+                    />
+
+                    <TextField
+                        label="Teglar"
+                        name="tags"
+                        value={form.tags}
+                        onChange={handleChange}
+                        placeholder="new, sale, popular"
+                        required
+                    />
+
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={form.discount}
+                                onChange={handleChange}
+                                name="discount"
+                            />
+                        }
+                        label="Chegirma bormi?"
+                    />
+
+                    <div className="md:col-span-2 border-t pt-4">
+                        <h3 className="text-lg font-semibold mb-4">O'zbekcha</h3>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <TextField
+                                label="Nomi"
+                                value={form.translations.uz.name}
+                                onChange={(e) => handleTranslationChange('uz', 'name', e.target.value)}
+                                required
+                            />
+
+                            <TextField
+                                label="Tavsif"
+                                value={form.translations.uz.description}
+                                onChange={(e) => handleTranslationChange('uz', 'description', e.target.value)}
+                                required
+                            />
+
+                            <TextField
+                                label="Qisqacha tavsif"
+                                value={form.translations.uz.shortDescription}
+                                onChange={(e) => handleTranslationChange('uz', 'shortDescription', e.target.value)}
+                                required
+                            />
+                        </div>
                     </div>
-                    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <TextField
-                            label="Nomi"
-                            name="Name"
-                            value={form.Name}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            disabled={isLoading}
-                        />
-                        <TextField
-                            label="Tavsif"
-                            name="Description"
-                            value={form.Description}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            disabled={isLoading}
-                            multiline
-                            maxRows={10}
-                        />
-                        <TextField
-                            label="Qisqacha tavsif"
-                            name="ShortDescription"
-                            value={form.ShortDescription}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            disabled={isLoading}
-                        />
-                        <TextField
-                            label="Narxi"
-                            name="Price"
-                            type="number"
-                            value={form.Price}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            disabled={languageId === 2 || isLoading}
-                        />
-                        <TextField
-                            label="Yangi narxi"
-                            name="NewPrice"
-                            type="number"
-                            value={form.NewPrice}
-                            onChange={handleChange}
-                            fullWidth
-                            required={form.discount}
-                            disabled={!form.discount || languageId === 2}
-                        />
-                        <TextField
-                            label="Turi"
-                            name="Type"
-                            value={form.Type}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            disabled={isLoading}
-                        />
-                        <TextField
-                            label="Ombordagi soni"
-                            name="Quantity"
-                            type="number"
-                            value={form.Quantity}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            disabled={languageId === 2 || isLoading}
-                        />
-                        <TextField
-                            label="SKU"
-                            name="Sku"
-                            value={form.Sku}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            disabled={languageId === 2 || isLoading}
-                        />
-                        <TextField
-                            label="Og'irligi"
-                            name="Weight"
-                            type="number"
-                            value={form.Weight}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            disabled={languageId === 2 || isLoading}
-                        />
-                        <TextField
-                            select
-                            label="Kategoriya"
-                            name="Category"
-                            value={form.Category}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            disabled={languageId === 2 || isLoading}
-                        >
-                            {navMenu.map((option) => (
-                                <MenuItem key={option.id} value={option.id}>
-                                    {option.name}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                        <TextField
-                            label="Teglar (vergul bilan ajratilgan)"
-                            name="Tags"
-                            value={form.Tags.join(',')}
-                            onChange={(e) => setForm({ ...form, Tags: e.target.value.split(',') })}
-                            fullWidth
-                            required
-                            disabled={isLoading}
-                        />
-                        <TextField
-                            label="Rangi"
-                            name="Color"
-                            value={form.Color.join(',')}
-                            onChange={(e) => setForm({ ...form, Color: e.target.value.split(',') })}
-                            fullWidth
-                            required
-                            disabled={isLoading}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={form.discount}
-                                    onChange={handleChange}
-                                    name="discount"
-                                    disabled={languageId === 2 || isLoading}
-                                />
-                            }
-                            label="Chegirma bormi?"
-                        />
+
+                    <div className="md:col-span-2 border-t pt-4">
+                        <h3 className="text-lg font-semibold mb-4">Русский</h3>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <TextField
+                                label="Название"
+                                value={form.translations.ru.name}
+                                onChange={(e) => handleTranslationChange('ru', 'name', e.target.value)}
+                                required
+                            />
+
+                            <TextField
+                                label="Описание"
+                                value={form.translations.ru.description}
+                                onChange={(e) => handleTranslationChange('ru', 'description', e.target.value)}
+                                required
+                            />
+
+                            <TextField
+                                label="Краткое описание"
+                                value={form.translations.ru.shortDescription}
+                                onChange={(e) => handleTranslationChange('ru', 'shortDescription', e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="md:col-span-2 border-t pt-4">
+                        <h3 className="text-lg font-semibold mb-4">English</h3>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <TextField
+                                label="Name"
+                                value={form.translations.en.name}
+                                onChange={(e) => handleTranslationChange('en', 'name', e.target.value)}
+                                required
+                            />
+
+                            <TextField
+                                label="Description"
+                                value={form.translations.en.description}
+                                onChange={(e) => handleTranslationChange('en', 'description', e.target.value)}
+                                required
+                            />
+
+                            <TextField
+                                label="Short description"
+                                value={form.translations.en.shortDescription}
+                                onChange={(e) => handleTranslationChange('en', 'shortDescription', e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="md:col-span-2">
                         <input
                             type="file"
-                            name="Images"
                             multiple
                             onChange={handleChange}
+                            name="Images"
                             required
-                            max={4}
-                            disabled={languageId === 2 || isLoading}
                         />
-                        <div className="md:col-span-2 flex justify-end mt-4">
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                disabled={isLoading}
-                            >
-                                {isLoading ? 'Yaratilmoqda' : 'Yaratish'}
-                            </Button>
-                        </div>
-                    </form>
-                </div>
-            </Modal>
-        </div>
+                    </div>
+
+                    <div className="md:col-span-2 flex justify-end">
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            disabled={isLoading}
+                        >
+                            {isLoading ? 'Yaratilmoqda...' : 'Yaratish'}
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </Modal>
     );
 };
