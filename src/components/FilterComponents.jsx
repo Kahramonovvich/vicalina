@@ -38,7 +38,7 @@ function countProductsByCategory(products, allCategories) {
 
     return allCategories.map(category => ({
         ...category,
-        count: countMap[category.title] || 0
+        count: countMap[category.titleUz] || 0
     }));
 }
 
@@ -75,9 +75,10 @@ export default function FilterComponents({
     languageId
 }) {
 
-    const langCode = Number(languageId) === 1 ? 'uz' : 'ru';
+    const langCode = languageId === "uzb" ? 'uz' : 'ru';
     const allCategories = navMenu.map((item) => ({
-        title: Number(languageId) === 1 ? item?.name : item?.nameRu,
+        title: languageId === "uzb" ? item?.name : item?.nameRu,
+        titleUz: item?.name,
         slug: item?.slug
     }));
     const result = countProductsByCategory(products, allCategories);
@@ -126,7 +127,7 @@ export default function FilterComponents({
                     onClick={() => toggleItem(0)}
                     className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
                 >
-                    {Number(languageId) === 1 ? "Barcha Kataloglar" : "Все каталоги"}
+                    {languageId === "uzb" ? "Barcha Kataloglar" : "Все каталоги"}
                     <MorphArrow isOpen={isOpen[0]} />
                 </button>
                 <AnimatePresence initial={false}>
@@ -167,7 +168,7 @@ export default function FilterComponents({
                     onClick={() => toggleItem(1)}
                     className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
                 >
-                    {Number(languageId) === 1 ? "Narx" : "Цена"}
+                    {languageId === "uzb" ? "Narx" : "Цена"}
                     <MorphArrow isOpen={isOpen[1]} />
                 </button>
                 <AnimatePresence initial={false}>
@@ -193,7 +194,7 @@ export default function FilterComponents({
                             </div>
                             <p className='text-[#1A1A1A] text-sm leading-normal font-black pb-6'>
                                 <span className='text-[#4D4D4D] font-normal'>
-                                    {Number(languageId) === 1 ? "Narx: " : "Цена: "}
+                                    {languageId === "uzb" ? "Narx: " : "Цена: "}
                                 </span>
                                 {value[0].toLocaleString('ru-RU').replace(/\s/g, '.')} — {value[1].toLocaleString('ru-RU').replace(/\s/g, '.')} so’m
                             </p>
@@ -207,7 +208,7 @@ export default function FilterComponents({
 
 export function RatingChange({ filter, rating, tag, price, category, languageId }) {
 
-    const langCode = Number(languageId) === 1 ? 'uz' : 'ru';
+    const langCode = languageId === "uzb" ? 'uz' : 'ru';
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedRatings, setSelectedRatings] = useState(Number(rating));
@@ -246,7 +247,7 @@ export function RatingChange({ filter, rating, tag, price, category, languageId 
                 className="top flex items-center justify-between w-full mb-5 font-medium text-xl leading-normal"
             >
                 
-                {Number(languageId) === 1 ? "Reyting" : "Рейтинг"}
+                {languageId === "uzb" ? "Reyting" : "Рейтинг"}
                 <MorphArrow isOpen={isOpen} />
             </button>
             <AnimatePresence initial={false}>
@@ -306,9 +307,9 @@ export function TagesSelect({ filter, rating, tag, price, category, products }) 
             const tags = product.tages.split(',').map(tag => tag.trim());
             for (const tag of tags) {
                 tagCount[tag] = (tagCount[tag] || 0) + 1;
-            }
-        }
-    }
+            };
+        };
+    };
 
     const top10Tags = Object.entries(tagCount)
         .sort((a, b) => b[1] - a[1])
@@ -336,7 +337,7 @@ export function TagesSelect({ filter, rating, tag, price, category, products }) 
             newTags = selectedTags.filter(tag => tag !== value);
         } else {
             newTags = [...selectedTags, value];
-        }
+        };
 
         setSelectedTags(newTags);
         applyFilters(newTags);
@@ -397,9 +398,9 @@ export function TagesSelect({ filter, rating, tag, price, category, products }) 
 
 export function FilterDropdown({ filter, category, rating, price, tag, languageId }) {
 
-    const options = Number(languageId) === 1 ? optionsUz : optionsRu;
-    const langCode = Number(languageId) === 1 ? 'uz' : 'ru';
-
+    const options = languageId === "uzb" ? optionsUz : optionsRu;
+    const langCode = languageId === "uzb" ? 'uz' : 'ru';
+    
     const router = useRouter();
     const [sort, setSort] = useState(filter || '');
     const [open, setOpen] = useState(false);
@@ -427,7 +428,7 @@ export function FilterDropdown({ filter, category, rating, price, tag, languageI
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setOpen(false);
-            }
+            };
         };
 
         document.addEventListener('mousedown', handleClickOutside);
@@ -443,7 +444,7 @@ export function FilterDropdown({ filter, category, rating, price, tag, languageI
     return (
         <div className="flex items-center">
             <label className="text-sm text-[#808080] leading-normal mr-2 hidden md:block">
-                {Number(languageId) === 1 ? 'Saralash:' : 'Сортировать:'}
+                {languageId === "uzb" ? 'Saralash:' : 'Сортировать:'}
             </label>
             <div className="relative flex-1" ref={dropdownRef}>
                 <div

@@ -8,7 +8,7 @@ import Image from 'next/image';
 import RatingIcon from './RatingIcon';
 
 const translations = {
-    uz: {
+    uzb: {
         title: "Mijozlar nima deydi?",
         client: "Mijoz"
     },
@@ -19,7 +19,8 @@ const translations = {
 };
 
 export default function StaticCommentsComponent({ languageId }) {
-    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
+   
+    const t = translations[languageId] || translations['uzb'];
 
     return (
         <div className="staticCommentsComponent md:mt-[45px] mt-8 md:p-[60px] py-5 bg-[#F2F2F2]">

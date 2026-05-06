@@ -12,7 +12,7 @@ export default function Categorys({ languageId }) {
         <div className="category md:mt-[45px] mt-8">
             <div className="container">
                 <h3 className="sectionTop md:mb-[45px] mb-8">
-                    {Number(languageId) === 1 ? 'Ommabop toifalar' : 'Популярные категории'}
+                    {languageId === "uzb" ? 'Ommabop toifalar' : 'Популярные категории'}
                 </h3>
                 <div className="catBox relative bg-[#F0F1F2] rounded-[15px]">
                     <button
@@ -63,10 +63,10 @@ export default function Categorys({ languageId }) {
                                         />
                                     </div>
                                     <Link
-                                        href={Number(languageId) === 1 ? `uz${menu.slug}` : `ru${menu.slug}`}
+                                        href={languageId === "uzb" ? `uz${menu.slug}` : `ru${menu.slug}`}
                                         className="text-xl text-center hover:text-primary"
                                     >
-                                        {Number(languageId) === 1 ? menu.name : menu.nameRu}
+                                        {languageId === "uzb" ? menu.name : menu.nameRu}
                                     </Link>
                                 </div>
                             </SwiperSlide>

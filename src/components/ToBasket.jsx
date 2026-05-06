@@ -8,7 +8,7 @@ import { useBasket } from '@/context/basket-context'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const translations = {
-    uz: {
+    uzb: {
         add: "Savatchaga qo'shish",
         added: "Savatchaga qo'shildi",
         addedShort: "Qo'shildi",
@@ -28,7 +28,7 @@ export default function ToBasket({ id, products, languageId, onFav }) {
     const [count, setCount] = useState(1);
     const [showControls, setShowControls] = useState(false);
 
-    const t = languageId === 1 ? translations.uz : translations.ru;
+    const t = languageId === "uzb" ? translations.uzb : translations.ru;
 
     useEffect(() => {
         const stored = localStorage.getItem('productsToBasket')

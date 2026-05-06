@@ -11,7 +11,7 @@ import RatingIcon from './RatingIcon';
 import OneOrderModal from './OneOrder';
 
 const translations = {
-    uz: {
+    uzb: {
         mostNeeded: "Eng kerakli",
         seeMore: "Ko’proq ko’rish",
         popular: "Mashxur",
@@ -28,7 +28,8 @@ const translations = {
 };
 
 export default function MostNeedComponent({ products, languageId }) {
-    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
+    
+    const t = translations[languageId] || translations.uzb;
 
     const [mostNeed, setMostNeed] = useState([]);
     const [open, setOpen] = useState(false);

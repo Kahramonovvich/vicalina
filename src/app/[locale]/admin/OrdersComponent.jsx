@@ -10,7 +10,7 @@ export default function OrdersComponent({ orders, products, languageId, token })
 
     const router = useRouter();
 
-    const slug = Number(languageId) === 1 ? 'uz' : 'ru';
+    const slug = languageId === "uzb" ? 'uz' : 'ru';
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -64,10 +64,10 @@ export default function OrdersComponent({ orders, products, languageId, token })
                     <div className="top border-b pb-3 mb-3 flex items-end justify-between">
                         <div className="left">
                             <p className="font-semibold">
-                                Ismi: {item.customer.name} ID: {item.id}
+                                Ismi: {item.customer.customerName} ID: {item.id}
                             </p>
                             <p className="font-semibold">
-                                Telefon raqami: {item.customer.phoneNumber}
+                                Telefon raqami: {item.customer.customerPhoneNumber}
                             </p>
                             <p className="font-semibold">
                                 Umumiy narxi: {formatCurrency(item.totalAmount)}

@@ -12,7 +12,7 @@ import Wildberries from '@/icons/wildberries.svg'
 import PhoneInTalkRoundedIcon from '@mui/icons-material/PhoneInTalkRounded';
 
 const translations = {
-    uz: {
+    uzb: {
         aboutTitle: 'Biz haqimizda',
         headline: 'VICALINA',
         description: `Vicalina brendiga 2002- yilda Xitoy Xalq Respublikasida asos solingan. Vicalinaning bosh ofislari Xitoyning Guanjou va Yiwu shaharlarida joylashgan. Vicalina brendi o‘zining Germaniya standartlariga mos yuqori sifati bilan ajralib turadi. Vicalina asosan zanglamaydigan po'lat va granit qoplamali idishlar ishlab chiqarish bilan shug‘ullanadi, bu esa uzoq muddatli foydalanish va qulaylikni kafolatlaydi. Ushbu brendning nafis va funksional dizayndagi mahsulotlari har qanday oshxonani bezatadi, taom tayyorlash jarayonini yoqimli va oson qiladi.
@@ -60,7 +60,7 @@ Vicalina — для вас и вашей семьи!`,
 
 export default function AboutUs({ languageId }) {
 
-    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
+    const t = translations[languageId] || translations['uzb'];
 
     const [open, setOpen] = useState(false);
     const [openNum, setOpenNum] = useState(false);

@@ -11,7 +11,7 @@ import RatingIcon from './RatingIcon';
 import OneOrderModal from './OneOrder';
 
 const translations = {
-    uz: {
+    uzb: {
         kitchenTitle: "Oshxona uchun",
         seeMore: "Ko’proq ko’rish",
         popular: "Mashxur",
@@ -28,7 +28,8 @@ const translations = {
 };
 
 export default function ForKitchen({ products, languageId }) {
-    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
+    
+    const t = translations[languageId] || translations.uzb;
 
     const [forKitchen, setForKitchen] = useState([]);
     const [open, setOpen] = useState(false);
@@ -98,7 +99,7 @@ function ProductCard({ product, t, setActiveId, setActivePrice, setOpen }) {
 
     return (
         <div className="box flex flex-col rounded-xl overflow-hidden shadow-md transition-all duration-200 ease-in-out">
-             <div className="top bg-[#F0F1F2] md:aspect-[1.16/1] aspect-[0.79/1] relative">
+            <div className="top bg-[#F0F1F2] md:aspect-[1.16/1] aspect-[0.79/1] relative">
                 <div className="flex items-center justify-between p-3.5 absolute top-0 left-0 z-20 w-full">
                     <div className="py-2 px-2.5 opacity-0 bg-orange rounded-md text-white font-semibold text-xs leading-none">
                         {t.popular}

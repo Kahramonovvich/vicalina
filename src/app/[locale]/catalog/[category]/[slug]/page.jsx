@@ -36,7 +36,7 @@ const socialMedia = [
 ];
 
 const translations = {
-    uz: {
+    uzb: {
         catalog: "Katalog",
         available: "Mavjud",
         rating: "Reyting",
@@ -70,8 +70,8 @@ export async function generateMetadata({ params }) {
     const name = namePart.replace(/-/gi, ' ');
     const id = idPart;
 
-    const langMap = { uz: 1, ru: 2 };
-    const languageId = langMap[locale] || 1;
+    const langMap = { uz: "uzb", ru: "ru", en: "en" };
+    const languageId = langMap[locale] || "uzb";
 
     const resProduct = await fetch(`${BASE_URL}/api/Products/GetProductById/?languageId=${languageId}&productId=${id}`, {
         next: { tags: ['products'] },
@@ -84,7 +84,7 @@ export async function generateMetadata({ params }) {
     } catch (e) {
         console.error('Ошибка парсинга JSON:', oneText);
         product = null;
-    }
+    };
 
     if (!product) {
         return {
@@ -92,22 +92,22 @@ export async function generateMetadata({ params }) {
             description: locale === 'ru' ? 'Извините, такой товар отсутствует.' : 'Kechirasiz, bunday mahsulot mavjud emas.',
             robots: 'noindex, nofollow',
         };
-    }
+    };
 
     const productName = product.name || (locale === 'ru' ? 'Товар' : 'Mahsulot');
     const productPrice = product.discount ? product.newPrice : product.price;
-    const productImage = product.images[0].filePath;
+    const productImage = product?.images?.[0]?.filePath;
 
     return {
         title: `${productName} — ${formatCurrency(productPrice)} | Vicalina`,
         description: locale === 'ru'
             ? `${product.shortDescription}. Цена от ${productPrice} сум. Гарантия качества и быстрая доставка.`
             : `${product.shortDescription}. Endi ${productPrice} so'mdan boshlanadi. Sifat kafolati va tez yetkazib berish.`,
-        keywords: `${productName}, ${product.category}, ${product.type}, ${product.color.join(', ')}, Vicalina`,
+        keywords: `${productName}, ${product.category}, ${product.type}, ${product.color?.join(', ')}, Vicalina`,
         openGraph: {
             title: `${productName} — ${locale === 'ru' ? 'купить сейчас' : 'xarid qiling hoziroq'}`,
             description: locale === 'ru' ? product.description : product.description,
-            url: `https://vicalinaofficial.uz/${locale}${catFilter.slug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
+            url: `https://vicalinaofficial.uz/${locale}${catFilter?.slug}/${product.name?.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
             siteName: 'Vicalina',
             images: [
                 {
@@ -125,7 +125,7 @@ export async function generateMetadata({ params }) {
             images: [productImage],
         },
         alternates: {
-            canonical: `https://vicalinaofficial.uz/${locale}${catFilter.slug}/${product.name.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
+            canonical: `https://vicalinaofficial.uz/${locale}${catFilter?.slug}/${product.name?.toLowerCase().replace(/\s+/g, '-')}-id~${product.id}`,
         },
     };
 }
@@ -141,10 +141,10 @@ export default async function ProductInfoPage({ params }) {
     const name = namePart.replace(/-/gi, ' ');
     const id = idPart;
 
-    const langMap = { uz: 1, ru: 2 };
-    const languageId = langMap[locale] || 1;
+    const langMap = { uz: "uzb", ru: "ru", en: "en" };
+    const languageId = langMap[locale] || "uzb";
 
-    const resProduct = await fetch(`${BASE_URL}/api/Products/GetProductById/?languageId=${languageId}&productId=${id}`, {
+    const resProduct = await fetch(`${BASE_URL}/api/Products/GetProductById/?language=${languageId}&productId=${id}`, {
         next: { tags: ['products'] },
     });
     const oneText = await resProduct.text();
@@ -169,8 +169,8 @@ export default async function ProductInfoPage({ params }) {
         products = [];
     };
 
-    const selectedCategory = Number(languageId) === 1 ? catFilter?.name : catFilter?.nameRu;
-    const t = languageId === 1 ? translations.uz : translations.ru;
+    const selectedCategory = languageId === "uzb" ? catFilter?.name : catFilter?.nameRu;
+    const t = languageId === "uzb" ? translations.uzb : translations.ru;
 
     return (
         <div className="productInfo">

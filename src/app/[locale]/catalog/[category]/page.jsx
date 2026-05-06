@@ -17,12 +17,12 @@ export default async function Products({ params, searchParams }) {
     category = category.replace(/-/g, ' ');
 
     const catFilter = navMenu.find((cat) => cat.slug.replace('/catalog/', '') === category.replace(/ /g, '-'));
-    const langMap = { uz: 1, ru: 2 };
-    const languageId = langMap[locale] || 1;
+    const langMap = { uz: "uzb", ru: "ru", en: "en" };
+    const languageId = langMap[locale] || "uzb";
 
     let resProducts = [];
     try {
-        const res = await fetch(`${BASE_URL}/api/Products/GetAllProducts?languageId=${languageId}`,
+        const res = await fetch(`${BASE_URL}/api/Products/GetAllProducts?language=${languageId}`,
             {
                 next: { tags: ['products'], revalidate: 60 },
             });
@@ -39,11 +39,11 @@ export default async function Products({ params, searchParams }) {
     const productsWithSlug = await productsSlug(allProducts);
 
     let categoryProducts = [];
-    let selectedCategory = Number(languageId) === 1 ? catFilter?.name : catFilter?.nameRu;
+    let selectedCategory = catFilter?.name;
 
     if (category !== 'all products') {
         const resCategory = await fetch(
-            `${BASE_URL}/api/Products/GetAllProductByCategory/${selectedCategory?.toLocaleUpperCase()}?languageId=${languageId}`,
+            `${BASE_URL}/api/Products/GetAllProductByCategory/${selectedCategory?.toLocaleUpperCase()}?language=${languageId}`,
             {
                 next: { tags: ['products'], revalidate: 60 }
             }
@@ -56,7 +56,7 @@ export default async function Products({ params, searchParams }) {
             categoryProducts = [];
         };
     } else {
-        selectedCategory = Number(languageId) === 1 ? 'Barcha mahsulotlar' : 'Все продукты';
+        selectedCategory = languageId === "uzb" ? 'Barcha mahsulotlar' : 'Все продукты';
     };
 
     const productsWithSlugAndCategory = await productsSlug(categoryProducts);
@@ -121,15 +121,15 @@ export default async function Products({ params, searchParams }) {
         <div className="products">
             <div className="container">
                 <div className="top md:my-12 my-8 flex items-center gap-x-3">
-                    <Link href={`/${Number(languageId) === 1 ? 'uz' : 'ru'}`}>
+                    <Link href={`/${languageId === "uzb" ? 'uz' : 'ru'}`}>
                         <HomeIcon />
                     </Link>
                     <TopArrowICon />
                     <Link
-                        href={`/${Number(languageId) === 1 ? 'uz' : 'ru'}/catalog/all-products`}
+                        href={`/${languageId === "uzb" ? 'uz' : 'ru'}/catalog/all-products`}
                         className='text-[#999] leading-normal'
                     >
-                        {Number(languageId) === 1 ? 'Katalog' : 'Каталог'}
+                        {languageId === "uzb" ? 'Katalog' : 'Каталог'}
                     </Link>
                     <TopArrowICon />
                     <p className='text-primary leading-normal'>
@@ -151,7 +151,7 @@ export default async function Products({ params, searchParams }) {
                         />
                         <div className="resultBox hidden md:block">
                             <p className='text-[#808080] leading-normal'>
-                                {Number(languageId) === 1 ? (
+                                {languageId === "uzb" ? (
                                     <>
                                         <span className='font-semibold text-[#1A1A1A] leading-tight'>
                                             {filteredProducts?.length}
@@ -242,7 +242,7 @@ export default async function Products({ params, searchParams }) {
                                 </div>
                                 <div className="bottom flex-1 md:px-5 px-3 py-2.5 flex flex-col gap-y-1.5 justify-between">
                                     <Link
-                                        href={Number(languageId) === 1 ? '/uz' + product.slug : '/ru' + product.slug}
+                                        href={languageId === "uzb" ? '/uz' + product.slug : '/ru' + product.slug}
                                         className='text-[#222] md:leading-[23px] text-sm md:text-base hover:text-primary transition-all duration-200 ease-in-out'
                                     >
                                         {`${product.name} - ${product.shortDescription}`}

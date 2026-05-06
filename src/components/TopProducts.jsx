@@ -32,7 +32,7 @@ export default function TopProducts({ products, languageId }) {
         <div className="topProducts md:mt-[45px] mt-8">
             <div className="container">
                 <h3 className="sectionTop md:mb-[45px] mb-8">
-                    {Number(languageId) === 1 ? 'Eng yaxshi takliflar' : 'Лучшие предложения'}
+                    {languageId === "uzb" ? 'Eng yaxshi takliflar' : 'Лучшие предложения'}
                 </h3>
                 <div className="grid md:grid-cols-4 grid-cols-2 gap-y-5 gap-x-2 md:gap-x-14">
                     {topProducts?.map((product) => (
@@ -78,7 +78,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen, languageId
             <div className="top bg-[#F0F1F2] md:aspect-[1.16/1] aspect-[0.79/1] relative">
                 <div className="flex items-center justify-between p-3.5 absolute top-0 left-0 z-20 w-full">
                     <div className="py-2 px-2.5 bg-orange rounded-md text-white font-semibold text-xs leading-none">
-                        {Number(languageId) === 1 ? 'Mashxur' : 'Популярный'}
+                        {languageId === "uzb" ? 'Mashxur' : 'Популярный'}
                     </div>
                     <LikeButtonComponent id={product.id} />
                 </div>
@@ -118,7 +118,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen, languageId
             </div>
             <div className="bottom flex-1 md:p-5 p-3 md:pt-2.5 pt-1 flex flex-col gap-y-1.5 justify-between">
                 <Link
-                    href={Number(languageId) === 1 ? `uz${product.slug}` : `ru${product.slug}`}
+                    href={languageId === "uzb" ? `uz${product.slug}` : `ru${product.slug}`}
                     className='text-[#222] md:leading-[23px] text-sm md:text-base hover:text-primary transition-all duration-200 ease-in-out'
                 >
                     {`${product.name} ${product.shortDescription}`}
@@ -145,7 +145,7 @@ function ProductCard({ product, setActiveId, setActivePrice, setOpen, languageId
                             }}
                             className='bg-primary text-white font-semibold text-sm px-4 py-3 rounded-md leading-none w-full md:w-auto'
                         >
-                            {Number(languageId) === 1 ? 'Sotib olish' : 'Купить'}
+                            {languageId === "uzb" ? 'Sotib olish' : 'Купить'}
                         </button>
                     </div>
                 </div>

@@ -12,7 +12,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 import OneOrderModal from './OneOrder';
 
 const translations = {
-    uz: {
+    uzb: {
         buyNow: "Sotib olish",
         href: 'uz'
     },
@@ -35,7 +35,8 @@ const getDiscountedProducts = (products, isMobile) => {
 };
 
 export default function DiscountedProducts({ products, languageId }) {
-    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
+    
+    const t = translations[languageId] || translations.uzb;
 
     const isMobile = useMediaQuery('(max-width: 768px)');
     const discountedProducts = getDiscountedProducts(products, isMobile);

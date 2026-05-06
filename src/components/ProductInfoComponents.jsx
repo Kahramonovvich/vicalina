@@ -5,9 +5,10 @@ import RatingIcon from "./RatingIcon";
 import { Rating } from "@mui/material";
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import StarBorderRoundedIcon from '@mui/icons-material/StarBorderRounded';
+import { navMenu } from "@/constants/constants";
 
 const translations = {
-    uz: {
+    uzb: {
         tabs: {
             description: "Tavsif",
             about: "Mahsulot haqida",
@@ -54,7 +55,8 @@ const translations = {
 };
 
 export default function ProductInfoComponents({ product, languageId }) {
-    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
+
+    const t = languageId === "uzb" ? translations.uzb : translations.ru;
 
     const [activeComponent, setActiveComponent] = useState(t.tabs.description);
     const [value, setValue] = useState(0);
@@ -84,7 +86,7 @@ export default function ProductInfoComponents({ product, languageId }) {
         } else if (comment.text.length <= 0) {
             alert('Iltimos, izoh yozing!');
             return;
-        }
+        };
 
         try {
             const resRat = await fetch(`/api/Rating/CalculateRating?rating=${value}&productId=${product.id}`, {
@@ -109,7 +111,7 @@ export default function ProductInfoComponents({ product, languageId }) {
         } catch (error) {
             console.error('💥 Server bilan muammo:', error);
             alert('Server bilan ulanishda xatolik');
-        }
+        };
     };
 
     return (
@@ -162,7 +164,17 @@ export default function ProductInfoComponents({ product, languageId }) {
                                 <p className="text-sm leading-normal text-[#666666]">{product.weight}</p>
                                 <p className="text-sm leading-normal text-[#666666]">{product.color}</p>
                                 <p className="text-sm leading-normal text-[#666666]">{product.type}</p>
-                                <p className="text-sm leading-normal text-[#666666]">{product.category?.charAt(0).toLocaleUpperCase() + product.category.toLocaleLowerCase().slice(1)}</p>
+                                <p className="text-sm leading-normal text-[#666666]">
+                                    {(() => {
+                                        const category = navMenu.find((cat) => cat.name === product.category);
+
+                                        return category ? (
+                                            languageId === "uzb" ?
+                                                category.name?.charAt(0).toUpperCase() + category.name?.slice(1).toLowerCase() :
+                                                category.nameRu?.charAt(0).toUpperCase() + category.nameRu?.slice(1).toLowerCase() 
+                                        ) : "";
+                                    })()}
+                                </p>
                                 <p className="text-sm leading-normal text-[#666666]">{t.availableText(product.qty)}</p>
                                 <p className="text-sm leading-normal text-[#666666]">{product.tags}</p>
                             </div>

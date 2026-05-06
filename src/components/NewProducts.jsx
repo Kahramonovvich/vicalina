@@ -11,7 +11,7 @@ import RatingIcon from './RatingIcon';
 import OneOrderModal from './OneOrder';
 
 const translations = {
-    uz: {
+    uzb: {
         newest: "Eng yangilar",
         seeMore: "Ko’proq ko’rish",
         popular: "Mashxur",
@@ -35,7 +35,7 @@ function getNewestProducts(products, count = 4) {
 
 export default function NewProducts({ products, languageId }) {
 
-    const t = Number(languageId) === 1 ? translations.uz : translations.ru;
+    const t = translations[languageId] || translations.uzb;
 
     const newestProducts = getNewestProducts(products);
 
